@@ -8,6 +8,11 @@ const posting = require('./routes/posting')
 
 const app = express()
 
+const Item = mongoose.model('Item', {
+    name: String,
+    description: String,
+  });
+
 // middleware
 app.use((req, res, next) => {
     console.log(req.path, req.method)

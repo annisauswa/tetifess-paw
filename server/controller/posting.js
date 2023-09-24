@@ -12,6 +12,28 @@ const createPosting = async (req, res) => {
     }
 }
 
+const searchPosting = async (req, res) => {
+    const {param} = req.query;
+    console.log(param)
+    try {
+        const getPosts = await Posting.find({
+            $or: [
+                {username : {$regex: param, $options: 'i'}},
+                {text: {$regex: param, $options: 'i'}}
+            ]
+        });
+
+        if (getPosts.length === 0) {
+            res.status(404).json({ message: 'No posts found' });
+        } else {
+            res.json(getPosts);
+        }
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
 module.exports = {
-    createPosting
+    createPosting,
+    searchPosting
 }
