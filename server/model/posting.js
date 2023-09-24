@@ -2,11 +2,8 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const postingSchema = new Schema({
-    post_id:{
-        type: mongoose.Schema.Types.ObjectId, ref: 'Post',
-    },
-    username: {
-        type: String,
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'User',
         required: false
     },
     text: {
