@@ -4,7 +4,6 @@ const { registerUser, getUser, updateUser, deleteUser } = require("../controller
 
 router.get('/', getUser)
 router.get('/:userId', getUser)
-router.post('/', createUser)
 router.post('/', registerUser)
 router.put('/:userId', updateUser)
 router.delete('/:userId', deleteUser)
