@@ -8,7 +8,8 @@ const userSchema = new Schema({
         unique: true
     },
     password:{
-        type: String
+        type: String,
+        required: true
     },
     name: {
         type: String,
@@ -27,12 +28,6 @@ const userSchema = new Schema({
         required: false
     }
 })
-userSchema.methods.hashPassword = function(password){
-    return bcrypt.hashSync(password, 10)
-}
-userSchema.methods.validatePassword = function(password, hash){
-    return bcrypt.compareSync(password, hash)
-}
 
 
 module.exports = mongoose.model('User', userSchema)
