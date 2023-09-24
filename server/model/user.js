@@ -16,9 +16,17 @@ const userSchema = new Schema({
     },
     bio: {
         type: String,
+        required: false
+    },
+    date_created: {
+        type: Date,
         required: true
+    },
+    date_edited: {
+        type: Date,
+        required: false
     }
-}, {timestamps: true})
+})
 userSchema.methods.hashPassword = function(password){
     return bcrypt.hashSync(password, 10)
 }
