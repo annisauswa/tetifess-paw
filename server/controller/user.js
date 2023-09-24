@@ -21,7 +21,27 @@ const getUser = async (req, res) => {
     }
 }
 
+const updateUserBio = async (req, res) => {
+    const userId = req.params.userId
+    const { bio } = req.body;
+    
+    try {
+        const updatedUser = await User.findByIdAndUpdate(userId, { bio: bio });
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        res.status(200).json({ message: 'User bio updated' });
+    } catch (err) {
+        res.json({err})
+        res.status(500).json({ message: 'Internal server error' })
+    }
+}
+
+
 module.exports = {
     createUser,
-    getUser
+    getUser,
+    updateUserBio
 }
