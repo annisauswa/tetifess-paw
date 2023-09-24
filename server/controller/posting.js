@@ -1,18 +1,31 @@
 const Posting = require('../model/posting')
 
 const readPosting  = async (req, res) => {
-    console.log('get all')
+    const postId = req.params.postId;
     try {
-        const getPosts = await Posting.find(); // .populate('user_id')
-        
-        if (getPosts.length === 0) {
-            res.status(404).json({ message: 'No posts found' });
+        if (postId){
+            const post = await Posting.findById(postId)
+            
+            if (!post){
+                return res.status(404).json({ message: 'Post not found' })
+            }
+            return res.json(post)
         } else {
-            res.json(getPosts);
+            try{
+                const getPosts = await Posting.find(); // .populate('user_id')
+        
+                if (getPosts.length === 0) {
+                    res.status(404).json({ message: 'No posts found' });
+                } else {
+                    res.json(getPosts);
+                }
+            } catch(err){
+                res.json({err})
+                res.status(500).json({ message: 'Internal server error' })
+            } 
         }
     } catch (err) {
-        res.json(err.message);
-        console.log(err.message);
+        res.status(500).json({ message: 'Insert post ID' })
     }
 }
 
