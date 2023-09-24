@@ -1,5 +1,6 @@
 const User = require('../model/user')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const registerUser = async (req, res) => {
     const { username, password, name, bio } = req.body
@@ -23,8 +24,31 @@ const registerUser = async (req, res) => {
             password: hashedPassword,
             name,
             bio,
-            date_created})
+            dateCreated: date_created})
         res.status(200).json(user)
+    } catch(err){
+        res.status(400).json({ error: err.message })
+    }
+}
+
+const loginUser = async (req, res) => {
+    const { username, password } = req.body
+
+    try{
+        const user = await User.findOne({username})
+
+        if(!user){
+            return res.status(400).json({error: 'User not found'})
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password)
+
+        if(!passwordMatch){
+            return res.status(400).json({error: 'Invalid password'})
+        }
+
+        const accessToken = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'})
+        res.status(200).json({token: accessToken})
     } catch(err){
         res.status(400).json({ error: err.message })
     }
@@ -60,7 +84,7 @@ const updateUser = async (req, res) => {
     const userId = req.params.userId
     const { name, bio } = req.body;
     try {
-        const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ name: name, bio: bio, date_edited: Date.now()}});
+        const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ name: name, bio: bio, dateEdited: Date.now()}});
 
         if (!updatedUser) {
             return res.status(404).json({ error: "User not found" });
@@ -94,5 +118,6 @@ module.exports = {
     registerUser,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    loginUser
 }

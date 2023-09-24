@@ -19,11 +19,11 @@ const userSchema = new Schema({
         type: String,
         required: false
     },
-    date_created: {
+    dateCreated: {
         type: Date,
         required: true
     },
-    date_edited: {
+    dateEdited: {
         type: Date,
         required: false
     }
