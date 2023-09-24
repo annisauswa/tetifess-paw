@@ -1,12 +1,31 @@
 const User = require('../model/user')
+const bcrypt = require('bcrypt')
 
-const createUser = async (req, res) => {
-    const { username, name, bio } = req.body
+const registerUser = async (req, res) => {
+    const { username, password, name, bio } = req.body
+    const date_created = Date.now()
     try{
-        const user = await User.create({username, name, bio})
+        // check if username already taken
+        const checkUsername = await User.findOne({username})
+        if(checkUsername) {
+            return res.status(400).json({error: 'Username already taken'})
+        }
+
+        // check if password length is meet the requirement
+        if(password.length < 6 || password.length > 12) {
+            return res.status(400).json({error: 'Password must be 6-12 characters'})
+        }
+
+        // registered successfully when username is awailable
+        const hashedPassword = await bcrypt.hash(password, 10)
+        const user = await User.create({
+            username,
+            password: hashedPassword,
+            name,
+            bio,
+            date_created})
         res.status(200).json(user)
     } catch(err){
-        res.json({err})
         res.status(400).json({ error: err.message })
     }
 }
@@ -56,7 +75,7 @@ const deleteUser = async (req, res) => {
 
 
 module.exports = {
-    createUser,
+    registerUser,
     getUser,
     updateUser,
     deleteUser
