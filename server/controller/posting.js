@@ -12,7 +12,7 @@ const readPosting  = async (req, res) => {
             return res.json(post)
         } else {
             try{
-                const getPosts = await Posting.find(); // .populate('user_id')
+                const getPosts = await Posting.find(); // .populate('userId')
         
                 if (getPosts.length === 0) {
                     res.status(404).json({ message: 'No posts found' });
@@ -50,7 +50,7 @@ const searchPosting = async (req, res) => {
                 {username : {$regex: param, $options: 'i'}},
                 {text: {$regex: param, $options: 'i'}}
             ]
-        }); // .populate('user_id')
+        }); // .populate('userId')
 
         if (getPosts.length === 0) {
             res.status(404).json({ message: 'No posts found' });
@@ -68,7 +68,7 @@ const editPosting = async (req, res) => {
     const message = req.body;
 
     try {
-        const editedPost = await Posting.findByIdAndUpdate(postId, { $set: message}, {new: true}); // .populate('user_id')
+        const editedPost = await Posting.findByIdAndUpdate(postId, { $set: message}, {new: true}); // .populate('userId')
 
         if (!editedPost) {
             res.status(404).json({ message: 'Post not found' });
