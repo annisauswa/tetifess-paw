@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const { createPosting, searchPosting, readPosting } = require('../controller/posting')
+const { readPosting, createPosting, searchPosting, editPosting } = require('../controller/posting')
 
+router.get('', readPosting)
 router.post('/:userId', createPosting)
 router.get('/search', searchPosting)
-router.get('', readPosting)
+router.patch('/edit/:id', editPosting)
 
 module.exports = router
