@@ -51,12 +51,11 @@ const searchPosting = async (req, res) => {
 }
 
 const editPosting = async (req, res) => {
-    const {id} = req.params;
-    const edits = req.body;
-    console.log(edits);
+    const postId = req.params.postId;
+    const message = req.body;
 
     try {
-        const editedPost = await Posting.findByIdAndUpdate(id, { $set: edits}, {new: true}); // .populate('user_id')
+        const editedPost = await Posting.findByIdAndUpdate(postId, { $set: message}, {new: true}); // .populate('user_id')
 
         if (!editedPost) {
             res.status(404).json({ message: 'Post not found' });
