@@ -1,4 +1,5 @@
 const User = require('../model/user')
+const Posting = require('../model/posting')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 // const cookieParser = require('cookie-parser')
@@ -122,17 +123,25 @@ const deleteUser = async (req, res) => {
     const userId = req.params.userId;
 
     try {
-        const deletedUser = await User.findByIdAndDelete(userId);
+        // Find the user by ID
+        const user = await User.findById(userId);
 
-        if (!deletedUser) {
+        if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        res.status(200).json({ message: 'User deleted successfully' });
+        // Delete all posts associated with the user
+        await Posting.deleteMany({ userId: userId });
+
+        // Delete the user
+        await User.findByIdAndDelete(userId);
+
+        res.status(200).json({ message: 'User and associated posts deleted successfully' });
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
 
 
 module.exports = {
