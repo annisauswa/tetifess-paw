@@ -18,9 +18,9 @@ const readPosting  = async (req, res) => {
 
 const createPosting = async (req, res) => {
     const userId = req.params.userId
-    const {  message, dateTime } = req.body
+    const {  text, timestamp } = req.body
     try{
-        const posting = await Posting.create({userId, message, dateTime})
+        const posting = await Posting.create({userId, text, timestamp})
         res.status(200).json(posting)
     } catch(err){
         res.json({err})
@@ -69,9 +69,26 @@ const editPosting = async (req, res) => {
     }
 }
 
+const deletePosting = async (req, res) => {
+    const postId = req.params.postId;
+
+    try {
+        const deletedPosting = await Posting.findByIdAndDelete(postId);
+
+        if (!deletedPosting) {
+            return res.status(404).json({ error: 'Posting not found' });
+        }
+
+        res.status(200).json({ message: 'Posting deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 module.exports = {
     readPosting,
     createPosting,
     searchPosting,
-    editPosting
+    editPosting, 
+    deletePosting
 }
