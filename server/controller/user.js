@@ -26,7 +26,7 @@ const updateUserBio = async (req, res) => {
     const { bio } = req.body;
     
     try {
-        const updatedUser = await User.findByIdAndUpdate(userId, { bio: bio });
+        const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ bio: bio, date_edited:Date.now()}});
 
         if (!updatedUser) {
             return res.status(404).json({ error: "User not found" });
