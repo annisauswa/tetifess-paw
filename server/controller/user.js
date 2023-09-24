@@ -31,13 +31,29 @@ const registerUser = async (req, res) => {
 }
 
 const getUser = async (req, res) => {
+    const userId = req.params.userId;
+
     try{
-        const users = await User.find()
-        res.json(users)
+        if (userId){
+            const users = await User.findById(userId)
+            
+            if (!users){
+                return res.status(404).json({ message: 'User not found' })
+            }
+            return res.json(users)
+        } else {
+            try{
+                const users = await User.find()
+                res.json(users)
+            } catch(err){
+                res.json({err})
+                res.status(500).json({ message: 'Internal server error' })
+            } 
+        }
     } catch(err){
-        res.json({err})
-        res.status(500).json({ message: 'Internal server error' })
+        res.status(500).json({ message: 'Insert user ID' })
     }
+
 }
 
 const updateUser = async (req, res) => {
