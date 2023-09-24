@@ -1,6 +1,7 @@
 const User = require('../model/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+// const cookieParser = require('cookie-parser')
 
 const registerUser = async (req, res) => {
     const { username, password, name, bio } = req.body
@@ -40,15 +41,31 @@ const loginUser = async (req, res) => {
         if(!user){
             return res.status(400).json({error: 'User not found'})
         }
-
         const passwordMatch = await bcrypt.compare(password, user.password)
-
         if(!passwordMatch){
             return res.status(400).json({error: 'Invalid password'})
         }
 
-        const accessToken = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'})
-        res.status(200).json({token: accessToken})
+        const accessToken = jwt.sign({id: user._id}, process.env.JWT_SECRET)
+
+        res.status(200)
+            .cookie(
+                'token', accessToken, {
+                    httpOnly: true,
+                    secure: true
+                })
+            .json({
+                message: 'Login success',
+                token: accessToken,
+                user: {
+                    id: user._id,
+                    username: user.username,
+                    name: user.name,
+                    bio: user.bio,
+                    dateCreated: user.dateCreated,
+                    dateEdited: user.dateEdited
+                }
+            })
     } catch(err){
         res.status(400).json({ error: err.message })
     }
