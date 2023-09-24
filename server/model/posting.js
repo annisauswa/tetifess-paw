@@ -21,7 +21,7 @@ const postingSchema = new Schema({
     likes_count: {
         type: Number,
         required: false
-    },
+    }
 })
 
 module.exports = mongoose.model('Posting', postingSchema)

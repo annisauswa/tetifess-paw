@@ -26,7 +26,7 @@ const userSchema = new Schema({
         type: Date,
         required: false
     }
-}, {timestamps: true})
+})
 userSchema.methods.hashPassword = function(password){
     return bcrypt.hashSync(password, 10)
 }
