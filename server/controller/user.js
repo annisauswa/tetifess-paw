@@ -46,7 +46,7 @@ const loginUser = async (req, res) => {
             return res.status(400).json({error: 'Invalid password'})
         }
 
-        const accessToken = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'})
+        const accessToken = jwt.sign({id: user._id}, process.env.JWT_SECRET)
 
         res.status(200)
             .cookie(
