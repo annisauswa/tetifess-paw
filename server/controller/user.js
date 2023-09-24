@@ -101,13 +101,17 @@ const updateUser = async (req, res) => {
     const userId = req.params.userId
     const { name, bio } = req.body;
     try {
-        const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ name: name, bio: bio, dateEdited: Date.now()}});
+        if (name == null && bio == null){
+            res.status(200).json({ message: "Nothing to update"  });
+        } else {
+            const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ name: name, bio: bio, dateEdited: Date.now()}});
 
-        if (!updatedUser) {
-            return res.status(404).json({ error: "User not found" });
+            if (!updatedUser) {
+                return res.status(404).json({ error: "User not found" });
+            }
+
+            res.status(200).json({ message: "Update successful"  });
         }
-
-        res.status(200).json({ message: "Update successful"  });
     } catch (err) {
         res.json({err})
         res.status(500).json({ message: 'Internal server error' })
