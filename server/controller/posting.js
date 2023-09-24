@@ -29,11 +29,29 @@ const searchPosting = async (req, res) => {
             res.json(getPosts);
         }
     } catch (err) {
+        res.json(err.message);
+        console.log(err.message);
+    }
+}
+
+const readPosting  = async (req, res) => {
+    console.log('get all')
+    try {
+        const getPosts = await Posting.find();
+        
+        if (getPosts.length === 0) {
+            res.status(404).json({ message: 'No posts found' });
+        } else {
+            res.json(getPosts);
+        }
+    } catch (err) {
+        res.json(err.message);
         console.log(err.message);
     }
 }
 
 module.exports = {
     createPosting,
-    searchPosting
+    searchPosting,
+    readPosting
 }
