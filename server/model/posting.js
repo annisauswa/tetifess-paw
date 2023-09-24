@@ -4,11 +4,11 @@ const Schema = mongoose.Schema
 const postingSchema = new Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId, ref: 'User',
-        required: false
+        required: true
     },
     text: {
         type: String,
-        required: false
+        required: true
     },
     timestamp:{
         type: Date,
