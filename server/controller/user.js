@@ -82,12 +82,19 @@ const getUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const userId = req.params.userId
-    const { name, bio } = req.body;
+    const { username, name, bio } = req.body;
     try {
-        if (name == null && bio == null){
-            res.status(200).json({ message: "Nothing to update"  });
+        if (username == null && name == null && bio == null){
+            return res.status(200).json({ message: "Nothing to update"  });
         } else {
-            const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ name: name, bio: bio, dateEdited: Date.now()}});
+            if (username != null) {
+                const existingUser = await User.findOne({ username: username });
+                
+                if (existingUser && String(existingUser._id) !== String(userId)) {
+                    return res.status(400).json({ message: "Username exists, insert new one." });
+                }
+            }
+            const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ username: username, name: name, bio: bio, dateEdited: Date.now()}});
 
             if (!updatedUser) {
                 return res.status(404).json({ error: "User not found" });
