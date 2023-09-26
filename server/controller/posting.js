@@ -2,6 +2,8 @@ const Posting = require('../model/posting')
 
 const readPosting  = async (req, res) => {
     const postId = req.params.postId;
+    const {ascending} = req.query;
+
     try {
         if (postId){
             const post = await Posting.findById(postId)
@@ -11,8 +13,14 @@ const readPosting  = async (req, res) => {
             }
             return res.json(post)
         } else {
+            let sortDirection = 'desc';
+
+            if (ascending === 'true') {
+                sortDirection = 'asc';
+            }
+
             try{
-                const getPosts = await Posting.find(); // .populate('userId')
+                const getPosts = await Posting.find().sort({ timestamp: sortDirection }); // .populate('userId')
         
                 if (getPosts.length === 0) {
                     res.status(404).json({ message: 'No posts found' });
