@@ -1,10 +1,12 @@
 require('dotenv').config()
 
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const express = require('express')
 const mongoose = require('mongoose')
 const user = require('./routes/user')
 const posting = require('./routes/posting')
+const { verifyToken } = require('./middleware/auth')
 
 const app = express()
 
@@ -21,12 +23,13 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cookieParser())
 
 app.get("/", (req, res) => {
     res.send("API TETIFESS");
   });
 app.use('/user', user)
-app.use('/posting', posting)
+app.use('/posting', verifyToken, posting)
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
