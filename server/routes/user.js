@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { registerUser, getUser, updateUser, getProfile, deleteUser, loginUser, logoutUser } = require("../controller/user")
+const { registerUser, getUser, updateUser, getProfile, deleteUser, deleteLoggedInUser, loginUser, logoutUser } = require("../controller/user")
 const { verifyToken, verifyAdmin } = require('../middleware/auth')
 
 // PUBLIC ROLE
@@ -47,14 +47,17 @@ router.get('/profile', verifyToken, getProfile)
 // RESPONSE : User object for the specified user or error message
 router.get('/:userId', verifyToken, getUser)
 
+router.delete('/delete', verifyToken, deleteLoggedInUser)
+
 // DESC     : Update username, display name, and bio of a single user
 // ROUTE    : PATCH "/posting/:userId"
 // PARAMS   : UserId of intended user
 // BODY     : username, name, bio
 //            (Can be both or either, optional)
 // RESPONSE : Process succeeded or Failed
-router.patch('/:userId',verifyToken, verifyAdmin, updateUser)
+router.patch('/edit',verifyToken, updateUser)
 
-router.delete('/:userId', verifyToken, verifyAdmin, deleteUser)
+router.delete('/admin/:userId', verifyToken, verifyAdmin, deleteUser)
+
 
 module.exports = router
