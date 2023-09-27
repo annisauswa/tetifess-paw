@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 // const cookieParser = require('cookie-parser')
 
 const registerUser = async (req, res) => {
-    const { username, password, name, bio } = req.body
+    const { username, password, name, bio, role } = req.body
     const date_created = Date.now()
     try{
         // check if username already taken
@@ -26,6 +26,7 @@ const registerUser = async (req, res) => {
             password: hashedPassword,
             name,
             bio,
+            role,
             dateCreated: date_created})
         res.status(200).json(user)
     } catch(err){
@@ -47,7 +48,7 @@ const loginUser = async (req, res) => {
             return res.status(400).json({error: 'Invalid password'})
         }
 
-        const accessToken = jwt.sign({id: user._id}, process.env.JWT_SECRET)
+        const accessToken = jwt.sign({id: user._id, role: user.role}, process.env.JWT_SECRET)
 
         res.status(200)
             .cookie(
