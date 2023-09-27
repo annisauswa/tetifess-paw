@@ -3,11 +3,16 @@ const router = express.Router()
 const { registerUser, getUser, updateUser, getProfile, deleteUser, loginUser, logoutUser } = require("../controller/user")
 const { verifyToken, verifyAdmin } = require('../middleware/auth')
 
+// PUBLIC ROLE
 router.post('/', registerUser)
 router.post('/login', loginUser)
 router.post('/logout', logoutUser)
-router.get('/', verifyToken, verifyAdmin, getUser)
+
+// USER ROLE
 router.get('/profile', verifyToken, getProfile)
+
+// ADMIN ROLE
+router.get('/', verifyToken, verifyAdmin, getUser)
 router.get('/:userId', verifyToken, verifyAdmin, getUser)
 
 // DESC     : Update username, display name, and bio of a single user
