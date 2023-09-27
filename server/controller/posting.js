@@ -39,9 +39,9 @@ const readPosting  = async (req, res) => {
 
 const createPosting = async (req, res) => {
     const userId = req.params.userId
-    const {  text, timestamp } = req.body
+    const {  text, image, timestamp } = req.body
     try{
-        const posting = await Posting.create({userId, text, timestamp})
+        const posting = await Posting.create({userId, text, image, timestamp})
         res.status(200).json(posting)
     } catch(err){
         res.json({err})
