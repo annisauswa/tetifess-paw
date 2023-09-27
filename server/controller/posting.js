@@ -20,7 +20,7 @@ const readPosting  = async (req, res) => {
             }
 
             try{
-                const getPosts = await Posting.find().sort({ timestamp: sortDirection }).populate('userId');
+                const getPosts = await Posting.find().sort({ timestamp: sortDirection }).populate({path:'userId', select:'_id username name'});
         
                 if (getPosts.length === 0) {
                     res.status(404).json({ message: 'No posts found' });
@@ -58,7 +58,7 @@ const searchPosting = async (req, res) => {
                 {username : {$regex: param, $options: 'i'}},
                 {text: {$regex: param, $options: 'i'}}
             ]
-        }).populate('userId');
+        }).populate({path:'userId', select:'_id username name'});
 
         if (getPosts.length === 0) {
             res.status(404).json({ message: 'No posts found' });
@@ -76,7 +76,7 @@ const editPosting = async (req, res) => {
     const message = req.body;
 
     try {
-        const editedPost = await Posting.findByIdAndUpdate(postId, { $set: message}, {new: true});
+        const editedPost = await Posting.findByIdAndUpdate(postId, { $set: message}, {new: true}).populate({path:'userId', select:'_id username name'});
 
         if (!editedPost) {
             res.status(404).json({ message: 'Post not found' });
