@@ -123,7 +123,7 @@ const likePost = async(req, res) => {
         posting.likes.push(userId)
         posting.likes_count++
         user.likedPostings.push(postId)
-        console.log(user.likedPostings)
+        console.log(postId)
     } else {
         posting.likes = posting.likes.filter((id) => id !== String(userId))
         posting.likes_count--
@@ -131,6 +131,7 @@ const likePost = async(req, res) => {
     }
 
     await posting.save()
+    await user.save()
     res.json(posting)
 }
 
