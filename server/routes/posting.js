@@ -12,7 +12,7 @@ router.get('/:postId', readPosting)
 // PARAMS   : userId (String) - the ID of the user to POST
 // BODY     : text, image (optional)
 // RESPONSE : Success message or error message
-router.post('/:userId', createPosting)
+router.post('/post', createPosting)
 router.patch('/:postId', editPosting)
 
 // DESC     : Delete a user post
