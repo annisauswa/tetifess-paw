@@ -15,9 +15,14 @@ const postingSchema = new Schema({
         required: true,
         default: Date.now
     },
+    likes:{
+        type: Array,
+        required: false
+    },
     likes_count: {
         type: Number,
-        required: false
+        required: false,
+        default: 0
     }
 })
 
