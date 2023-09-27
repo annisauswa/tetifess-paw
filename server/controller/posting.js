@@ -8,6 +8,8 @@ const readPosting  = async (req, res) => {
     try {
         if (postId){
             const post = await Posting.findById(postId)
+                .populate({path:'userId', select:'_id username name'})
+                .populate({path:'likes', select:'_id username',  model: User})
             
             if (!post){
                 return res.status(404).json({ message: 'Post not found' })
@@ -21,7 +23,10 @@ const readPosting  = async (req, res) => {
             }
 
             try{
-                const getPosts = await Posting.find().sort({ timestamp: sortDirection }).populate({path:'userId', select:'_id username name'});
+                const getPosts = await Posting.find()
+                    .sort({timestamp: sortDirection})
+                    .populate({path:'userId', select:'_id username name'})
+                    .populate({path:'likes', select:'_id username',  model: User})
         
                 if (getPosts.length === 0) {
                     res.status(404).json({ message: 'No posts found' });
@@ -59,7 +64,9 @@ const searchPosting = async (req, res) => {
                 {username : {$regex: param, $options: 'i'}},
                 {text: {$regex: param, $options: 'i'}}
             ]
-        }).populate({path:'userId', select:'_id username name'});
+        })
+        .populate({path:'userId', select:'_id username name'})
+        .populate({path:'likes', select:'_id username',  model: User});
 
         if (getPosts.length === 0) {
             res.status(404).json({ message: 'No posts found' });
@@ -123,7 +130,7 @@ const likePost = async(req, res) => {
         posting.likes.push(userId)
         posting.likes_count++
         user.likedPostings.push(postId)
-        console.log(user.likedPostings)
+        console.log(postId)
     } else {
         posting.likes = posting.likes.filter((id) => id !== String(userId))
         posting.likes_count--
@@ -131,6 +138,7 @@ const likePost = async(req, res) => {
     }
 
     await posting.save()
+    await user.save()
     res.json(posting)
 }
 

@@ -92,6 +92,7 @@ const getProfile = async (req, res) => {
 
     try{
         const users = await User.findById(userId)
+            .populate({path:'likedPostings', select:'_id userId text', model: Posting, populate: {path: 'userId', select: 'username'}})
             
         if (!users){
             return res.status(404).json({ message: 'User not found' })
@@ -108,6 +109,7 @@ const getUser = async (req, res) => {
     try{
         if (userId){
             const users = await User.findById(userId)
+            .populate({path:'likedPostings', select:'userId text', model: Posting, populate: {path: 'userId', select: 'username'}})
             
             if (!users){
                 return res.status(404).json({ message: 'User not found' })
@@ -116,6 +118,7 @@ const getUser = async (req, res) => {
         } else {
             try{
                 const users = await User.find()
+                .populate({path:'likedPostings', select:'_id userId text', model: Posting, populate: {path: 'userId', select: 'username'}})
                 res.json(users)
             } catch(err){
                 res.json({err})
