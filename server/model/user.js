@@ -19,6 +19,10 @@ const userSchema = new Schema({
         type: String,
         required: false
     },
+    likedPostings: {
+        type: Array,
+        required: false
+    },
     dateCreated: {
         type: Date,
         required: true
