@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const { registerUser, getUser, updateUser, getProfile, deleteUser, loginUser, logoutUser } = require("../controller/user")
-const { verifyToken } = require('../middleware/auth')
+const { verifyToken, verifyAdmin } = require('../middleware/auth')
+
+// PUBLIC ROLE
 
 // DESC     : Register a new user
 // ROUTE    : POST "/"
@@ -51,8 +53,8 @@ router.get('/:userId', verifyToken, getUser)
 // BODY     : username, name, bio
 //            (Can be both or either, optional)
 // RESPONSE : Process succeeded or Failed
-router.patch('/:userId',verifyToken, updateUser)
+router.patch('/:userId',verifyToken, verifyAdmin, updateUser)
 
-router.delete('/:userId', verifyToken, deleteUser)
+router.delete('/:userId', verifyToken, verifyAdmin, deleteUser)
 
-module.exports = router;
+module.exports = router

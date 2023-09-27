@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+// const { verifyAdmin } = require('../middleware/auth')
 const { readPosting, createPosting, searchPosting, editPosting, deletePosting, likePost } = require('../controller/posting')
 
 router.get('/', readPosting)

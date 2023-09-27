@@ -56,8 +56,7 @@ const createPosting = async (req, res) => {
 }
 
 const searchPosting = async (req, res) => {
-    const {param} = req.query;
-    console.log(param)
+    const {param} = req.query
     try {
         const getPosts = await Posting.find({
             $or: [
@@ -66,16 +65,15 @@ const searchPosting = async (req, res) => {
             ]
         })
         .populate({path:'userId', select:'_id username name'})
-        .populate({path:'likes', select:'_id username',  model: User});
+        .populate({path:'likes', select:'_id username',  model: User})
 
         if (getPosts.length === 0) {
-            res.status(404).json({ message: 'No posts found' });
+            res.status(404).json({ message: 'No posts found' })
         } else {
-            res.json(getPosts);
+            res.json(getPosts)
         }
     } catch (err) {
-        res.json(err.message);
-        console.log(err.message);
+        res.json(err.message)
     }
 }
 
@@ -92,8 +90,7 @@ const editPosting = async (req, res) => {
             res.json(editedPost);
         }
     } catch (err) {
-        res.json(err.message);
-        console.log(err.message);
+        res.json(err.message)
     }
 }
 
@@ -125,12 +122,10 @@ const likePost = async(req, res) => {
 
     const likesIndex = posting.likes.findIndex((id) => id === String(userId))
     const postingIndex = user.likedPostings.findIndex((id) => id === String(postId))
-
     if(likesIndex === -1 && postingIndex === -1){
         posting.likes.push(userId)
         posting.likes_count++
         user.likedPostings.push(postId)
-        console.log(postId)
     } else {
         posting.likes = posting.likes.filter((id) => id !== String(userId))
         posting.likes_count--
