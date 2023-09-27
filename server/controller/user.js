@@ -87,6 +87,21 @@ const logoutUser = async (req, res) => {
     }
 }
 
+const getProfile = async (req, res) => {
+    const userId = req.user.id
+
+    try{
+        const users = await User.findById(userId)
+            
+        if (!users){
+            return res.status(404).json({ message: 'User not found' })
+        }
+        return res.json(users)
+    }catch(err){
+        res.status(400).json({ error: err.message })
+    }
+}
+
 const getUser = async (req, res) => {
     const userId = req.params.userId;
 
@@ -172,5 +187,6 @@ module.exports = {
     updateUser,
     deleteUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    getProfile
 }
