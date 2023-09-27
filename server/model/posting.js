@@ -18,6 +18,10 @@ const postingSchema = new Schema({
     likes_count: {
         type: Number,
         required: false
+    },
+    image: {
+        type: String,
+        required: false
     }
 })
 
