@@ -4,16 +4,48 @@ const { registerUser, getUser, updateUser, getProfile, deleteUser, loginUser, lo
 const { verifyToken, verifyAdmin } = require('../middleware/auth')
 
 // PUBLIC ROLE
+
+// DESC     : Register a new user
+// ROUTE    : POST "/"
+// PARAMS   : None
+// BODY     : JSON object containing user registration data (username: String, password: String, name: String, bio: String)
+// RESPONSE : User object or error message
 router.post('/', registerUser)
+
+// DESC     : Log in an existing user
+// ROUTE    : POST "/login"
+// PARAMS   : None
+// BODY     : JSON object containing user login credentials (username: String, password: String)
+// RESPONSE : User object and JWT token or error message
 router.post('/login', loginUser)
+
+// DESC     : Log out the currently authenticated user
+// ROUTE    : POST "/logout"
+// PARAMS   : None
+// BODY     : None
+// RESPONSE : Success message or error message
 router.post('/logout', logoutUser)
 
-// USER ROLE
+// DESC     : Get user information for the currently authenticated user
+// ROUTE    : GET "/"
+// PARAMS   : None
+// BODY     : None
+// RESPONSE : User object or Unauthorized error if not authenticated
+router.get('/', verifyToken, getUser)
+
+// DESC     : Get the profile information for the currently authenticated user
+// ROUTE    : GET "/user/profile"
+// PARAMS   : None
+// BODY     : None
+// RESPONSE : User profile object or Unauthorized error if not authenticated
 router.get('/profile', verifyToken, getProfile)
 
-// ADMIN ROLE
-router.get('/', verifyToken, verifyAdmin, getUser)
-router.get('/:userId', verifyToken, verifyAdmin, getUser)
+// DESC     : Get user information for a specific user by their ID
+// ROUTE    : GET "/:userId"
+// PARAMS   : userId (String) - The ID of the intended user
+// BODY     : None
+// RESPONSE : User object for the specified user or error message
+router.get('/:userId', verifyToken, getUser)
 
 // DESC     : Update username, display name, and bio of a single user
 // ROUTE    : PATCH "/posting/:userId"
