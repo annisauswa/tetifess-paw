@@ -1,4 +1,5 @@
 const Posting = require('../model/posting')
+const User = require('../model/user')
 
 const readPosting  = async (req, res) => {
     const postId = req.params.postId;
@@ -103,12 +104,41 @@ const deletePosting = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
     }
-};
+}
+
+const likePost = async(req, res) => {
+    const userId = req.user.id
+    const postId = req.params.postId
+    const posting = await Posting.findById(postId)
+    const user = await User.findById(userId)
+
+    if(!posting){
+        return res.status(404).json({ message: 'Post not found' })
+    }
+
+    const likesIndex = posting.likes.findIndex((id) => id === String(userId))
+    const postingIndex = user.likedPostings.findIndex((id) => id === String(postId))
+
+    if(likesIndex === -1 && postingIndex === -1){
+        posting.likes.push(userId)
+        posting.likes_count++
+        user.likedPostings.push(postId)
+        console.log(user.likedPostings)
+    } else {
+        posting.likes = posting.likes.filter((id) => id !== String(userId))
+        posting.likes_count--
+        user.likedPostings = user.likedPostings.filter((id) => id !== String(postId))
+    }
+
+    await posting.save()
+    res.json(posting)
+}
 
 module.exports = {
     readPosting,
     createPosting,
     searchPosting,
     editPosting, 
-    deletePosting
+    deletePosting,
+    likePost
 }
