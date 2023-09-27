@@ -1,5 +1,7 @@
 # tetifess
+![tetifess](https://github.com/annisauswa/tetifess-paw/assets/24343313/4c16b078-27bd-4bfd-91ff-47d0e24d6e8e)
 ---
+
 ## Deskripsi
 Media sosial untuk pengiriman pesan anonim dari dan kepada mahasiswa DTETI FT UGM
 
