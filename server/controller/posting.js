@@ -61,27 +61,49 @@ const createPosting = async (req, res) => {
 }
 
 const searchPosting = async (req, res) => {
-    const {param} = req.query
-
-    try {
-        const getPosts = await Posting.find({
-            $or: [
-                {username : {$regex: param, $options: 'i'}},
-                {text: {$regex: param, $options: 'i'}}
-            ]
-        })
-        .populate({path:'userId', select:'_id username name'})
-        .populate({path:'likes', select:'_id username',  model: User})
-
-        if (getPosts.length === 0) {
-            res.status(404).json({ message: 'No posts found' })
-        } else {
-            res.json(getPosts)
-        }
-    } catch (err) {
-        res.json(err.message)
+    const { param } = req.query;
+    
+    if (!param){
+        return res.status(500).json({ message: 'Insert search' })
     }
-}
+    const { username } = req.body;
+
+    if (username) { 
+        try {
+            let { _id: userId } = await User.findOne({ username: username }).select('_id');
+            const getPosts = await Posting.find({
+                $and: [
+                    { userId: userId },
+                    { text: { $regex: param, $options: 'i' } }
+                ]
+            })
+                .populate({ path: 'userId', select: '_id username name' })
+                .populate({ path: 'likes', select: '_id username', model: User });
+
+            if (getPosts.length === 0) {
+                res.status(404).json({ message: "Post not found" });
+            } else {
+                res.json(getPosts);
+            }
+        } catch (err) {
+            res.json(err.message);
+        }
+    } else {
+        try {
+            const getPosts = await Posting.find({ text: { $regex: param, $options: 'i' } })
+                .populate({ path: 'userId', select: '_id username name' })
+                .populate({ path: 'likes', select: '_id username', model: User });
+
+            if (getPosts.length === 0) {
+                res.status(404).json({ message: "Post not found" });
+            } else {
+                res.json(getPosts);
+            }
+        } catch (err) {
+            res.json(err.message);
+        }
+    }
+};
 
 const editPosting = async (req, res) => {
     const postId = req.params.postId
