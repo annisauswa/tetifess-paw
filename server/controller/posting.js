@@ -114,15 +114,16 @@ const editPosting = async (req, res) => {
         if (postId.length != 24) {
             return res.status(400).json({ message: 'Post ID invalid'})
         }
+        
+        const checkPost = await Posting.findById(postId)
 
-        const editedPost = await Posting.findByIdAndUpdate(postId, { $set: message}, {new: true}).populate({path:'userId', select:'_id username name'})
-
-        if(!editedPost){
+        if(!checkPost){
             res.status(404).json({ message: 'Post not found' })
         } else{
-            if (editedPost.userId._id != userId) {
+            if (checkPost.userId._id != userId) {
                 return res.status(401).json({ message: 'Unauthorized' })
             } else {
+                const editedPost = await Posting.findByIdAndUpdate(postId, { $set: message}, {new: true}).populate({path:'userId', select:'_id username name'})
                 res.json({message: "Post succesfully edited",  post: editedPost});
             }
         }
@@ -140,17 +141,18 @@ const deletePosting = async (req, res) => {
             return res.status(400).json({ message: 'Post ID invalid'})
         }
 
-        const deletedPosting = await Posting.findByIdAndDelete(postId);
+        const checkPosting = await Posting.findById(postId)
 
-        if (!deletedPosting) {
+        if (!checkPosting) {
             return res.status(404).json({ error: 'Posting not found' });
+        } else {
+            if (checkPosting.userId._id != userId) {
+                return res.status(401).json({ message: 'Unauthorized' });
+            } else {
+                const deletedPosting = await Posting.findByIdAndDelete(postId);
+                res.status(200).json({ message: 'Posting deleted successfully' });
+            }
         }
-
-        if (deletedPosting.userId._id != userId) {
-            return res.status(401).json({ message: 'Unauthorized' });
-        }
-
-        res.status(200).json({ message: 'Posting deleted successfully' });
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
     }
