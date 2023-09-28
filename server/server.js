@@ -6,7 +6,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const user = require('./routes/user')
 const posting = require('./routes/posting')
-const { verifyToken } = require('./middleware/auth')
+const admin = require('./routes/admin')
+const { verifyToken, verifyAdmin } = require('./middleware/auth')
 
 const app = express()
 
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
   });
 app.use('/user', user)
 app.use('/posting', verifyToken, posting)
+app.use('/admin', verifyToken, verifyAdmin, admin)
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
