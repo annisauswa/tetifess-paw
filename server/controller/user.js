@@ -2,7 +2,6 @@ const User = require('../model/user')
 const Posting = require('../model/posting')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-// const cookieParser = require('cookie-parser')
 
 const registerUser = async (req, res) => {
     const { username, password, name, bio, role } = req.body
@@ -59,14 +58,7 @@ const loginUser = async (req, res) => {
             .json({
                 message: 'Login success',
                 token: accessToken,
-                user: {
-                    id: user._id,
-                    username: user.username,
-                    name: user.name,
-                    bio: user.bio,
-                    dateCreated: user.dateCreated,
-                    dateEdited: user.dateEdited
-                }
+                user
             })
     } catch(err){
         res.status(400).json({ error: err.message })
@@ -88,6 +80,8 @@ const logoutUser = async (req, res) => {
     }
 }
 
+
+
 const getProfile = async (req, res) => {
     const userId = req.user.id
 
@@ -104,13 +98,14 @@ const getProfile = async (req, res) => {
     }
 }
 
-const getUser = async (req, res) => {
+const getOtherUser = async (req, res) => {
     const userId = req.params.userId;
 
     try{
         if (userId){
             const users = await User.findById(userId)
-            .populate({path:'likedPostings', select:'userId text', model: Posting, populate: {path: 'userId', select: 'username'}})
+                .select('username name bio dateCreated')
+                .populate({path:'likedPostings', select:'userId text', model: Posting, populate: {path: 'userId', select: 'username'}})
             
             if (!users){
                 return res.status(404).json({ message: 'User not found' })
@@ -119,7 +114,7 @@ const getUser = async (req, res) => {
         } else {
             try{
                 const users = await User.find()
-                .populate({path:'likedPostings', select:'_id userId text', model: Posting, populate: {path: 'userId', select: 'username'}})
+                .populate({path:'likedPostings', select:'userId text', model: Posting, populate: {path: 'userId', select: 'username'}})
                 res.json(users)
             } catch(err){
                 res.json({err})
@@ -160,28 +155,7 @@ const updateUser = async (req, res) => {
     }
 }
 
-const deleteUser = async (req, res) => {
-    const userId = req.params.userId;
 
-    try {
-        // Find the user by ID
-        const user = await User.findById(userId);
-
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-
-        // Delete all posts associated with the user
-        await Posting.deleteMany({ userId: userId });
-
-        // Delete the user
-        await User.findByIdAndDelete(userId);
-
-        res.status(200).json({ message: 'User and associated posts deleted successfully' });
-    } catch (err) {
-        res.status(500).json({ message: 'Internal server error' });
-    }
-};
 
 const deleteLoggedInUser = async (req, res) => {
     const userId = req.user.id
@@ -210,9 +184,8 @@ const deleteLoggedInUser = async (req, res) => {
 
 module.exports = {
     registerUser,
-    getUser,
+    getOtherUser,
     updateUser,
-    deleteUser,
     deleteLoggedInUser,
     loginUser,
     logoutUser,

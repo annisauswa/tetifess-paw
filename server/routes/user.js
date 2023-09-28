@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { registerUser, getUser, updateUser, getProfile, deleteUser, deleteLoggedInUser, loginUser, logoutUser } = require("../controller/user")
+const { registerUser, getOtherUser, updateUser, getProfile, deleteUser, deleteLoggedInUser, loginUser, logoutUser } = require("../controller/user")
 const { verifyToken, verifyAdmin } = require('../middleware/auth')
 
 // PUBLIC ROLE
@@ -26,13 +26,6 @@ router.post('/login', loginUser)
 // RESPONSE : Success message or error message
 router.post('/logout', logoutUser)
 
-// DESC     : Get user information for the currently authenticated user
-// ROUTE    : GET "/"
-// PARAMS   : None
-// BODY     : None
-// RESPONSE : User object or Unauthorized error if not authenticated
-router.get('/', verifyToken, getUser)
-
 // DESC     : Get the profile information for the currently authenticated user
 // ROUTE    : GET "/user/profile"
 // PARAMS   : None
@@ -45,7 +38,7 @@ router.get('/profile', verifyToken, getProfile)
 // PARAMS   : userId (String) - The ID of the intended user
 // BODY     : None
 // RESPONSE : User object for the specified user or error message
-router.get('/:userId', verifyToken, getUser)
+router.get('/:userId', verifyToken, getOtherUser)
 
 router.delete('/delete', verifyToken, deleteLoggedInUser)
 
@@ -56,8 +49,5 @@ router.delete('/delete', verifyToken, deleteLoggedInUser)
 //            (Can be both or either, optional)
 // RESPONSE : Process succeeded or Failed
 router.patch('/edit',verifyToken, updateUser)
-
-router.delete('/admin/:userId', verifyToken, verifyAdmin, deleteUser)
-
 
 module.exports = router
