@@ -39,14 +39,14 @@ router.delete('/posting/:postId', deletePosting)
 router.patch('/posting/:postId', editPosting)
 
 // DESC     : Give admin role to user
-// ROUTE    : PATCH "/give/:userId"
+// ROUTE    : PATCH "/admin/give/:userId"
 // PARAMS   : userId
 // BODY     : None (the role is set from controller)
 // RESPONSE : Users object or error message
 router.patch('/give/:userId', giveAdminRole)
 
 // DESC     : Take admin role from user
-// ROUTE    : PATCH "/take/:userId"
+// ROUTE    : PATCH "/admin/take/:userId"
 // PARAMS   : userId
 // BODY     : None (the role is set from controller)
 // RESPONSE : Users object or error message
