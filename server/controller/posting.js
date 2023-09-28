@@ -7,7 +7,7 @@ const readPosting  = async (req, res) => {
 
     try {
         if (postId){
-            if (postId.length == 0) {
+            if (postId.length != 24) {
                 return res.status(400).json({ message: 'Post ID invalid'})
             }
             const post = await Posting.findById(postId)
@@ -110,7 +110,7 @@ const editPosting = async (req, res) => {
     const message = req.body
 
     try {
-        if (postId.length != 12) {
+        if (postId.length != 24) {
             return res.status(400).json({ message: 'Post ID invalid'})
         }
 
@@ -135,7 +135,7 @@ const deletePosting = async (req, res) => {
     const userId = req.user.id;
 
     try {
-        if (postId.length != 12) {
+        if (postId.length != 24) {
             return res.status(400).json({ message: 'Post ID invalid'})
         }
 
