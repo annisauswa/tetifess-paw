@@ -26,15 +26,28 @@
 ## 🖥 Persiapan Server
 
 Clone Repository
-```
-git clone
-```
+  ```
+  git clone
+  ```
+
 Run Server
-```
-cd ./server
-npm install
-npm run dev
-```
+  ```
+  
+  // access server directory
+  cd ./server
+  
+  // install dependencies
+  npm install
+  
+  // run nodemon server.js
+  npm run dev
+  
+  ```
+
+Server Running on
+  ```
+  localhost:5001
+  ```
 
 ## 👨‍💻 Contributor
   1. Annisa Uswa Sufia &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;21/475357/TK/52474 <br>
