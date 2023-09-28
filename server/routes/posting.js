@@ -17,7 +17,7 @@ router.get('/', readPosting)
 router.get('/:postId', readPosting)
 
 // DESC     : Create a post for logged in user
-// ROUTE    : POST "/posting/ppst"  
+// ROUTE    : POST "/posting/post"  
 // PARAMS   : None
 // BODY     : text, image (optional)
 // RESPONSE : Success message or error message
