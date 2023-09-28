@@ -27,7 +27,7 @@ const registerUser = async (req, res) => {
             bio,
             role,
             dateCreated: date_created})
-        res.status(200).json(user)
+        res.status(200).json({message: "User registered successfully", user: user})
     } catch(err){
         res.status(400).json({ error: err.message })
     }
@@ -139,13 +139,13 @@ const updateUser = async (req, res) => {
                     return res.status(400).json({ message: "Username exists, insert new one." });
                 }
             }
-            const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ username: username, name: name, bio: bio, dateEdited: Date.now()}});
+            const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ username: username, name: name, bio: bio, dateEdited: Date.now()}}, {new: true});
 
             if (!updatedUser) {
                 return res.status(404).json({ error: "User not found" });
             }
 
-            res.status(200).json({ message: "Update successful"  });
+            res.status(200).json({ message: "Update successful", user: updatedUser });
         }
     } catch (err) {
         res.json({err})

@@ -101,7 +101,7 @@ const editPosting = async (req, res) => {
             if (editedPost.userId._id != userId) {
                 return res.status(401).json({ message: 'Unauthorized' })
             } else {
-                res.json(editedPost);
+                res.json({message: "Post succesfully edited",  post: editedPost});
             }
         }
     } catch (err) {

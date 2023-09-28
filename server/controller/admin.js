@@ -38,13 +38,13 @@ const updateUser = async (req, res) => {
                     return res.status(400).json({ message: "Username exists, insert new one." });
                 }
             }
-            const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ username: username, name: name, bio: bio, dateEdited: Date.now()}});
+            const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ username: username, name: name, bio: bio, dateEdited: Date.now()}}, {new: true});
 
             if (!updatedUser) {
                 return res.status(404).json({ error: "User not found" });
             }
 
-            res.status(200).json({ message: "Update successful"  });
+            res.status(200).json({ message: "Update successful", user: updatedUser });
         }
     } catch (err) {
         res.json({err})
@@ -65,9 +65,9 @@ const giveAdminRole = async (req, res) => {
             return res.status(400).json({ error: "User is already admin"})
         }
 
-        const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ role: "admin", dateEdited: Date.now()}});
+        const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ role: "admin", dateEdited: Date.now()}}, {new: true});
 
-        res.status(200).json({ message: "Admin role successfully given"  });
+        res.status(200).json({ message: "Admin role successfully given", user: updatedUser });
     } catch (err) {
         res.json({err})
         res.status(500).json({ message: 'Internal server error' })
@@ -87,9 +87,9 @@ const takeAdminRole = async (req, res) => {
             return res.status(400).json({ error: "User is already not admin"})
         }
 
-        const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ role: "user", dateEdited: Date.now()}});
+        const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ role: "user", dateEdited: Date.now()}}, {new: true});
 
-        res.status(200).json({ message: "Admin role successfully taken"  });
+        res.status(200).json({ message: "Admin role successfully taken", user: updatedUser });
     } catch (err) {
         res.json({err})
         res.status(500).json({ message: 'Internal server error' })
@@ -134,10 +134,10 @@ const editPosting = async (req, res) => {
         if (!editedPost) {
             res.status(404).json({ message: 'Post not found' });
         } else {
-            res.json(editedPost);
+            res.status(200).json({ message: "Post succesfully edited", post: editedPost});
         }
     } catch (err) {
-        res.json(err.message)
+        res.status(500).json(err.message)
     }
 }
 
