@@ -2,6 +2,13 @@ const express = require('express')
 const router = express.Router()
 const { readPosting, createPosting, searchPosting, editPosting, deletePosting, likePost } = require('../controller/posting')
 
+// DESC     : Search for posts based on a query parameter
+// ROUTE    : GET "/posting/search"
+// PARAMS   : param (String) - The search query parameter
+// BODY     : None
+// RESPONSE : Array of post objects matching the search or an error message
+router.get('/search', searchPosting)
+
 // DESC     : Get all posts with optional sorting
 // ROUTE    : GET "/posting"
 // PARAMS   : ascending (String, optional) - Sort direction for posts ('true' for ascending, 'false' for descending)
@@ -23,12 +30,6 @@ router.get('/:postId', readPosting)
 // RESPONSE : Success message or error message
 router.post('/post', createPosting)
 
-// DESC     : Search for posts based on a query parameter
-// ROUTE    : GET "/posting/search"
-// PARAMS   : param (String) - The search query parameter
-// BODY     : None
-// RESPONSE : Array of post objects matching the search or an error message
-router.get('/search', searchPosting)
 
 // DESC     : Edit a post of logged in user
 // ROUTE    : PATCH "/posting/:postId"  
