@@ -6,6 +6,10 @@ const readPosting  = async (req, res) => {
     const {ascending} = req.query;
 
     try {
+        if (postId.length != 12) {
+            return res.status(400).json({ message: 'Post ID invalid'})
+        }
+
         if (postId){
             const post = await Posting.findById(postId)
                 .populate({path:'userId', select:'_id username name'})
@@ -46,6 +50,7 @@ const readPosting  = async (req, res) => {
 const createPosting = async (req, res) => {
     const userId = req.user.id
     const {  text, image, timestamp } = req.body
+
     try{
         const posting = await Posting.create({userId, text, image, timestamp})
         res.status(200).json(posting)
@@ -57,6 +62,7 @@ const createPosting = async (req, res) => {
 
 const searchPosting = async (req, res) => {
     const {param} = req.query
+
     try {
         const getPosts = await Posting.find({
             $or: [
@@ -83,7 +89,12 @@ const editPosting = async (req, res) => {
     const message = req.body
 
     try {
+        if (postId.length != 12) {
+            return res.status(400).json({ message: 'Post ID invalid'})
+        }
+
         const editedPost = await Posting.findByIdAndUpdate(postId, { $set: message}, {new: true}).populate({path:'userId', select:'_id username name'})
+
         if(!editedPost){
             res.status(404).json({ message: 'Post not found' })
         } else{
@@ -103,6 +114,10 @@ const deletePosting = async (req, res) => {
     const userId = req.user.id;
 
     try {
+        if (postId.length != 12) {
+            return res.status(400).json({ message: 'Post ID invalid'})
+        }
+
         const deletedPosting = await Posting.findByIdAndDelete(postId);
 
         if (!deletedPosting) {

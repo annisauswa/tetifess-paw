@@ -80,8 +80,6 @@ const logoutUser = async (req, res) => {
     }
 }
 
-
-
 const getProfile = async (req, res) => {
     const userId = req.user.id
 
@@ -155,8 +153,6 @@ const updateUser = async (req, res) => {
     }
 }
 
-
-
 const deleteLoggedInUser = async (req, res) => {
     const userId = req.user.id
 
@@ -179,8 +175,6 @@ const deleteLoggedInUser = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-
 
 module.exports = {
     registerUser,
