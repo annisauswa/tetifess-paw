@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-// const { verifyAdmin } = require('../middleware/auth')
 const { readPosting, createPosting, searchPosting, editPosting, deletePosting, likePost } = require('../controller/posting')
 
 router.get('/', readPosting)
@@ -28,4 +27,5 @@ router.delete('/:postId', deletePosting)
 // BODY     : None
 // RESPONSE : Success message or error message
 router.post('/:postId/like', likePost)
+
 module.exports = router
