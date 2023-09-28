@@ -6,12 +6,10 @@ const readPosting  = async (req, res) => {
     const {ascending} = req.query;
 
     try {
-
-
         if (postId){
-        if (postId.length == 0) {
-            return res.status(400).json({ message: 'Post ID invalid'})
-        }
+            if (postId.length == 0) {
+                return res.status(400).json({ message: 'Post ID invalid'})
+            }
             const post = await Posting.findById(postId)
                 .populate({path:'userId', select:'_id username name'})
                 .populate({path:'likes', select:'_id username',  model: User})
