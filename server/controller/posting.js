@@ -78,16 +78,20 @@ const searchPosting = async (req, res) => {
 }
 
 const editPosting = async (req, res) => {
-    const postId = req.params.postId;
-    const message = req.body;
+    const postId = req.params.postId
+    const userId = req.user.id
+    const message = req.body
 
     try {
-        const editedPost = await Posting.findByIdAndUpdate(postId, { $set: message}, {new: true}).populate({path:'userId', select:'_id username name'});
-
-        if (!editedPost) {
-            res.status(404).json({ message: 'Post not found' });
-        } else {
-            res.json(editedPost);
+        const editedPost = await Posting.findByIdAndUpdate(postId, { $set: message}, {new: true}).populate({path:'userId', select:'_id username name'})
+        if(!editedPost){
+            res.status(404).json({ message: 'Post not found' })
+        } else{
+            if (editedPost.userId._id != userId) {
+                return res.status(401).json({ message: 'Unauthorized' })
+            } else {
+                res.json(editedPost);
+            }
         }
     } catch (err) {
         res.json(err.message)
@@ -112,29 +116,35 @@ const deletePosting = async (req, res) => {
 
 const likePost = async(req, res) => {
     const userId = req.user.id
+    console.log(userId)
     const postId = req.params.postId
-    const posting = await Posting.findById(postId)
-    const user = await User.findById(userId)
 
-    if(!posting){
-        return res.status(404).json({ message: 'Post not found' })
+    try{
+        const posting = await Posting.findById(postId)
+        const user = await User.findById(userId)
+
+        if(!posting){
+            return res.status(404).json({ message: 'Post not found' })
+        }
+
+        const likesIndex = posting.likes.findIndex((id) => id === String(userId))
+        const postingIndex = user.likedPostings.findIndex((id) => id === String(postId))
+        if(likesIndex === -1 && postingIndex === -1){
+            posting.likes.push(userId)
+            posting.likes_count++
+            user.likedPostings.push(postId)
+        } else {
+            posting.likes = posting.likes.filter((id) => id !== String(userId))
+            posting.likes_count--
+            user.likedPostings = user.likedPostings.filter((id) => id !== String(postId))
+        }
+
+        await posting.save()
+        await user.save()
+        res.json(posting)
+    } catch(err){
+        res.status(400).json({ error: err.message })
     }
-
-    const likesIndex = posting.likes.findIndex((id) => id === String(userId))
-    const postingIndex = user.likedPostings.findIndex((id) => id === String(postId))
-    if(likesIndex === -1 && postingIndex === -1){
-        posting.likes.push(userId)
-        posting.likes_count++
-        user.likedPostings.push(postId)
-    } else {
-        posting.likes = posting.likes.filter((id) => id !== String(userId))
-        posting.likes_count--
-        user.likedPostings = user.likedPostings.filter((id) => id !== String(postId))
-    }
-
-    await posting.save()
-    await user.save()
-    res.json(posting)
 }
 
 module.exports = {
