@@ -52,6 +52,50 @@ const updateUser = async (req, res) => {
     }
 }
 
+const giveAdminRole = async (req, res) => {
+    const userId = req.params.userId
+
+    try {
+        const checkUser = await User.findById(userId);
+
+        if (!checkUser) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        if (checkUser === "admin") {
+            return res.status(400).json({ error: "User is already admin"})
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ role: "admin", dateEdited: Date.now()}});
+
+        res.status(200).json({ message: "Admin role successfully given"  });
+    } catch (err) {
+        res.json({err})
+        res.status(500).json({ message: 'Internal server error' })
+    }
+}
+
+const takeAdminRole = async (req, res) => {
+    const userId = req.params.userId
+
+    try {
+        const checkUser = await User.findById(userId);
+
+        if (!checkUser) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        if (checkUser === "user") {
+            return res.status(400).json({ error: "User is already not admin"})
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(userId, {"$set":{ role: "user", dateEdited: Date.now()}});
+
+        res.status(200).json({ message: "Admin role successfully taken"  });
+    } catch (err) {
+        res.json({err})
+        res.status(500).json({ message: 'Internal server error' })
+    }
+}
+
 const getUsers = async (req, res) => {
     const userId = req.params.userId;
 
@@ -100,6 +144,8 @@ const editPosting = async (req, res) => {
 module.exports = {
     deleteUser,
     updateUser,
+    giveAdminRole,
+    takeAdminRole,
     getUsers,
     editPosting
 }
