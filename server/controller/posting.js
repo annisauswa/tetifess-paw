@@ -100,6 +100,7 @@ const editPosting = async (req, res) => {
 
 const deletePosting = async (req, res) => {
     const postId = req.params.postId;
+    const userId = req.user.id;
 
     try {
         const deletedPosting = await Posting.findByIdAndDelete(postId);
@@ -108,11 +109,15 @@ const deletePosting = async (req, res) => {
             return res.status(404).json({ error: 'Posting not found' });
         }
 
+        if (deletedPosting.userId._id != userId) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+
         res.status(200).json({ message: 'Posting deleted successfully' });
     } catch (err) {
         res.status(500).json({ message: 'Internal server error' });
     }
-}
+};
 
 const likePost = async(req, res) => {
     const userId = req.user.id
