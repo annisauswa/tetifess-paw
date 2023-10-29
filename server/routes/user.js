@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { registerUser, getOtherUser, updateUser, getProfile, deleteUser, deleteLoggedInUser, loginUser, logoutUser } = require("../controller/user")
+const { registerUser, getOtherUser, updateUser, getProfile, deleteUser, deleteLoggedInUser, loginUser, logoutUser, searchUser } = require("../controller/user")
 const { verifyToken, verifyAdmin } = require('../middleware/auth')
 
 // PUBLIC ROLE
@@ -32,6 +32,13 @@ router.post('/logout', logoutUser)
 // BODY     : None
 // RESPONSE : User profile object or Unauthorized error if not authenticated
 router.get('/profile', verifyToken, getProfile)
+
+// DESC     : Search for users based on a query parameter
+// ROUTE    : GET "/user/search"
+// PARAMS   : param (String) - The search query parameter
+// BODY     : None
+// RESPONSE : Array of user objects matching the search or an error message
+router.get('/search', verifyToken, searchUser)
 
 // DESC     : Get user information for a specific user by their ID
 // ROUTE    : GET "/user/:userId"

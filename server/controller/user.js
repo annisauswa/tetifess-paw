@@ -176,6 +176,33 @@ const deleteLoggedInUser = async (req, res) => {
     }
 };
 
+const searchUser = async (req, res) => {
+    const { param } = req.query;
+
+    if (!param){
+        return res.status(500).json({ message: 'Insert search' })
+    }
+
+    try {
+        const getUsers = await User.find({ 
+            $or: [
+                { username: { $regex: param, $options: 'i' } },
+                { name: { $regex: param, $options: 'i' } }
+            ] 
+        })
+            .select('username name bio dateCreated')
+            .populate({path:'likedPostings', select:'userId text', model: Posting, populate: {path: 'userId', select: 'username'}})
+
+            if (getUsers.length === 0) {
+                res.status(404).json({ message: "User not found" });
+            } else {
+                res.json(getUsers);
+            }
+    } catch (err) {
+        res.json(err.message);
+    }
+};
+
 module.exports = {
     registerUser,
     getOtherUser,
@@ -183,5 +210,6 @@ module.exports = {
     deleteLoggedInUser,
     loginUser,
     logoutUser,
-    getProfile
+    getProfile,
+    searchUser
 }
