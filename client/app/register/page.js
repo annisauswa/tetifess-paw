@@ -30,18 +30,19 @@ export default function Page() {
                             <div className="sm:mx-auto sm:w-full sm:max-w-sm items-center justify-center">
                                 <form autoComplete="off" className="space-y-6">
                                     <div>
+                                        <InputText label="Display Name" id="displayName" type="text" placeholder="Display Name" />
                                         <InputText label="Username" id="username" type="text" placeholder="Username" />
                                         <InputText label="Password" id="password" type="password" placeholder="Password" />
                                     </div>
                                     <div className="flex flex-col items-center">
                                         <button type="submit" className="w-40 justify-center rounded-full bg-gray-400 py-1.5 text-sm font-semibold text-black shadow-lg hover:shadow-xl hover:bg-gray-500">
-                                            Sign in
+                                            Create Account
                                         </button>
                                     </div>
                                 </form>
                                 <p className="mt-7 text-center text-sm text-emerald-700">
-                                    Don't have an account? 
-                                    <a href="/register" className="text-cyan-800 hover:underline hover:text-cyan-500">Register Here!</a>
+                                    Already have an account? 
+                                    <a href="/login" className="text-cyan-800 hover:underline hover:text-cyan-500">Login Here!</a>
                                 </p>
                             </div>
                         </div>
