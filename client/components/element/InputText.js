@@ -7,7 +7,7 @@ const InputText = ({ label, id, type, placeholder }) => {
         {label}
       </label>
       <div className="mt-3">
-        <input className="bg-palette1 w-full shadow rounded-xl py-2 px-3 text-slate-100 leading-tight" id={id} type={type} placeholder={placeholder} />
+        <input className="bg-palette1 w-full shadow rounded-xl py-2 px-3 text-gray-800 leading-tight" id={id} type={type} placeholder={placeholder} />
       </div>
     </div>
   );
