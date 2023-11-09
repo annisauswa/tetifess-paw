@@ -4,10 +4,7 @@ import InputText from '../../components/element/InputText';
 
 export default function Page() {
     return (
-        <main className="bg-gradient-to-r from-palette2 to-palette3 min-h-screen">
-            <div className="text-2xl min-w-screen hover:shadow-xl h-10 flex items-center justify-center shadow-2xl">
-                Tetifess
-            </div>
+        <main className="custom-background min-h-screen">
             <div className="grid-cols-5 grid gap h-screen">
                 <div className="col-span-3 flex flex-col mx-auto justify-center items-center">
                     <div className="content-center font-bold text-xl py-2">
@@ -35,14 +32,14 @@ export default function Page() {
                                         <InputText label="Password" id="password" type="password" placeholder="Password" />
                                     </div>
                                     <div className="flex flex-col items-center">
-                                        <button type="submit" className="w-40 justify-center rounded-full bg-gray-400 py-1.5 text-sm font-semibold text-black shadow-lg hover:shadow-xl hover:bg-gray-500">
+                                        <button type="submit" className="w-40 justify-center rounded-full bg-main py-1.5 text-sm font-semibold text-black shadow-lg hover:shadow-xl hover:bg-tertiery">
                                             Create Account
                                         </button>
                                     </div>
                                 </form>
                                 <p className="mt-7 text-center text-sm text-emerald-700">
-                                    Already have an account? 
-                                    <a href="/login" className="text-cyan-800 hover:underline hover:text-cyan-500">Login Here!</a>
+                                    Already have an account?{' '}
+                                    <a href="/login" className="text-tertiery hover:underline hover:text-main">Login Here!</a>
                                 </p>
                             </div>
                         </div>
