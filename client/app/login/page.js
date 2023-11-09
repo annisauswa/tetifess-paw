@@ -10,7 +10,7 @@ export default function Page() {
             </div>
             <div className="grid-cols-5 grid gap h-screen">
                 <div className="col-span-3 flex flex-col mx-auto justify-center items-center">
-                    <div className="content-center font-bold text-xl py-2">
+                    <div className="font-leckerli-one content-center font-bold text-xl py-2">
                         Teti's Safeplace to Confess
                     </div>
                     <div>
