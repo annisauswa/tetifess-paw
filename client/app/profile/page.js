@@ -1,10 +1,10 @@
 'use client'
-import Homepage from '../components/pages/homepage/Homepage'
-import Layout from '../components/layout/Layout'
+import Homepage from '../../components/pages/homepage/Homepage'
+import Layout from '../../components/layout/Layout'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
-export default function Home() {
+export default function Profile() {
   const router = useRouter()
   useEffect(() => {
     if (!localStorage.getItem('token')) {

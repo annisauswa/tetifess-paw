@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base{
+  h1{
+    @apply font-roboto text-[20px];
+  },
+  h1{
+    @apply font-roboto text-[16px];
+  },
+  p {
+    @apply font-roboto text-[14px];
+  }
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -27,6 +39,7 @@ body {
 }
 
 .custom-background {
+  background-color: #ffffff;
   background-image: url('/assets/circularBg.png'); /* Replace with the actual path to your background image */
   background-size: cover;
   background-position: center;

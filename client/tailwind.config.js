@@ -13,6 +13,9 @@ module.exports = {
         'tertiery' : '#7ECB7D',
       },
     },
+    fontFamily: {
+      'roboto': ['Roboto', 'sans-serif'],
+    }
   },
   plugins: [],
 }
