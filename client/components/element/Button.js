@@ -1,8 +1,10 @@
+import { type } from "os";
 import { useMemo } from "react"
 
 export function Button({
     size = "sm",
-    text = "Button"
+    text = "Button",
+    isSubmit = "",
 }) {
   const buttonSize = useMemo(() => {
       if (size === "sm") return "text-[14px] px-[24px] py-[13px] gap-2.5";
@@ -11,7 +13,9 @@ export function Button({
       return "text-[14px] px-[24px] py-[13px] gap-2.5";
   }, [size]);
   return (
-    <button className={`bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-[24px] ${buttonSize}`}>
+    <button 
+      className={`w-full bg-main hover:ring-[2px] hover:ring-main hover:bg-white text-white hover:text-main font-bold rounded-[24px] ${buttonSize}`}
+      type={isSubmit}>
       {text}
     </button>
   )
