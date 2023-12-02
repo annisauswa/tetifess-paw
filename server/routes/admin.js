@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { deleteUser, updateUser, giveAdminRole, takeAdminRole, getUsers, deletePosting, editPosting } = require('../controller/admin')
+const { deleteUser, updateUser, giveAdminRole, takeAdminRole, deletePosting, editPosting, getUsers } = require('../controller/admin')
 
 // DESC     : Get all user data
 // ROUTE    : GET "/admin/"
