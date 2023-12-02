@@ -96,33 +96,33 @@ const takeAdminRole = async (req, res) => {
     }
 }
 
-const getUsers = async (req, res) => {
-    const userId = req.params.userId;
+// const getUsers = async (req, res) => {
+//     const userId = req.params.userId;
 
-    try{
-        if (userId){
-            const users = await User.findById(userId)
-            .populate({path:'likedPostings', select:'userId text', model: Posting, populate: {path: 'userId', select: 'username'}})
+//     try{
+//         if (userId){
+//             const users = await User.findById(userId)
+//             .populate({path:'likedPostings', select:'userId text', model: Posting, populate: {path: 'userId', select: 'username'}})
             
-            if (!users){
-                return res.status(404).json({ message: 'User not found' })
-            }
-            return res.json(users)
-        } else {
-            try{
-                const users = await User.find()
-                .populate({path:'likedPostings', select:'_id userId text', model: Posting, populate: {path: 'userId', select: 'username'}})
-                res.json(users)
-            } catch(err){
-                res.json({err})
-                res.status(500).json({ message: 'Internal server error' })
-            } 
-        }
-    } catch(err){
-        res.status(500).json({ message: 'Insert user ID' })
-    }
+//             if (!users){
+//                 return res.status(404).json({ message: 'User not found' })
+//             }
+//             return res.json(users)
+//         } else {
+//             try{
+//                 const users = await User.find()
+//                 .populate({path:'likedPostings', select:'_id userId text', model: Posting, populate: {path: 'userId', select: 'username'}})
+//                 res.json(users)
+//             } catch(err){
+//                 res.json({err})
+//                 res.status(500).json({ message: 'Internal server error' })
+//             } 
+//         }
+//     } catch(err){
+//         res.status(500).json({ message: 'Insert user ID' })
+//     }
 
-}
+// }
 
 const deletePosting = async (req, res) => {
     const postId = req.params.postId;
@@ -157,12 +157,50 @@ const editPosting = async (req, res) => {
     }
 }
 
+const getUsers = async (req, res) => {
+    try{
+        const post = await Posting.aggregate([
+            {
+                $group:{
+                    _id: "$userId",
+                    posts: {$push: "$$ROOT"}
+                }
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: "userDetails"
+                }
+            },
+            {
+                $unwind: "$userDetails"
+            },
+            {
+                $project: {
+                    "_id": 1,
+                    "userDetails.username": 1,
+                    "userDetails.name": 1,
+                    "userDetails.bio": 1,
+                    "userDetails.dateCreated": 1,
+                    "posts": 1
+                }
+            }
+        ]).exec()
+        res.json(post)
+    } catch(err){
+        res.json({err})
+        res.status(500).json({ message: 'Internal server error' })
+    }
+}
+
 module.exports = {
     deleteUser,
     updateUser,
     giveAdminRole,
     takeAdminRole,
-    getUsers,
     editPosting,
-    deletePosting
+    deletePosting,
+    getUsers
 }
