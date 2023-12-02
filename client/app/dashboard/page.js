@@ -39,8 +39,8 @@ const Homepage = () => {
         { id: 2, title: 'Post Title 2', content: 'Detailed content for post 2...' },
         { id: 3, title: 'Post Title 3', content: 'Detailed content for post 3...' }
     ];
+    const[user, setUser] =  useState();
     useEffect(() => {
-        // Define a function to fetch data from the API
         const fetchPosts = async () => {
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/admin`, {
@@ -49,14 +49,16 @@ const Homepage = () => {
                         'Content-Type': 'application/json',
                     },
                 });
-                setPostsData(response.data); // Update the state with the fetched data
+                setUser(response.data)
+                console.log(response.data[0])
             } catch (error) {
                 console.error('Error fetching posts:', error);
             }
         };
 
-        fetchPosts(); // Call the fetchPosts function when the component mounts
+        fetchPosts();
     }, []);
+    console.log(user)
     return (
         <div style={{ width: '100%' }}>
             {postsData.map(post => (
