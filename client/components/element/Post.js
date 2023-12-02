@@ -9,7 +9,7 @@ export function Post({
         <div className='w-full justify-between grid-cols-6 grid'>
             <div className='col-span-5 flex flex-col'>
                 <div className="flex gap-[20px] justify-start items-start">
-                    <div className='bg-[#D9D9D9] w-[36px] h-[36px] rounded-full'/>
+                    <div className='bg-[#D9D9D9] w-[36px] h-[36px] rounded-full flex-shrink-0'/>
                     <div className='flex flex-col w-fit'>
                         <div className='text-[14px] font-semibold'>{nama}</div>
                         <div className='text-[12px] font-light'>@{username}</div>
