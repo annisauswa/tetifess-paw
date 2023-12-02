@@ -45,8 +45,8 @@ export default function Page() {
 
     return (
         <main className="custom-background min-h-screen">
-            <div className="grid-cols-2 grid gap h-screen">
-                <div className=" flex flex-col justify-center items-end pr-[30px]">
+            <div className="md:grid-cols-2 grid gap h-screen">
+                <div className=" md:flex flex-col justify-center items-end pr-[30px] hidden">
                     <div className='w-fit'>
                         <div className="font-leckerli-one content-center font-bold text-xl py-2 text-black text-center">
                             <span className='text-tertiery'>Teti</span>'s Safeplace to Con<span className='text-tertiery'>fess</span>
@@ -63,8 +63,11 @@ export default function Page() {
                         </div>
                     </div>
                 </div>
-                <div className=" flex items-center justify-center">
+                <div className=" flex items-center justify-center ">
                     <div className="flex flex-col  w-full p-8 ">
+                        <div className="md:hidden font-leckerli-one content-center font-bold text-xl py-2 text-black text-center">
+                        <span className='text-tertiery'>Teti</span>'s Safeplace to Con<span className='text-tertiery'>fess</span>
+                        </div>
                         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
                             <div className="sm:mx-auto sm:w-full sm:max-w-sm items-center justify-center">
                                 <form autoComplete="off" className="flex flex-col gap-[32px]" onSubmit={handleLogin}>
