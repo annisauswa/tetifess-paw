@@ -10,7 +10,7 @@ export function Button({
       if (size === "sm") return "text-[12px] w-16 h-6";
       if (size === "md") return "text-[20px] w-60 h-12";
       if (size === "lg") return "text-[20px] w-70 h-12";
-      return "text-[12px] w-16 h-6";
+      return "text-[12px] w-16 h-7";
   }, [size]);
   return (
     <button 
