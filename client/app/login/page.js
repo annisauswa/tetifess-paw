@@ -6,6 +6,9 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function Page() {
     const router = useRouter()
@@ -31,16 +34,20 @@ export default function Page() {
                     expires: 7, 
                     path: '/',
                 })
+                toast.success('Login successful!', { autoClose: 3000 });
                 router.push('/')
-                alert(res.data.message)
             })
             .catch((err) => {
-                if (err?.response?.data?.message) {
-                  alert(err.response.data.message)
+                console.error('Login error:', err);
+            
+                if (err.response && err.response.status === 404) {
+                    console.log('Handling 404 error');
+                    toast.error('User not found. Please check your credentials.');
                 } else {
-                  alert(err.message)
+                    console.error('Login error:', err);
+                    toast.error('An error occurred during login. Please try again later.');
                 }
-            })
+            })            
           }
 
     return (
