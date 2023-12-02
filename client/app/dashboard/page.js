@@ -1,7 +1,8 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Layout from '../../components/layout/Layout';
 import { RiArrowDropDownLine } from 'react-icons/ri';
+import axios from 'axios';
 
 const Post = ({ title, content }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +39,24 @@ const Homepage = () => {
         { id: 2, title: 'Post Title 2', content: 'Detailed content for post 2...' },
         { id: 3, title: 'Post Title 3', content: 'Detailed content for post 3...' }
     ];
+    useEffect(() => {
+        // Define a function to fetch data from the API
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/admin`, {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                setPostsData(response.data); // Update the state with the fetched data
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            }
+        };
 
+        fetchPosts(); // Call the fetchPosts function when the component mounts
+    }, []);
     return (
         <div style={{ width: '100%' }}>
             {postsData.map(post => (
