@@ -6,7 +6,7 @@ export function Button({
   text = "Button",
   isSubmit = "",
   onClick,  // Add this line
-}) {
+}) { 
 const buttonSize = useMemo(() => {
     if (size === "sm") return "text-[12px] w-16 h-6";
     if (size === "md") return "text-[20px] w-60 h-12";

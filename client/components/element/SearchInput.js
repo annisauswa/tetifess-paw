@@ -12,7 +12,7 @@ const SearchInput = ({ label, id, placeholder, setValue, value }) => {
           <MdSearch className='text-main' size={36} />
         </div>
         <input 
-          className="border-tertiery border-[1px] w-3/7 shadow rounded-[8px] py-4 px-3 text-black leading-tight pl-[60px]"
+          className="border-tertiery border-[1px] w-80 shadow rounded-[8px] py-4 px-3 text-black leading-tight pl-[60px]"
           id={id}
           value={value}
           type="text"

@@ -1,7 +1,8 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Layout from '../../components/layout/Layout';
 import { RiArrowDropDownLine } from 'react-icons/ri';
+import axios from 'axios';
 
 const Post = ({ title, content }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +39,26 @@ const Homepage = () => {
         { id: 2, title: 'Post Title 2', content: 'Detailed content for post 2...' },
         { id: 3, title: 'Post Title 3', content: 'Detailed content for post 3...' }
     ];
+    const[user, setUser] =  useState();
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/admin`, {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                setUser(response.data)
+                console.log(response.data[0])
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            }
+        };
 
+        fetchPosts();
+    }, []);
+    console.log(user)
     return (
         <div style={{ width: '100%' }}>
             {postsData.map(post => (
