@@ -14,7 +14,7 @@ export function Button({
   }, [size]);
   return (
     <button 
-      className={`bg-main hover:ring-[2px] hover:ring-main hover:bg-white text-white hover:text-main font-bold rounded-[24px] ${buttonSize}`}
+      className={`bg-main hover:ring-[2px] hover:ring-main hover:bg-white text-white hover:text-main font-semibold rounded-[24px] ${buttonSize}`}
       type={isSubmit}>
       {text}
     </button>
