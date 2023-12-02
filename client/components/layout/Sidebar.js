@@ -56,7 +56,7 @@ export default function Sidebar(){
                         </Link>
                     )
                 })}
-                <Button text='Post' size='sm'/>
+                <Button text='Post' size='md'/>
             </div>
             <div className="flex justify-between items-center mb-[40px]">
                 <div className="flex gap-[20px] justify-start items-start ">
