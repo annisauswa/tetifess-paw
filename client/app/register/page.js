@@ -1,8 +1,38 @@
-import React from 'react';
-import Image from 'next/image';
-import InputText from '../../components/element/InputText'; 
+'use client'
+import React from 'react'
+import Image from 'next/image'
+import InputText from '../../components/element/InputText'
+import axios from 'axios'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function Page() {
+    const router = useRouter()
+    const [name, setName] = useState('')
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const handleRegister = async (e) => {
+        e.preventDefault()
+        if (!username || !password || !name) {
+            alert('Display name, username, and password must be filled')
+            return
+        }
+        axios
+        .post(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
+                name,
+                username,
+                password,
+                role : 'user'
+            })
+            .then((res) => {
+                router.push('/login')
+                alert(res)
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+          }
     return (
         <main className="custom-background min-h-screen">
             <div className="md:grid-cols-5 grid gap h-screen">
@@ -28,18 +58,48 @@ export default function Page() {
                         </div>
                         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
                             <div className="sm:mx-auto sm:w-full sm:max-w-sm items-center justify-center">
-                                <form autoComplete="off" className="space-y-6">
-                                    <div>
-                                        <InputText label="Display Name" id="displayName" type="text" placeholder="Display Name" />
-                                        <InputText label="Username" id="username" type="text" placeholder="Username" />
-                                        <InputText label="Password" id="password" type="password" placeholder="Password" />
-                                    </div>
-                                    <div className="flex flex-col items-center">
-                                        <button type="submit" className="w-40 justify-center rounded-full bg-main py-1.5 text-sm font-semibold text-black shadow-lg hover:shadow-xl hover:bg-tertiery">
-                                            Create Account
-                                        </button>
-                                    </div>
-                                </form>
+                            <form autoComplete="off" className="flex flex-col gap-[32px]" onSubmit={handleRegister}>
+                                <div className="flex flex-col gap-[16px]">
+                                    <InputText
+                                        isRequired="True"
+                                        label="Display Name"
+                                        id="name"
+                                        type="text"
+                                        placeholder="Display Name" 
+                                        setValue={(data) => {
+                                            setName(data);
+                                        }}
+                                        value={name}
+                                    />
+                                    <InputText
+                                        isRequired="True"
+                                        label="Username"
+                                        id="username"
+                                        type="text"
+                                        placeholder="Username" 
+                                        setValue={(data) => {
+                                            setUsername(data);
+                                        }}
+                                        value={username}
+                                    />
+                                    <InputText
+                                        isRequired="True"
+                                        label="Password"
+                                        id="password"
+                                        type="password"
+                                        placeholder="Password" 
+                                        setValue={(data) => {
+                                            setPassword(data);
+                                        }}
+                                        value={password}
+                                    />
+                                </div>
+                                <button 
+                                    className={`w-full bg-main hover:ring-[2px] hover:ring-main hover:bg-white text-white hover:text-main font-bold rounded-[24px] text-[16px] px-[24px] py-[15px] gap-3.5`}
+                                    type="submit">
+                                    Create Account
+                                </button>
+                            </form>
                                 <p className="mt-7 text-center text-sm text-emerald-700">
                                     Already have an account?{' '}
                                     <a href="/login" className="text-tertiery hover:underline hover:text-main">Login Here!</a>
