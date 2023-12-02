@@ -5,8 +5,8 @@ import InputText from '../../components/element/InputText';
 export default function Page() {
     return (
         <main className="custom-background min-h-screen">
-            <div className="grid-cols-5 grid gap h-screen">
-                <div className="col-span-3 flex flex-col mx-auto justify-center items-center">
+            <div className="md:grid-cols-5 grid gap h-screen">
+                <div className="col-span-3 md:flex flex-col mx-auto justify-center items-center hidden">
                     <div className="content-center font-bold text-xl py-2">
                         Teti's Safeplace to Confess
                     </div>
@@ -23,6 +23,9 @@ export default function Page() {
                 </div>
                 <div className="col-span-2 inset-0 flex items-center justify-center">
                     <div className="flex flex-col max-w-[45rem] w-full p-8 rounded-xl shadow-2xl">
+                        <div className="md:hidden font-leckerli-one content-center font-bold text-xl py-2 text-black text-center">
+                            <span className='text-tertiery'>Teti</span>'s Safeplace to Con<span className='text-tertiery'>fess</span>
+                        </div>
                         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
                             <div className="sm:mx-auto sm:w-full sm:max-w-sm items-center justify-center">
                                 <form autoComplete="off" className="space-y-6">
