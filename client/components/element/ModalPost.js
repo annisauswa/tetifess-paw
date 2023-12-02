@@ -2,8 +2,7 @@ import React from 'react';
 import { RiCloseFill } from 'react-icons/ri';
 
 export default function ModalPost({ isHide, onClose }) {
-
-  if (!isHide) return null;
+  if (isHide) return null;
 
   const handleClose = (e) => {
     if (e.target.id === 'wrapper') onClose();
