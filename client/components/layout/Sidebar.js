@@ -41,7 +41,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
     const icons = [IoHome, IoPersonSharp, MdOutlineSearch];
 
     return (
-      <div className={`fixed sm:relative h-screen w-64 transform transition-transform duration-200 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-64'} md:translate-x-0`}>
+      <div className={`fixed sm:relative h-screen w-64 transform transition-transform duration-200 ease-in-out bg-secondary ${sidebarOpen ? 'translate-x-0' : '-translate-x-64'} md:translate-x-0`}>
         <div className="px-4 py-2 space-y-2">
           {menu.map((item, idx) => {
             const Icon = icons[idx];
@@ -59,17 +59,19 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
             );
           })}
           <Button onClick={() => setIsShow(true)} text="Post" size="md" />
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex gap-4 justify-start items-start ">
-              <div className='bg-[#D9D9D9] w-9 h-9 rounded-full'/>
-              <div className='flex flex-col w-fit text-black'>
-                <div className='text-lg font-semibold'>admin</div>
-                <div className='text-md font-light'>@admin123</div>
+          <div className="absolute bottom-20 w-full px-4">
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex gap-4 justify-start items-start ">
+                <div className='bg-[#D9D9D9] w-9 h-9 rounded-full'/>
+                <div className='flex flex-col w-fit text-black'>
+                  <div className='text-lg font-semibold'>admin</div>
+                  <div className='text-md font-light'>@admin123</div>
+                </div>
               </div>
+              <button onClick={handleLogout}>
+                <IoLogOutOutline size={24} className='text-black'/>
+              </button>
             </div>
-            <button onClick={handleLogout}>
-              <IoLogOutOutline size={24} className='text-black'/>
-            </button>
           </div>
         </div>
         {isShow && <ModalPost isHide={!isShow} onClose={() => setIsShow(false)} />}
