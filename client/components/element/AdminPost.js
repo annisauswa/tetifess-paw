@@ -5,7 +5,7 @@ import UserPost from './UserPost';
 
 const avatarImage = require('../../public/assets/profilepicture.png');
 
-const Post = ({ content, user, posts }) => {
+const Post = ({ title, content, user, posts }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const postStyle = {
