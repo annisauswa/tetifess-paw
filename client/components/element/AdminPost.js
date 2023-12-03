@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
+import { RiArrowDropDownLine, RiArrowDropUpLine, RiSettings3Line } from 'react-icons/ri';
 import Image from 'next/image';
 import UserPost from './UserPost';
 
@@ -7,6 +7,7 @@ const avatarImage = require('../../public/assets/profilepicture.png');
 
 const Post = ({ title, content, user, posts }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     const postStyle = {
         border: '1px solid #04c700',
@@ -37,11 +38,28 @@ const Post = ({ title, content, user, posts }) => {
     const contentStyle = {
         marginTop: '10px',
         display: isOpen ? 'block' : 'none',
-        width: '100%', // Allow content to stretch horizontally
+        width: '100%',
     };
 
     const togglePost = () => {
         setIsOpen(!isOpen);
+    };
+
+    const iconsContainerStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        marginLeft: 'auto',
+    };
+
+    const iconStyle = {
+        fontSize: '20px',
+        marginRight: '10px',
+        cursor: 'pointer',
+    };
+
+    const handleGearIconClick = (e) => {
+        e.stopPropagation();
+        setIsSettingsOpen(!isSettingsOpen);
     };
 
     const greenLineStyle = {
@@ -75,12 +93,18 @@ const Post = ({ title, content, user, posts }) => {
                     <div style={{ color: '#888' }}>Joined: {user.joinDate}</div>
                 </div>
             </div>
-            <div style={{ marginLeft: 'auto', cursor: 'pointer' }} onClick={togglePost}>
+            <div style={iconsContainerStyle}>
                 {isOpen ? <RiArrowDropUpLine /> : <RiArrowDropDownLine />}
+                <RiSettings3Line style={iconStyle} onClick={handleGearIconClick} />
             </div>
+            {isSettingsOpen && (
+                <div>
+                    {}
+                </div>
+            )}
             <div style={contentStyle}>
                 {posts.map((data, index) => (
-                    <UserPost key={index} data={data} />
+                    <UserPost key={index} data={data} timestamp={'12:34 PM'} likes={20} />
                 ))}
             </div>
             <div style={greenLineStyle}></div>
