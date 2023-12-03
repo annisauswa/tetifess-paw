@@ -1,45 +1,24 @@
 'use client'
 import { useState, useEffect } from 'react';
 import Layout from '../../components/layout/Layout';
-import { RiArrowDropDownLine } from 'react-icons/ri';
 import axios from 'axios';
-
-const Post = ({ title, content }) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const postStyle = {
-        border: '1px solid #04c700',
-        borderRadius: 12,
-        padding: '10px',
-        marginBottom: '0px',
-        backgroundColor: isOpen ? '#d9d9d9' : '#fff',
-        cursor: 'pointer',
-    };
-    const titleStyle = {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '10px',
-    };
-
-    return (
-        <div style={postStyle} onClick={() => setIsOpen(!isOpen)}>
-            <div style={titleStyle}>
-                <span>{title}</span>
-                <RiArrowDropDownLine /> 
-            </div>
-            {isOpen && <div style={{ marginTop: '10px' }}>{content}</div>}
-        </div>
-    );
-};
+import Post from '../../components/element/AdminPost';
 
 const Homepage = () => {
     const postsData = [
         { id: 1, title: 'Post Title 1', content: 'Detailed content for post 1...' },
         { id: 2, title: 'Post Title 2', content: 'Detailed content for post 2...' },
-        { id: 3, title: 'Post Title 3', content: 'Detailed content for post 3...' }
+        { id: 3, title: 'Post Title 3', content: 'Detailed content for post 3...' },
+        { id: 4 , title: 'Test', content: 'Map test' }
     ];
-    const[user, setUser] =  useState();
+    const [user, setUser] = useState({
+        avatar: 'user_avatar_url',
+        name: 'John Doe',
+        username: 'johndoe',
+        bio: 'A passionate developer',
+        joinDate: 'January 1, 2022',
+    });
+
     useEffect(() => {
         const fetchPosts = async () => {
             try {
@@ -58,11 +37,13 @@ const Homepage = () => {
 
         fetchPosts();
     }, []);
-    console.log(user)
+
+    console.log(user);
+
     return (
         <div style={{ width: '100%' }}>
             {postsData.map(post => (
-                <Post key={post.id} title={post.title} content={post.content} />
+                <Post key={post.id} title={post.title} content={post.content} user={user} />
             ))}
         </div>
     );
@@ -70,12 +51,12 @@ const Homepage = () => {
 
 export default function dashboard() {
     const middleContainerStyle = {
-        flexGrow: 1, 
+        flexGrow: 1,
         display: 'flex',
         marginTop: 25,
         borderRadius: 12,
         justifyContent: 'center',
-        border: '2px solid #04c700', 
+        border: '2px solid #04c700',
     };
 
     return (
@@ -83,9 +64,9 @@ export default function dashboard() {
             <main className='w-full h-screen text-black flex'>
                 <section style={middleContainerStyle}>
                     {/* Content goes here */}
-                <Homepage />
+                    <Homepage />
                 </section>
             </main>
         </Layout>
-    )
+    );
 }
