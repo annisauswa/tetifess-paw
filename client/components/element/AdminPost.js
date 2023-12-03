@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { RiArrowDropDownLine } from 'react-icons/ri';
+import Image from 'next/image';
+
+const avatarImage = require('../../public/assets/profilepicture.jpg');
 
 const Post = ({ title, content, user }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -8,12 +11,12 @@ const Post = ({ title, content, user }) => {
         border: '1px solid #04c700',
         borderRadius: 12,
         padding: '10px',
-        marginBottom: '10px', // Increase marginBottom to create space
+        marginBottom: '10px',
         backgroundColor: isOpen ? '#d9d9d9' : '#fff',
         cursor: 'pointer',
         display: 'flex',
-        flexDirection: 'column', // Display elements in a column layout
-        alignItems: 'flex-start', // Align items to the start of the column
+        flexDirection: 'column',
+        alignItems: 'flex-start',
         position: 'relative',
     };
 
@@ -31,13 +34,20 @@ const Post = ({ title, content, user }) => {
     };
 
     const contentStyle = {
-        marginTop: '10px', // Add space between user info and content
-        display: isOpen ? 'block' : 'none', // Conditionally show content
+        marginTop: '10px',
+        display: isOpen ? 'block' : 'none',
     };
 
     return (
         <div style={postStyle} onClick={() => setIsOpen(!isOpen)}>
-            <img src={user.avatar} alt="User Avatar" style={avatarStyle} />
+            <Image
+                src={avatarImage}
+                layout="fixed"
+                width={40}
+                height={40}
+                alt="User Avatar"
+                style={avatarStyle}
+            />
             <div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <span>{user.name}</span>
