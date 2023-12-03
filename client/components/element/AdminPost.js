@@ -37,6 +37,7 @@ const Post = ({ title, content, user, posts }) => {
     const contentStyle = {
         marginTop: '10px',
         display: isOpen ? 'block' : 'none',
+        width: '100%', // Allow content to stretch horizontally
     };
 
     const togglePost = () => {
@@ -78,7 +79,6 @@ const Post = ({ title, content, user, posts }) => {
                 {isOpen ? <RiArrowDropUpLine /> : <RiArrowDropDownLine />}
             </div>
             <div style={contentStyle}>
-                {content}
                 {posts.map((data, index) => (
                     <UserPost key={index} data={data} />
                 ))}
