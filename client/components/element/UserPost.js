@@ -10,6 +10,7 @@ const UserPost = ({ data }) => {
         flexDirection: 'column',
         alignItems: 'flex-start',
         position: 'relative',
+        width: '100%', // Add this line to make it stretch horizontally
     };
 
     return (

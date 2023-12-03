@@ -10,12 +10,14 @@ const Homepage = () => {
         { text: 'Tweet 2: Consectetur adipiscing elit.' },
         { text: 'Tweet 3: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
     ];
+    
     const postsData = [
         { id: 1, title: 'Post Title 1', content: 'Detailed content for post 1...' },
         { id: 2, title: 'Post Title 2', content: 'Detailed content for post 2...' },
         { id: 3, title: 'Post Title 3', content: 'Detailed content for post 3...' },
         { id: 4 , title: 'Test', content: 'Map test' }
     ];
+
     const [user, setUser] = useState({
         avatar: 'user_avatar_url',
         name: 'John Doe',
