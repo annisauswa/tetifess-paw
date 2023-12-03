@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 import Image from 'next/image';
+import UserPost from './UserPost';
 
 const avatarImage = require('../../public/assets/profilepicture.png');
 
-const Post = ({ title, content, user }) => {
+const Post = ({ content, user, posts }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const postStyle = {
@@ -76,7 +77,12 @@ const Post = ({ title, content, user }) => {
             <div style={{ marginLeft: 'auto', cursor: 'pointer' }} onClick={togglePost}>
                 {isOpen ? <RiArrowDropUpLine /> : <RiArrowDropDownLine />}
             </div>
-            <div style={contentStyle}>{content}</div>
+            <div style={contentStyle}>
+                {content}
+                {posts.map((data, index) => (
+                    <UserPost key={index} data={data} />
+                ))}
+            </div>
             <div style={greenLineStyle}></div>
         </div>
     );
