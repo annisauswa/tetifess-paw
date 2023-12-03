@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RiArrowDropDownLine } from 'react-icons/ri';
+import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 import Image from 'next/image';
 
 const avatarImage = require('../../public/assets/profilepicture.png');
@@ -42,6 +42,17 @@ const Post = ({ title, content, user }) => {
         setIsOpen(!isOpen);
     };
 
+    const greenLineStyle = {
+        backgroundColor: '#04c700',
+        height: '2px',
+        width: '80%',
+        position: 'absolute',
+        top: '100px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        display: isOpen ? 'block' : 'none',
+    };
+
     return (
         <div style={postStyle} onClick={togglePost}>
             <div style={userInfoStyle}>
@@ -62,8 +73,11 @@ const Post = ({ title, content, user }) => {
                     <div style={{ color: '#888' }}>Joined: {user.joinDate}</div>
                 </div>
             </div>
-            <RiArrowDropDownLine />
+            <div style={{ marginLeft: 'auto', cursor: 'pointer' }} onClick={togglePost}>
+                {isOpen ? <RiArrowDropUpLine /> : <RiArrowDropDownLine />}
+            </div>
             <div style={contentStyle}>{content}</div>
+            <div style={greenLineStyle}></div>
         </div>
     );
 };
