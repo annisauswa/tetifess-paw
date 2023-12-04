@@ -13,7 +13,7 @@ const Post = ({ title, content, user, posts }) => {
         border: '1px solid #04c700',
         borderRadius: 12,
         padding: '10px',
-        marginBottom: '10px',
+        marginBottom: '5px',
         backgroundColor: isOpen ? '#d9d9d9' : '#fff',
         cursor: 'pointer',
         display: 'flex',
@@ -104,7 +104,7 @@ const Post = ({ title, content, user, posts }) => {
             )}
             <div style={contentStyle}>
                 {posts.map((data, index) => (
-                    <UserPost key={index} data={data} timestamp={'12:34 PM'} likes={20} />
+                    <UserPost key={index} data={data}/>
                 ))}
             </div>
             <div style={greenLineStyle}></div>

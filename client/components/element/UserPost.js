@@ -1,13 +1,13 @@
 import React from 'react';
 
-const UserPost = ({ data, timestamp, likes }) => {
+const UserPost = ({ data}) => {
     const dataBoxStyle = {
         border: '1px solid #ccc',
         borderRadius: 8,
         padding: '8px',
         marginBottom: '8px',
         backgroundColor: '#fff',
-        flexDirection: 'column', // Change to column to display likes below text
+        flexDirection: 'column',
         alignItems: 'flex-start',
         position: 'relative',
         width: '100%',
@@ -16,7 +16,7 @@ const UserPost = ({ data, timestamp, likes }) => {
     const timestampStyle = {
         fontSize: '12px',
         color: '#888',
-        marginBottom: '5px', // Add margin to separate timestamp from text
+        marginBottom: '5px',
     };
 
     const likesStyle = {
@@ -26,9 +26,9 @@ const UserPost = ({ data, timestamp, likes }) => {
 
     return (
         <div style={dataBoxStyle}>
-            <span style={timestampStyle}>{timestamp}</span>
+            <span style={timestampStyle}>{data.timestamp}</span>
             <p>{data.text}</p>
-            <span style={likesStyle}>Likes: {likes}</span>
+            <span style={likesStyle}>Likes: {data.likes_count}</span>
         </div>
     );
 };
