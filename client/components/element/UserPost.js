@@ -14,21 +14,21 @@ const UserPost = ({ data}) => {
     };
 
     const timestampStyle = {
-        fontSize: '12px',
+        fontSize: '1.4vh',
         color: '#888',
         marginBottom: '5px',
     };
 
-    const likesStyle = {
-        fontSize: '12px',
-        color: '#888',
+    const textStyle = {
+        fontSize: '1.7vh',
+        color: '#000000',
     };
 
     return (
         <div style={dataBoxStyle}>
             <span style={timestampStyle}>{data.timestamp}</span>
-            <p>{data.text}</p>
-            <span style={likesStyle}>Likes: {data.likes_count}</span>
+            <p style={textStyle}>{data.text}</p>
+            <span style={{ color: '#888', fontSize:'1.5vh' }}> Likes: {data.likes_count}</span>
         </div>
     );
 };

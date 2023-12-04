@@ -86,11 +86,11 @@ const Post = ({ title, content, user, posts }) => {
                 />
                 <div>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <span>{user.name}</span>
-                        <span style={{ marginLeft: '10px', color: '#888' }}>{user.username}</span>
+                        <span style={{fontSize:'1.7vh' }}>{user.name}</span>
+                        <span style={{ marginLeft: '1.0vw', color: '#888', fontSize:'1.5vh' }}>{user.username}</span>
                     </div>
-                    <div>{user.bio}</div>
-                    <div style={{ color: '#888' }}>Joined: {user.dateCreated}</div>
+                    <div style={{fontSize:'1.5vh' }}> {user.bio}</div>
+                    <div style={{ color: '#888', fontSize:'1.3vh' }}>Joined: {user.dateCreated}</div>
                 </div>
             </div>
             <div style={iconsContainerStyle}>
