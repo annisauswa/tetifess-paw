@@ -90,7 +90,7 @@ const Post = ({ title, content, user, posts }) => {
                         <span style={{ marginLeft: '10px', color: '#888' }}>{user.username}</span>
                     </div>
                     <div>{user.bio}</div>
-                    <div style={{ color: '#888' }}>Joined: {user.joinDate}</div>
+                    <div style={{ color: '#888' }}>Joined: {user.dateCreated}</div>
                 </div>
             </div>
             <div style={iconsContainerStyle}>

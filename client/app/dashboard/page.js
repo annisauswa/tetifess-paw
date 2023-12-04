@@ -23,7 +23,7 @@ const Homepage = () => {
         name: 'John Doe',
         username: 'johndoe',
         bio: 'A passionate developer',
-        joinDate: 'January 1, 2022',
+        dateCreated: 'January 1, 2022',
     });
 
     useEffect(() => {
@@ -35,7 +35,7 @@ const Homepage = () => {
                         'Content-Type': 'application/json',
                     },
                 });
-                setUser(response.data)
+                setUser(response.data[0].userDetails)
                 console.log(response.data[0])
             } catch (error) {
                 console.error('Error fetching posts:', error);
