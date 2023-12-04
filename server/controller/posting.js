@@ -165,7 +165,6 @@ const deletePosting = async (req, res) => {
 
 const likePost = async(req, res) => {
     const userId = req.user.id
-    console.log(userId)
     const postId = req.params.postId
 
     try{

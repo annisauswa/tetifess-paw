@@ -17,11 +17,12 @@ const userSchema = new Schema({
     },
     bio: {
         type: String,
-        required: false
+        required: false,
     },
     role:{
         type: String,
-        required: true
+        required: true,
+        default: 'user'
     },
     likedPostings: {
         type: Array,
