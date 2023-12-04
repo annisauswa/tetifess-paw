@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IoHome, IoPersonSharp, IoLogOutOutline } from "react-icons/io5";
 import { MdOutlineSearch } from "react-icons/md";
 import Button from "../element/Button";
@@ -8,10 +8,33 @@ import Cookies from 'js-cookie';
 import ModalPost from '../element/ModalPost';
 // import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import axios from 'axios'
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
     const router = useRouter();
     const [isShow, setIsShow] = useState(false);
+
+    const [user, setUser] = useState(null);
+
+    const getUser = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log('User data:', response.data);
+        setUser(response.data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    useEffect(() => {
+      getUser();
+    }, []);
+
 
     const handleLogout = () => {
       localStorage.removeItem('user');
@@ -64,8 +87,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
               <div className="flex gap-4 justify-start items-start ">
                 <div className='bg-[#D9D9D9] w-9 h-9 rounded-full'/>
                 <div className='flex flex-col w-fit text-black'>
-                  <div className='text-lg font-semibold'>admin</div>
-                  <div className='text-md font-light'>@admin123</div>
+                  <div className='text-lg font-semibold'>{user?.name}</div>
+                  <div className='text-md font-light'>@{user?.username}</div>
                 </div>
               </div>
               <button onClick={handleLogout}>
