@@ -64,23 +64,22 @@ export default function Search() {
   return (
     <Layout title='tetifess'>
       <main className='w-full h-screen text-black'>
-        <div className="mt-5 flex justify-center">
-          <SearchInput
-            label="Search post"
-            id="searchPostInput"
-            placeholder="Enter keyword"
-            setValue={setSearchPostValue}
-            value={searchPostValue}
-          />
-          <div className="mx-4" />
-          <SearchInput
-            label="Search user"
-            id="searchUserInput"
-            placeholder="Enter keyword"
-            setValue={setSearchUserValue}
-            value={searchUserValue}
-          />
-        </div>
+      <div className="mt-5 flex flex-col md:flex-row justify-center">
+        <SearchInput
+          label="Search post"
+          id="searchPostInput"
+          placeholder="Enter keyword"
+          setValue={setSearchPostValue}
+          value={searchPostValue}
+        />
+        <SearchInput
+          label="Search user"
+          id="searchUserInput"
+          placeholder="Enter keyword"
+          setValue={setSearchUserValue}
+          value={searchUserValue}
+        />
+      </div>
         <div className="flex justify-end mr-12">
           <Button size="sm" text="Search" onClick={handleSearch} />
         </div>
