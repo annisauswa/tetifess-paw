@@ -32,7 +32,6 @@ export default function Profile() {
   return (
     <Layout title='tetifess'>
       <main className=' w-full h-screen text-black'>
-        <Homepage />
         <Profiles
           nama={namaProfile}
           username={usernameProfile}
