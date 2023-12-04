@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Cookies from 'js-cookie';
 import ModalPost from '../element/ModalPost';
-import { Disclosure } from '@headlessui/react';
+// import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
