@@ -6,20 +6,7 @@ import Post from '../../components/element/AdminPost';
 
 const Homepage = () => {
     
-    let [postsData, setPosts] = useState([
-        {text: 'Post Title 1', dateCreated: 'January 1, 2022', likes: 21},
-        {text: 'Post Title 2', dateCreated: 'January 1, 2022', likes: 21},
-        {text: 'Post Title 3', dateCreated: 'January 1, 2022', likes: 21},
-        {text: 'Test', dateCreated: 'January 1, 2022', likes: 21}
-    ]);
-
-    const [user, setUser] = useState({
-        avatar: 'user_avatar_url',
-        name: 'John Doe',
-        username: 'johndoe',
-        bio: 'A passionate developer',
-        dateCreated: 'January 1, 2022',
-    });
+    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -30,9 +17,7 @@ const Homepage = () => {
                         'Content-Type': 'application/json',
                     },
                 });
-                setUser(response.data[0].userDetails)
-                setPosts(response.data[0].posts)
-                console.log(response.data)
+                setUsers(response.data);
             } catch (error) {
                 console.error('Error fetching posts:', error);
             }
@@ -43,8 +28,8 @@ const Homepage = () => {
 
     return (
         <div style={{ width: '100%' }}>
-            {postsData.map(post => (
-                <Post key={post.id} title={post.title} content={post.content} user={user} posts ={postsData} />
+            {users.map((user, index) => (
+                <Post key={user.id} title={user.title} content={user.content} user={user.userDetails} posts={user.posts} />
             ))}
         </div>
     );
