@@ -60,16 +60,22 @@ const createPosting = async (req, res) => {
 }
 
 const searchPosting = async (req, res) => {
-    const { param } = req.query;
+    const { param , username } = req.query;
 
     if (!param){
         return res.status(500).json({ message: 'Insert search' })
     }
-    const { username } = req.body;
 
     if (username) { 
         try {
-            let { _id: userId } = await User.findOne({ username: username }).select('_id');
+            const user = await User.findOne({ username: username }).select('_id');
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            const { _id: userId } = user;
+
             const getPosts = await Posting.find({
                 $and: [
                     { userId: userId },
