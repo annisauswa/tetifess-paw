@@ -12,9 +12,9 @@ export default function Profile() {
   const router = useRouter()
   const token = localStorage.getItem('token')
   const user = JSON.parse(localStorage.getItem('user'))
+  const [userData, setUserData] = useState({name: user.name, bio: user.bio, username: user.username})
   const [post, setPost] = useState([])
   const [bar, setBar] = useState('post')
-
   const getPosts = async () => {
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/posting/${user._id}`, {
@@ -30,7 +30,28 @@ export default function Profile() {
     }
   }
 
+  const getUser = async () => {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+    .then((res) => {
+      setUserData({
+        name: res.data.name,
+        bio: res.data.bio,
+        username: res.data.username,
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
   useEffect(() => {
+    getUser()
     getPosts()
     if (!localStorage.getItem('token')) {
       alert('You need to login first')
@@ -42,14 +63,14 @@ export default function Profile() {
     <Layout title='tetifess - profile'>
       <main className='text-black'>
         <Profiles
-          nama={user.name}
-          username={user.username}
-          bio={user.bio}
+          nama={userData.name}
+          username={userData.username}
+          bio={userData.bio}
           joinDate={`Joined ${user.dateCreated}`}
         />
         <div className='flex justify-evenly text-sm md:text-md border-b-[1px] border-tertiery'>
-          <button type='button' onClick={()=>setBar('post')} className={`py-3 w-full text-center ${bar ==='post' && 'font-semibold border-b-[3px] border-tertiery'}`}>Post</button>
-          <button type='button' onClick={()=>setBar('liked')} className={`py-3 w-full text-center ${bar ==='liked' && 'font-semibold border-b-[3px] border-tertiery'}`}>Liked</button>
+          <button type='button' onClick={()=>setBar('post')} className={`py-3 w-full text-center hover:font-semibold ${bar ==='post' && 'font-semibold border-b-[3px] border-tertiery'}`}>Post</button>
+          <button type='button' onClick={()=>setBar('liked')} className={`py-3 w-full text-center hover:font-semibold ${bar ==='liked' && 'font-semibold border-b-[3px] border-tertiery'}`}>Liked</button>
       </div>
       {bar==='post' ? (
         post.length===undefined ? (

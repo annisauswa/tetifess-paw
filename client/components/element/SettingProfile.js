@@ -17,7 +17,7 @@ export default function SettingProfile({ show, setShow, item }) {
   }
 
   const getProfile = async () => {
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/${loggedin._id}`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
