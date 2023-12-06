@@ -30,6 +30,7 @@ export default function Search() {
     setUser([]);
 
     try {
+      const token = localStorage.getItem('token');
       let apiEndpoint;
 
       if (searchPostValue) {
@@ -44,6 +45,7 @@ export default function Search() {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -64,7 +66,7 @@ export default function Search() {
   return (
     <Layout title='tetifess'>
       <main className='w-full h-screen text-black'>
-        <div className="mt-5 flex justify-center">
+        <div className="mt-5 flex md:flex-row flex-col justify-center px-[14px]">
           <SearchInput
             label="Search post"
             id="searchPostInput"
@@ -81,8 +83,9 @@ export default function Search() {
             value={searchUserValue}
           />
         </div>
-        <div className="flex justify-end mr-12">
-          <Button size="sm" text="Search" onClick={handleSearch} />
+        <div className="flex justify-end pr-[14px]">
+          <Button size="sm" text="Search" onClick={handleSearch} width='px-[10px] flex md:hidden'/>
+          <Button size="md" text="Search" onClick={handleSearch} width='px-[16px] hidden md:flex'/>
         </div>
         <hr className="mt-5 border-t border-tertiery" />
         {notFound && (
