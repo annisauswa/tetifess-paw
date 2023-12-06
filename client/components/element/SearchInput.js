@@ -3,7 +3,7 @@ import { MdSearch } from 'react-icons/md';
 
 const SearchInput = ({ label, id, placeholder, setValue, value }) => {
   return (
-    <div className="font-dm-sans mb-4 relative">
+    <div className="w-full font-dm-sans mb-4 relative">
       <label className="block text-black text-sm font-regular font-roboto mb-0.5 ml-2">
         {label}
       </label>
@@ -12,7 +12,7 @@ const SearchInput = ({ label, id, placeholder, setValue, value }) => {
           <MdSearch className='text-main' size={36} />
         </div>
         <input 
-          className="border-tertiery border-[1px] w-80 shadow rounded-[8px] py-4 px-3 text-black leading-tight pl-[60px]"
+          className="border-tertiery border-[1px] shadow rounded-[8px] py-4 px-3 text-black leading-tight pl-[60px] w-full"
           id={id}
           value={value}
           type="text"
