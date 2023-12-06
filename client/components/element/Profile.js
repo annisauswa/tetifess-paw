@@ -28,7 +28,7 @@ export function Profile({
   }
 
   return (
-    <div className='border-b-[1px] border-tertiery pt-10 md:mr-10'>
+    <div className='pt-10 md:mr-10'>
       <div className="w-full flex justify-between flex-row gap-[20px] px-[40px] py-[14px] font-roboto ">
         <div className='flex gap-10'>
           <div className=' bg-[#D9D9D9] w-[80px] h-[80px] lg:w-[130px] lg:h-[130px] rounded-full flex items-center justify-center flex-shrink-0'>
@@ -50,12 +50,6 @@ export function Profile({
           </button>
           <ModalSettingProfile hide={modalSetting} />
         </div>
-
-      </div>
-
-      <div className='flex justify-evenly text-sm md:text-md'>
-        <h3 className='py-3 w-full text-center font-semibold border-b-[3px] border-tertiery'>Post</h3>
-        <h3 className='py-3 w-full text-center'>Liked</h3>
       </div>
     </div>
   );
