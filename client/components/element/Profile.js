@@ -13,19 +13,9 @@ export function Profile({
   username,
   bio,
   joinDate,
-  defaultColor = '#123456',
 }) {
 
-  const [modalSetting, setModalProfile] = useState(false);
-
-
-  const setModalSettingProfile = () => {
-    if (modalSetting === false) {
-      setModalProfile(true);
-    } else {
-      setModalProfile(false);
-    }
-  }
+  const [modalSetting, setModalSetting] = useState(false)
 
   return (
     <div className='pt-10 md:mr-10'>
@@ -45,10 +35,10 @@ export function Profile({
         </div>
 
         <div>
-          <button onClick={setModalSettingProfile} className=''>
+          <button onClick={()=>setModalSetting(!modalSetting)} className=''>
             <IoEllipsisHorizontalSharp className='text-tertiery' size={18} />
           </button>
-          <ModalSettingProfile hide={modalSetting} />
+          <ModalSettingProfile show={modalSetting} setShow={setModalSetting} item='account'/>
         </div>
       </div>
     </div>
