@@ -9,6 +9,10 @@ const Homepage = () => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
+        if (!localStorage.getItem('token')) {
+            alert('You need to login first')
+            router.push('/login')
+          }
         const fetchPosts = async () => {
             try {
                 const token = localStorage.getItem('token');
