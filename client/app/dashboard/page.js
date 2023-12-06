@@ -11,16 +11,17 @@ const Homepage = () => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
+                const token = localStorage.getItem('token');
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/admin`, {
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                  },
+                })
                 setUsers(response.data);
-            } catch (error) {
-                console.error('Error fetching posts:', error);
-            }
+              } catch (error) {
+                console.error('Error fetching posts:', error)
+              }
         };
 
         fetchPosts();
