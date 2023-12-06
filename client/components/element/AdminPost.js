@@ -21,7 +21,7 @@ const Post = ({ title, content, user, posts }) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        position: 'relative',
+        //position: 'relative',
     };
 
     const userInfoStyle = {
@@ -70,10 +70,10 @@ const Post = ({ title, content, user, posts }) => {
         backgroundColor: '#04c700',
         height: '2px',
         width: '80%',
-        position: 'absolute',
+        //position: 'absolute',
         top: '100px',
         left: '50%',
-        transform: 'translateX(-50%)',
+        transform: 'flex',
         display: isOpen ? 'block' : 'none',
     };
 
@@ -101,6 +101,7 @@ const Post = ({ title, content, user, posts }) => {
                 {isOpen ? <RiArrowDropUpLine /> : <RiArrowDropDownLine />}
                 <RiSettings3Line style={iconStyle} onClick={openEditProfileModal} />
             </div>
+            <div style={greenLineStyle}></div>
             {isSettingsOpen && (
                 <div>
                     {}
@@ -111,7 +112,6 @@ const Post = ({ title, content, user, posts }) => {
                     <UserPost key={index} data={data}/>
                 ))}
             </div>
-            <div style={greenLineStyle}></div>
             {isEditProfileModalOpen && (
                 <ModalEditProfile
                     show={isEditProfileModalOpen}
