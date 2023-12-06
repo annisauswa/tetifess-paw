@@ -5,16 +5,14 @@ import Button from "../element/Button";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Cookies from 'js-cookie';
-import ModalPost from '../element/ModalPost';
-// import { Disclosure } from '@headlessui/react';
-// import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import ModalPost from '../element/ModalPost'
+import axios from 'axios'
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
     const router = useRouter();
-    const [isShow, setIsShow] = useState(false);
-    const user = JSON.parse(localStorage.getItem('user'))
+    const [isShow, setIsShow] = useState(false)
 
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({name: '', username: '', });
 
     const getUser = async () => {
       try {
@@ -22,10 +20,14 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
           withCredentials: true,
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
         console.log('User data:', response.data);
-        setUser(response.data);
+        setUser({
+          name: response.data.name,
+          username: response.data.username,
+        });
       } catch (error) {
         console.error('Error fetching user:', error);
       }
@@ -41,7 +43,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
       localStorage.removeItem('role');
       localStorage.removeItem('token');
       Cookies.remove('token');
-      alert('Logout success');
+      toas.success('Logout success');
       router.push('/login');
     };
 
@@ -61,7 +63,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
       },
     ];
 
-    console.log(isShow)
+    console.log(user)
 
     const icons = [IoHome, IoPersonSharp, MdOutlineSearch];
 
