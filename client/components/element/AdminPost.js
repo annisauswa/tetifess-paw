@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { RiArrowDropDownLine, RiArrowDropUpLine, RiSettings3Line } from 'react-icons/ri';
 import Image from 'next/image';
 import UserPost from './UserPost';
+import ModalEditProfile from './ModalEditProfile';
 
 const avatarImage = require('../../public/assets/profilepicture.png');
 
 const Post = ({ title, content, user, posts }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false); // State to manage the Edit Profile modal
 
     const postStyle = {
         border: '1px solid #04c700',
@@ -41,9 +43,16 @@ const Post = ({ title, content, user, posts }) => {
         width: '100%',
     };
 
-    const togglePost = () => {
-        setIsOpen(!isOpen);
+    const openEditProfileModal = () => {
+        setIsEditProfileModalOpen(true);
     };
+
+    const togglePost = () => {
+        if (!isEditProfileModalOpen) { 
+            setIsOpen(!isOpen);
+        }
+    };
+    
 
     const iconsContainerStyle = {
         display: 'flex',
@@ -55,11 +64,6 @@ const Post = ({ title, content, user, posts }) => {
         fontSize: '20px',
         marginRight: '10px',
         cursor: 'pointer',
-    };
-
-    const handleGearIconClick = (e) => {
-        e.stopPropagation();
-        setIsSettingsOpen(!isSettingsOpen);
     };
 
     const greenLineStyle = {
@@ -95,7 +99,7 @@ const Post = ({ title, content, user, posts }) => {
             </div>
             <div style={iconsContainerStyle}>
                 {isOpen ? <RiArrowDropUpLine /> : <RiArrowDropDownLine />}
-                <RiSettings3Line style={iconStyle} onClick={handleGearIconClick} />
+                <RiSettings3Line style={iconStyle} onClick={openEditProfileModal} />
             </div>
             {isSettingsOpen && (
                 <div>
@@ -108,6 +112,13 @@ const Post = ({ title, content, user, posts }) => {
                 ))}
             </div>
             <div style={greenLineStyle}></div>
+            {isEditProfileModalOpen && (
+                <ModalEditProfile
+                    show={isEditProfileModalOpen}
+                    setShow={setIsEditProfileModalOpen}
+                    data={user}
+                />
+            )}
         </div>
     );
 };
