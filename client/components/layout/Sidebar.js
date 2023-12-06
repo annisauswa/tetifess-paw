@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import { IoHome, IoPersonSharp, IoLogOutOutline } from "react-icons/io5";
-import { MdOutlineSearch } from "react-icons/md";
+import { MdOutlineSearch } from "react-icons/md"
+import { BiSolidDashboard } from "react-icons/bi"
 import Button from "../element/Button";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Cookies from 'js-cookie';
 import ModalPost from '../element/ModalPost'
+import { toast } from 'react-toastify'
 import axios from 'axios'
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
+    const role = localStorage.getItem('role')
     const router = useRouter();
     const [isShow, setIsShow] = useState(false)
 
@@ -43,7 +46,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
       localStorage.removeItem('role');
       localStorage.removeItem('token');
       Cookies.remove('token');
-      toas.success('Logout success');
+      toast.success('Logout success');
       router.push('/login');
     };
 
@@ -63,7 +66,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
       },
     ];
 
-    console.log(user)
+    console.log(role)
 
     const icons = [IoHome, IoPersonSharp, MdOutlineSearch];
 
@@ -86,9 +89,21 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
               </Link>
             );
           })}
+          {role === 'admin' && (
+            <Link href='/dashboard'>
+            <button
+              className={`w-full flex gap-[12px] md:gap-4 hover:bg-tertiary/20 p-2 rounded text-black items-center justify-start ${
+                pathname == '/dashboard' ? 'font-bold' : 'font-normal'
+              }`}
+            >
+              <BiSolidDashboard className='text-black w-[20px] h-[20px] md:w-[24px] md:h-[24px]' />
+              Dashboard
+            </button>
+          </Link>
+          )}
           <Button onClick={() => setIsShow(true)} text="Post" size="md" />
           </div>
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-4 p-2">
               <div className="flex gap-4 justify-start items-start ">
                 <div className='bg-[#D9D9D9] w-9 h-9 rounded-full'/>
                 <div className='flex flex-col w-fit text-black'>
