@@ -13,22 +13,12 @@ export function Profile({
   username,
   bio,
   joinDate,
-  defaultColor = '#123456',
 }) {
 
-  const [modalSetting, setModalProfile] = useState(false);
-
-
-  const setModalSettingProfile = () => {
-    if (modalSetting === false) {
-      setModalProfile(true);
-    } else {
-      setModalProfile(false);
-    }
-  }
+  const [modalSetting, setModalSetting] = useState(false)
 
   return (
-    <div className='border-b-[1px] border-tertiery pt-10 md:mr-10'>
+    <div className='pt-10 md:mr-10'>
       <div className="w-full flex justify-between flex-row gap-[20px] px-[40px] py-[14px] font-roboto ">
         <div className='flex gap-10'>
           <div className=' bg-[#D9D9D9] w-[80px] h-[80px] lg:w-[130px] lg:h-[130px] rounded-full flex items-center justify-center flex-shrink-0'>
@@ -45,17 +35,11 @@ export function Profile({
         </div>
 
         <div>
-          <button onClick={setModalSettingProfile} className=''>
+          <button onClick={()=>setModalSetting(!modalSetting)} className=''>
             <IoEllipsisHorizontalSharp className='text-tertiery' size={18} />
           </button>
-          <ModalSettingProfile hide={modalSetting} />
+          <ModalSettingProfile show={modalSetting} setShow={setModalSetting} item='account'/>
         </div>
-
-      </div>
-
-      <div className='flex justify-evenly text-sm md:text-md'>
-        <h3 className='py-3 w-full text-center font-semibold border-b-[3px] border-tertiery'>Post</h3>
-        <h3 className='py-3 w-full text-center'>Liked</h3>
       </div>
     </div>
   );

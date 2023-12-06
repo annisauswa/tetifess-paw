@@ -1,25 +1,51 @@
-import React from 'react'
-import { RiCloseFill } from 'react-icons/ri';
+import { useEffect, useState } from 'react'
+import { RiCloseFill } from 'react-icons/ri'
+import ReactDOM from 'react-dom'
+import { toast } from 'react-toastify'
+import axios from 'axios'
 
-export default function ModalEditProfile({ isHide, onClose }) {
+export default function ModalEditProfile({ show, setShow, data }) {
+  const [name, setName] = useState(data.name)
+  const [bio, setBio] = useState(data.bio)
+  const [username, setUsername] = useState(data.username)
 
-  if (!isHide) return null;
-
-  const handleClose = (e) => {
-    if (e.target.id === 'wrapper') onClose();
+  const handleEdit = () => {
+    axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/user/edit`,{
+      name, username, bio},
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        withCredentials: true
+      })
+      .then(() => {
+        toast.success('Profile updated')
+        setShow(false)
+        window.location.reload()
+      })
+      .catch(() => {
+        toast.error('Failed to update profile')
+        setShow(false)
+      })
   }
 
-  return (
+  useEffect(() => {
+   
+  },[name, bio, username])
+
+  if (show===false) return null
+
+  return ReactDOM.createPortal(
+    (
     <div
       id='wrapper'
-      onClick={handleClose}
-      className='fixed inset-0 bg-opacity-25 backdrop-blur-sm flex justify-center items-center'>
+      className='fixed inset-0 bg-black/25 backdrop-blur-sm flex justify-center items-center z-50 text-black'>
       <div className='w-[500px]'>
         <div className='bg-secondary p-2 rounded-xl space-y-3 px-5'>
           <div className='flex justify-between'>
             <p className='font-leckerli-one text-xl font-bold'>Edit Profile</p>
             <button
-              onClick={() => onClose()}
+              onClick={() => setShow(false)}
               className='text-4xl px-2'>
                 <RiCloseFill />
             </button>
@@ -33,7 +59,9 @@ export default function ModalEditProfile({ isHide, onClose }) {
               id='username'
               name='username'
               placeholder='e.g.'
-              className='px-2 py-2 mb-5 bg-transparent border rounded-md border-gray-500'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className='px-2 py-2 mb-5 bg-transparent border rounded-md border-tertiery focus:ring-main focus:outline-none'
             />
             <label className='text-sm font-semibold'>Name</label>
             <input
@@ -41,24 +69,30 @@ export default function ModalEditProfile({ isHide, onClose }) {
               id='name'
               name='name'
               placeholder='e.g.'
-              className='px-2 py-2 mb-5 bg-transparent border rounded-md border-gray-500'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className='px-2 py-2 mb-5 bg-transparent border rounded-md border-tertiery focus:ring-main focus:outline-none'
             />
             <label className='text-sm font-semibold'>Bio</label>
             <textarea
               id='bio'
               name='bio'
               placeholder='e.g.k'
-              className='px-3 py-8 mb-5 bg-transparent border rounded-md border-gray-500'>
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              className='px-2 py-2 mb-5 bg-transparent border rounded-md border-tertiery focus:ring-main focus:outline-none'>
             </textarea>
           </form>
           <div className='line'></div>
           <div className='flex justify-end'>
-            <button className={`bg-main hover:ring-[2px] hover:ring-main hover:bg-white text-white hover:text-main font-bold   rounded-[24px] text-[14px] px-[28px] py-[7px] gap-2.5`}>
+            <button onClick={()=>handleEdit()} className={`bg-main hover:ring-[2px] hover:ring-main hover:bg-white text-white hover:text-main font-bold   rounded-[24px] text-[14px] px-[28px] py-[7px] gap-2.5`}>
               Save
             </button>
           </div>
         </div>
       </div>
     </div>
-  )
+  ),
+  document.body
+);
 }

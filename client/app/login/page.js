@@ -33,6 +33,10 @@ export default function Page() {
                 Cookies.set('token', res.data.token, {
                     expires: 7, 
                     path: '/',
+                    domain:
+                        process.env.NEXT_PUBLIC_API_URL === "http://localhost:5001"
+                            ? "localhost"
+                            : process.env.NEXT_PUBLIC_API_URL,
                 })
                 router.push('/')
                 toast.success('Login successful!', { autoClose: 3000 });

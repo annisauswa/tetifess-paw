@@ -6,10 +6,12 @@ export default function Homepage(){
     const [post, setPost] = useState([])
     const getPosts = async () => {
         try {
+            const token = localStorage.getItem('token');
             const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/posting`, {
-              withCredentials: true,
+              // withCredentials: true,
               headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
               },
             })
             setPost(response.data);
@@ -28,6 +30,7 @@ export default function Homepage(){
         <div className='w-full'>
             {post.map((item) => (
                 <Post
+                    postId={item._id}
                     nama={item.userId.name}
                     username={item.userId.username}
                     timestamp='1h'
