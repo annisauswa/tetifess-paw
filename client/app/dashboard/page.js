@@ -5,26 +5,8 @@ import axios from 'axios';
 import Post from '../../components/element/AdminPost';
 
 const Homepage = () => {
-    const userPostsData = [
-        { text: 'Tweet 1: Lorem ipsum dolor sit amet.' },
-        { text: 'Tweet 2: Consectetur adipiscing elit.' },
-        { text: 'Tweet 3: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
-    ];
     
-    const postsData = [
-        { id: 1, title: 'Post Title 1', content: 'Detailed content for post 1...' },
-        { id: 2, title: 'Post Title 2', content: 'Detailed content for post 2...' },
-        { id: 3, title: 'Post Title 3', content: 'Detailed content for post 3...' },
-        { id: 4 , title: 'Test', content: 'Map test' }
-    ];
-
-    const [user, setUser] = useState({
-        avatar: 'user_avatar_url',
-        name: 'John Doe',
-        username: 'johndoe',
-        bio: 'A passionate developer',
-        joinDate: 'January 1, 2022',
-    });
+    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -35,8 +17,7 @@ const Homepage = () => {
                         'Content-Type': 'application/json',
                     },
                 });
-                setUser(response.data)
-                console.log(response.data[0])
+                setUsers(response.data);
             } catch (error) {
                 console.error('Error fetching posts:', error);
             }
@@ -45,12 +26,10 @@ const Homepage = () => {
         fetchPosts();
     }, []);
 
-    console.log(user);
-
     return (
         <div style={{ width: '100%' }}>
-            {postsData.map(post => (
-                <Post key={post.id} title={post.title} content={post.content} user={user} posts ={userPostsData} />
+            {users.map((user, index) => (
+                <Post key={user.id} title={user.title} content={user.content} user={user.userDetails} posts={user.posts} />
             ))}
         </div>
     );
@@ -70,7 +49,7 @@ export default function dashboard() {
         <Layout title='tetifess'>
             <main className='w-full h-screen text-black flex'>
                 <section style={middleContainerStyle}>
-                    {/* Content goes here */}
+                    {}
                     <Homepage />
                 </section>
             </main>

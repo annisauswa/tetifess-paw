@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IoHome, IoPersonSharp, IoLogOutOutline } from "react-icons/io5";
 import { MdOutlineSearch } from "react-icons/md";
 import Button from "../element/Button";
@@ -13,6 +13,28 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
     const router = useRouter();
     const [isShow, setIsShow] = useState(false);
     const user = JSON.parse(localStorage.getItem('user'))
+
+    const [user, setUser] = useState(null);
+
+    const getUser = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log('User data:', response.data);
+        setUser(response.data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    useEffect(() => {
+      getUser();
+    }, []);
+
 
     const handleLogout = () => {
       localStorage.removeItem('user');
