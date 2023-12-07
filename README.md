@@ -1,8 +1,17 @@
 # tetifess
 <div align="center">
   <img src="https://github.com/annisauswa/tetifess-paw/assets/24343313/4c16b078-27bd-4bfd-91ff-47d0e24d6e8e" alt="tetifess" width="40%">
-  <p>API Documentation of tetifess, a platform designed for DTETI community to confess and share their thoughts anonymously</p>
+  <p>Documentation of tetifess, a platform designed for DTETI community to confess and share their thoughts anonymously</p>
 </div>
+
+## Tugas Akhir
+
+- **Link Video Presentasi:** [Video Presentasi](https://www.youtube.com/watch?v=contoh)
+
+- **Link Slide PPT:** [Slide PPT](https://link-slide-ppt-example.com)
+
+- **Link Webapp:** [Tetifess](https://webapp-example.com)
+
 
 ## 📜 Dokumentasi API
 > dapat dilakukan dari link Postman berikut: https://documenter.getpostman.com/view/29987436/2s9YJZ44ud
