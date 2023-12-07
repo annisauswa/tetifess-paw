@@ -11,7 +11,7 @@ import { useState } from 'react'
 import { toast,ToastContainer } from 'react-toastify';
 
 import InputText from '../../components/element/InputText'
-
+import '../globals.css';
 
 export default function Page() {
   const router = useRouter()
@@ -48,8 +48,10 @@ export default function Page() {
         console.error('Login error:', err)
 
         if (err.response && err.response.status === 404) {
+          console.log('Handling 404 error')
           toast.error('User not found. Please check your credentials.')
         } else {
+          console.error('Login error:', err)
           toast.error('An error occurred during login. Please try again later.')
         }
       })
@@ -63,7 +65,7 @@ export default function Page() {
                   <div className=" md:flex flex-col justify-center items-end pr-[30px] hidden">
                       <div className='w-fit'>
                           <div className="font-leckerli-one content-center font-bold text-xl py-2 text-black text-center">
-                              <span className='text-tertiery'>Teti</span>'s Safeplace to Con<span className='text-tertiery'>fess</span>
+                          <span className='text-tertiery'>Teti</span>'s Safeplace to Con<span className='text-tertiery'>fess</span>
               </div>
               <div>
                 <Image
