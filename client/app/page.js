@@ -7,15 +7,15 @@ export default function Page() {
         <div>
             <main className="custom-background min-h-screen flex flex-col justify-center items-center">
                 {/* First Row with height 96px */}
-                <div className="flex justify-end items-center h-[96px] bg-secondary border-b-2 border-b-main p-4 w-full">
+                <div className="flex justify-end items-center h-[64px] bg-secondary border-b-2 border-b-main p-4 w-full">
                   <div className='flex space-x-4'>
                       <Link href="/register">
-                          <button className="bg-main hover:ring-2 hover:ring-main hover:bg-white text-white hover:text-main font-semibold rounded-full px-4 py-2">
+                          <button className="bg-main hover:ring-2 hover:ring-main hover:bg-white text-white hover:text-main font-semibold rounded-full px-4 py-2 text-[14px] md:text-[16px]">
                               Sign Up
                           </button>
                       </Link>
                       <Link href="/login">
-                          <button className="hover:bg-black hover:bg-opacity-10 text-main hover:text-main font-semibold rounded-full px-4 py-2">
+                          <button className="hover:bg-black hover:bg-opacity-10 text-main hover:text-main font-semibold rounded-full px-4 py-2 text-[14px] md:text-[16px]">
                               Log In
                           </button>
                       </Link>
