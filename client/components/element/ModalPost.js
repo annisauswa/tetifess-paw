@@ -28,7 +28,7 @@ export default function ModalPost({ show, setShow, user, postData, edit=false })
       })
       .catch((err) => {
         setShow(false)
-        toast.error(err)
+        toast.error(err.message)
       })
   }
 
