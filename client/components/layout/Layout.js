@@ -1,40 +1,45 @@
-import { useEffect, useState } from 'react';
-import Sidebar from './Sidebar'
+import { MenuIcon } from '@heroicons/react/outline'
 import Image from 'next/image'
-import { MenuIcon } from '@heroicons/react/outline';
+import { useEffect, useState } from 'react'
+
+import Sidebar from './Sidebar'
 
 export default function Layout({ title, children }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
       if (sidebarOpen) {
-        setSidebarOpen(false);
+        setSidebarOpen(false)
       }
-    };
+    }
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll)
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [sidebarOpen]);
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [sidebarOpen])
 
   return (
     <html lang="en">
       <head>
         <title>{title}</title>
       </head>
-      <body className={`h-screen flex flex-col`}>
-        <section className='flex py-[5px] md:py-[8px] xl:md-[12px] w-full text-[14px] sm:text-[16px] md:text-[20px] font-semibold bg-secondary border-b-[2px] border-main text-black justify-center items-center gap-[10px] drop-shadow-md fixed z-50'>
-          <button type="button" className="text-main md:hidden absolute left-3 m-4" onClick={() => setSidebarOpen(!sidebarOpen)}>
+      <body className="flex h-screen flex-col">
+        <section className="xl:md-[12px] fixed z-50 flex w-full items-center justify-center gap-[10px] border-b-[2px] border-main bg-secondary py-[5px] text-[14px] font-semibold text-black drop-shadow-md sm:text-[16px] md:py-[8px] md:text-[20px]">
+          <button
+            type="button"
+            className="absolute left-3 m-4 text-main md:hidden"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
             <MenuIcon className="h-6 w-6" aria-hidden="true" />
           </button>
-          <div className='flex items-center gap-[10px]'>
-            <div className='w-[28px] h-[28px] md:w-[44px] md:h-[44px]  bg-secondary rounded-full flex items-center justify-center'>
+          <div className="flex items-center gap-[10px]">
+            <div className="flex h-[28px] w-[28px] items-center  justify-center rounded-full bg-secondary md:h-[44px] md:w-[44px]">
               <Image
                 alt="logo"
-                src='/assets/tetifessIcon.png'
+                src="/assets/tetifessIcon.png"
                 width={0}
                 height={0}
                 sizes="50vw"
@@ -45,16 +50,14 @@ export default function Layout({ title, children }) {
             tetifess
           </div>
         </section>
-        <section className='grid md:grid-cols-3 lg:grid-cols-4 bg-white'>
-          <section className='w-full '>
+        <section className="grid bg-white md:grid-cols-3 lg:grid-cols-4">
+          <section className="w-full ">
             <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
           </section>
-          <section className=' md:col-span-2 bg-white overflow-auto w-full md:border-tertiery md:border-x-[1px] h-screen pt-[40px]  md:pt-[62px] lg:pt-[74px]'>
+          <section className=" h-screen w-full overflow-auto bg-white pt-[40px] md:col-span-2 md:border-x-[1px] md:border-tertiery  md:pt-[62px] lg:pt-[74px]">
             {children}
           </section>
-          <section className=' bg-white md:max-w-[360px] '>
-          
-          </section>
+          <section className=" bg-white md:max-w-[360px] " />
         </section>
       </body>
     </html>

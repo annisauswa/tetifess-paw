@@ -1,29 +1,39 @@
 'use client'
-import { useEffect, useState } from 'react'
-import Homepage from '../../components/pages/homepage/Homepage'
-import Layout from '../../components/layout/Layout'
-import Profiles from '../../components/element/Profile'
-import Post from '../../components/element/Post'
-import { useRouter } from 'next/navigation'
+
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+
+import Post from '../../components/element/Post'
+import Profiles from '../../components/element/Profile'
+import Layout from '../../components/layout/Layout'
 
 export default function Profile() {
   const router = useRouter()
   const token = localStorage.getItem('token')
   const user = JSON.parse(localStorage.getItem('user'))
-  const [userData, setUserData] = useState({name: user.name, bio: user.bio, username: user.username})
+  const [userData, setUserData] = useState({
+    id: user._id,
+    name: user.name,
+    bio: user.bio,
+    username: user.username,
+    likedPostings: user.likedPostings,
+  })
   const [post, setPost] = useState([])
   const [bar, setBar] = useState('post')
   const getPosts = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/posting/${user._id}`, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/posting/${user._id}`,
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
         },
-      })
+      )
       setPost(response.data)
     } catch (error) {
       toast.error('Error load posts')
@@ -31,90 +41,111 @@ export default function Profile() {
   }
 
   const getUser = async () => {
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
-    .then((res) => {
-      setUserData({
-        name: res.data.name,
-        bio: res.data.bio,
-        username: res.data.username,
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       })
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+      .then((res) => {
+        setUserData({
+          id: res.data._id,
+          name: res.data.name,
+          bio: res.data.bio,
+          username: res.data.username,
+          likedPostings: res.data.likedPostings,
+        })
+      })
+      .catch((err) => {
+        toast.error(err)
+      })
   }
 
   useEffect(() => {
-    getUser()
     getPosts()
+    getUser()
     if (!localStorage.getItem('token')) {
       alert('You need to login first')
       router.push('/login')
     }
   }, [])
 
+  console.log('profile like', userData.likedPostings)
+  console.log(userData.likedPostings.some(like => like._id === user._id))
+
   return (
-    <Layout title='tetifess - profile'>
-      <main className='text-black'>
+    <Layout title="tetifess - profile">
+      <main className="text-black">
         <Profiles
           nama={userData.name}
           username={userData.username}
           bio={userData.bio}
           joinDate={`Joined ${user.dateCreated}`}
         />
-        <div className='flex justify-evenly text-sm md:text-md border-b-[1px] border-tertiery'>
-          <button type='button' onClick={()=>setBar('post')} className={`py-3 w-full text-center hover:font-semibold ${bar ==='post' && 'font-semibold border-b-[3px] border-tertiery'}`}>Post</button>
-          <button type='button' onClick={()=>setBar('liked')} className={`py-3 w-full text-center hover:font-semibold ${bar ==='liked' && 'font-semibold border-b-[3px] border-tertiery'}`}>Liked</button>
-      </div>
-      {bar==='post' ? (
-        post.length===undefined ? (
-        <div className='text-center py-[20px]'>No post created</div>
-        ) : (
-        post.map((item) => (
-                <Post
-                    postId={item._id}
-                    nama={item.userId.name}
-                    username={item.userId.username}
-                    timestamp='1h'
-                    content={item.text}
-                    like={item.likes_count}
-                />
-            
-            ))
-        )
-      ) :(
-        user.likedPostings.length===0 ? (
-          <div className='text-center py-[20px]'>No post liked</div>
-        ):(
-          user.likedPostings.map((item) => (
-            <Post
+        <div className="md:text-md flex justify-evenly border-b-[1px] border-tertiery text-sm">
+          <button
+            type="button"
+            onClick={() => {
+              setBar('post')
+              getPosts()
+            }}
+            className={`w-full py-3 text-center hover:font-semibold ${
+              bar === 'post' && 'border-b-[3px] border-tertiery font-semibold'
+            }`}
+          >
+            Post
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setBar('liked')
+              getUser()
+            }}
+            className={`w-full py-3 text-center hover:font-semibold ${
+              bar === 'liked' && 'border-b-[3px] border-tertiery font-semibold'
+            }`}
+          >
+            Liked
+          </button>
+        </div>
+        {bar === 'post' ? (
+          post.length === undefined || 0 ? (
+            <div className="py-[20px] text-center">No post created</div>
+          ) : (
+            post.map((item) => (
+              <Post
+                key={item._id}
                 postId={item._id}
                 nama={item.userId.name}
                 username={item.userId.username}
-                timestamp='1h'
+                timestamp="1h"
                 content={item.text}
                 like={item.likes_count}
+                likeUserId={item.likes}
+              />
+            ))
+          )
+        ):null}
+        {bar === 'liked' ? (
+        userData.likedPostings.length === undefined || 0 ? (
+          <div className="py-[20px] text-center">No post liked</div>
+        ) : (
+          userData.likedPostings.map((item) => (
+            <Post
+              liked={true}
+              key={item._id}
+              postId={item._id}
+              nama={item.userId.name}
+              username={item.userId.username}
+              timestamp="1h"
+              content={item.text}
+              like={item.likes_count}
+              likeUserId={item.likes}
             />
-        )))
-      )}
-        {/* {post.length===undefined ? (<div className='text-center py-[20px]'>No post created</div>) :
-        post.map((item) => (
-                <Post
-                    postId={item._id}
-                    nama={item.userId.name}
-                    username={item.userId.username}
-                    timestamp='1h'
-                    content={item.text}
-                    like={item.likes_count}
-                />
-            
-            ))} */}
+          ))
+        )):null}
       </main>
     </Layout>
   )
