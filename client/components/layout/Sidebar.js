@@ -53,7 +53,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const menu = [
     {
       name: 'Home',
-      href: '/',
+      href: '/home',
     },
     {
       name: 'Profile',
