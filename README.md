@@ -123,7 +123,7 @@ Clone Repository
   
   ```
 
-Server Running on
+Client Running on
   ```
   localhost:3000
   ```
