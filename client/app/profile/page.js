@@ -56,13 +56,7 @@ export default function Profile() {
         },
       })
       .then((res) => {
-        setUserData({
-          id: res.data._id,
-          name: res.data.name,
-          bio: res.data.bio,
-          username: res.data.username,
-          likedPostings: res.data.likedPostings,
-        })
+        setUserData(res.data)
       })
       .catch((err) => {
         toast.error(err)
@@ -85,7 +79,7 @@ export default function Profile() {
           nama={userData.name}
           username={userData.username}
           bio={userData.bio}
-          joinDate={`Joined ${new Date(user.dateCreated).toLocaleDateString('en-GB', {
+          joinDate={`Joined ${new Date(userData.dateCreated).toLocaleDateString('en-GB', {
             day: 'numeric',
             month: 'long',
             year: 'numeric',
