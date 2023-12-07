@@ -6,7 +6,7 @@
 
 ## Tugas Akhir
 
-- **Link Video Presentasi:** [Video Presentasi]()
+- **Link Video Presentasi:** [Video Presentasi](https://drive.google.com/file/d/1GWRhIIey6zKgvl9mv93bylqTzbeoruOB/view?usp=sharing)
 
 - **Link Slide PPT:** [Slide PPT](https://docs.google.com/presentation/d/1OLaPbvqI3LGuKNzKPCj0tnMb0-dWucu9wVIEC3GLuSM/edit?usp=sharing)
 
