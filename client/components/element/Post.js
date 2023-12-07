@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import ModalSettingPost from './SettingProfile'
 import { toast } from 'react-toastify'
+import useRelativeTime from '../../utils/useRelativeTime'
 
 export function Post({
     postId, nama, username, timestamp, content, like, likeUserId, liked
@@ -13,6 +14,7 @@ export function Post({
     const user = JSON.parse(localStorage.getItem('user'))
     const [isLiked, setIsLiked] = useState(likeUserId.some(like => like._id === user._id))
     const [modalSetting, setModalSetting] = useState(false)
+    const relativeTime = useRelativeTime(timestamp);
 
     const setModalSettingPost = () => {
         if (modalSetting === false) {
@@ -51,7 +53,6 @@ export function Post({
       }
     }
 
-
     return (
       <div className='mr-10'>
         <div className="w-full flex flex-row gap-[20px] px-[40px] py-[14px] font-roboto border-b-[1px] border-tertiery ">
@@ -80,10 +81,9 @@ export function Post({
 
                 </div>
               </div>
-
             </div>
             <div className="col-span-1 flex justify-center h-fit gap-[16px] items-center">
-              <div className='text-[14px]'>{timestamp}</div>
+              <div className='text-[14px]'>{relativeTime}</div>
               <div>
                 <button onClick={setModalSettingPost}>
                   <IoEllipsisHorizontal className='text-tertiery' size={18} />
