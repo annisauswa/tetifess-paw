@@ -42,13 +42,14 @@ export default function SettingProfile({ show, setShow, item={} }) {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         })
+        .then((res) => {
+          window.location.reload()
+          toast.success('Deletion success!', { autoClose: 3000})
+        })
         .catch((err) => {
           toast.error(err.message)
         })
       setShow(false)
-      console.log('delete post')
-      window.location.reload()
-      toast.success('Deletion successful!', { autoClose: 3000 })
     }
   }
 
