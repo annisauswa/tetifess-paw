@@ -9,6 +9,7 @@ import Post from '../../components/element/Post'
 import Profile from '../../components/element/Profile'
 import SearchInput from '../../components/element/SearchInput'
 import Layout from '../../components/layout/Layout'
+import { toast } from 'react-toastify'
 
 export default function Search() {
   const router = useRouter()
@@ -58,7 +59,7 @@ export default function Search() {
         setUser(response.data)
       }
     } catch (error) {
-      console.error('Error fetching data:', error)
+      toast.error(error)
       setNotFound(true)
     }
   }
@@ -105,6 +106,7 @@ export default function Search() {
                 content={item.text}
                 like={item.likes_count}
                 likeUserId={item.likes}
+                postData={item}
               />
             ))}
           </div>

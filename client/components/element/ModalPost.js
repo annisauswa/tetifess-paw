@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import { RiCloseFill } from 'react-icons/ri'
 import { toast } from 'react-toastify'
 
-export default function ModalPost({ show, setShow, user, postData, edit=false }) {
+export default function ModalPost({ show, setShow, user, postData, edit = false }) {
   const [text, setText] = useState(edit ? postData.text : '')
   if (show === false) return null
   const handleCreate = () => {
@@ -42,7 +42,7 @@ export default function ModalPost({ show, setShow, user, postData, edit=false })
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
-          }
+          },
         },
       )
       .then(() => {
@@ -61,7 +61,7 @@ export default function ModalPost({ show, setShow, user, postData, edit=false })
       id="wrapper"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 text-black backdrop-blur-sm"
     >
-      <div className="w-full sm:w-[600px] p-8 sm:p-0">
+      <div className="w-full p-8 sm:w-[600px] sm:p-0">
         <div className="space-y-3 rounded-xl bg-secondary p-2 px-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-5">
@@ -86,8 +86,8 @@ export default function ModalPost({ show, setShow, user, postData, edit=false })
           <div className="line" />
           <div className="flex justify-end">
             <button
-              onClick={()=>{
-                if(edit) handleEdit()
+              onClick={() => {
+                if (edit) handleEdit()
                 else handleCreate()
               }}
               className="gap-2.5 rounded-[24px] bg-main px-[28px] py-[7px] text-[14px] font-bold text-white hover:bg-white hover:text-main hover:ring-[2px] hover:ring-main"

@@ -33,11 +33,13 @@ export function Profile({
           </div>
         </div>
 
-        <div>
+        <div className='relative'>
           <button onClick={()=>setModalSetting(!modalSetting)} className=''>
             <IoEllipsisHorizontalSharp className='text-tertiery' size={18} />
           </button>
-          <ModalSettingProfile show={modalSetting} setShow={setModalSetting} item='account'/>
+          <div className="absolute w-[150px] md:w-[185px] left-[-18px] md:left-0">
+            <ModalSettingProfile show={modalSetting} setShow={setModalSetting} item='account'/>
+          </div>
         </div>
       </div>
     </div>

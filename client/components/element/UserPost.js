@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { IoEllipsisHorizontal } from 'react-icons/io5';
 import ModalSettingPost from './SettingProfile';
 
@@ -17,11 +17,11 @@ const UserPost = ({ data}) => {
         width: '100%',
     };
 
-    const timestampStyle = {
-        fontSize: '1.4vh',
-        color: '#888',
-        marginBottom: '5px',
-    };
+  const timestampStyle = {
+    fontSize: '1.4vh',
+    color: '#888',
+    marginBottom: '5px',
+  }
 
     const textStyle = {
         fontSize: '1.7vh',
@@ -65,4 +65,4 @@ const UserPost = ({ data}) => {
     );
 };
 
-export default UserPost;
+export default UserPost
