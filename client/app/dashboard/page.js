@@ -5,9 +5,11 @@ import { useEffect,useState } from 'react';
 
 import Post from '../../components/element/AdminPost';
 import Layout from '../../components/layout/Layout';
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 
 function Homepage() {
+  const router = useRouter()
   const [users, setUsers] = useState([])
 
   useEffect(() => {
