@@ -55,21 +55,20 @@ export function Post({
       toast.error('Failed to like post')
     }
   }
-
-  return (
-    <div className="relative mr-10">
-      <div className="flex w-full flex-row gap-[20px] border-b-[1px] border-tertiery px-[40px] py-[14px] font-roboto ">
-        <div className="grid w-full grid-cols-6 justify-between">
-          <div className="col-span-5 flex flex-col">
-            <div className="flex items-start justify-start gap-[20px]">
-              <div className="h-[36px] w-[36px] flex-shrink-0 rounded-full bg-[#D9D9D9]" />
-              <div className="flex w-fit flex-col">
-                <div className="text-[14px] font-semibold">{nama}</div>
-                <div className="text-[12px] font-light">@{username}</div>
-                <div className="pb-[10px] pt-[4px] text-[14px] ">{content}</div>
-                <div className="flex h-full items-center gap-2">
-                  <button
-                    onClick={() => {
+  
+    return (
+      <div>
+        <div className="w-full flex flex-row gap-[20px] md:px-[40px] py-[14px] px-[10px] font-roboto border-b-[1px] border-tertiery ">
+          <div className='w-full justify-between md:grid-cols-6 grid-cols-5 grid'>
+            <div className='md:col-span-5 col-span-4 flex flex-col'>
+              <div className="flex gap-[20px] justify-start items-start">
+                <div className='bg-[#D9D9D9] w-[36px] h-[36px] rounded-full flex-shrink-0' />
+                <div className='flex flex-col w-fit'>
+                  <div className='text-[14px] font-semibold'>{nama}</div>
+                  <div className='text-[12px] font-light'>@{username}</div>
+                  <div className='pt-[4px] pb-[10px] text-[14px] '>{content}</div>
+                  <div className='flex gap-2 h-full items-center'>
+                    <button onClick={()=>{
                       handleLike()
                     }}
                   >
