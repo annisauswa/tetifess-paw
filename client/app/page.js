@@ -7,22 +7,23 @@ export default function Page() {
         <div>
             <main className="custom-background min-h-screen flex flex-col justify-center items-center">
                 {/* First Row with height 96px */}
-                <div className="flex justify-between items-center h-[96px] border-b-[2px] bg-secondary border-b-main">
-                  
-                    <div className='absolute top-0 right-0 mr-16 mt-5'>
-                      
-                        <Link href={'/register'}>
-                            <button style={{ width: '100px', height: '56px' }} className="bg-main hover:ring-[2px] hover:ring-main hover:bg-white text-white hover:text-main font-semibold rounded-[24px] text-xl">Sign In</button>
-                        </Link>
-                        <Link href={'/login'}>
-                            <button style={{ width: '100px', height: '56px' }} className="hover:bg-black hover:bg-opacity-10 text-main hover:text-main font-semibold rounded-[24px] text-xl ml-4">Log In</button>   
-                        </Link>
-                    </div>
-                    {/* Content for the first row */}
+                <div className="flex justify-end items-center h-[96px] bg-secondary border-b-2 border-b-main p-4 w-full">
+                  <div className='flex space-x-4'>
+                      <Link href="/register">
+                          <button className="bg-main hover:ring-2 hover:ring-main hover:bg-white text-white hover:text-main font-semibold rounded-full px-4 py-2">
+                              Sign Up
+                          </button>
+                      </Link>
+                      <Link href="/login">
+                          <button className="hover:bg-black hover:bg-opacity-10 text-main hover:text-main font-semibold rounded-full px-4 py-2">
+                              Log In
+                          </button>
+                      </Link>
+                  </div>
                 </div>
-                
+
                 {/* Second Row taking remaining height, divided into two columns */}
-                <div className="flex flex-grow">
+                <div className="flex flex-col-reverse sm:flex-row flex-grow">
                     {/* First Column */}
                     <div className="flex flex-col justify-center flex-1 bg-secondary border-b-main">
                       <p className="text-xl font-semibold text-black ml-[60px] mr-[60px]" style={{ fontSize: '24pt' }}>Where every TETI voice matters</p>
@@ -32,7 +33,7 @@ export default function Page() {
 
                     {/* Second Column */}
                     <div className="flex justify-center items-center flex-1">
-                      <img src="/assets/combinedLogo.png" alt="Logo"/>
+                        <img className="w-1/2 sm:w-3/4" src="/assets/combinedLogo.png" alt="Logo"/>
                     </div>
                 </div>
             </main>

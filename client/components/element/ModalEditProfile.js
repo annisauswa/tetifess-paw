@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 
 export default function ModalEditProfile({ show, setShow, data }) {
+  console.log(data)
   const role = localStorage.getItem('role')
   const [name, setName] = useState(data.name)
   const [bio, setBio] = useState(data.bio)
