@@ -47,15 +47,14 @@ export default function SettingProfile({ show, setShow, item = {} }) {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         })
-        .then(() => {
-          toast.success('Deletion successful!', { autoClose: 1000 })
+        .then((res) => {
+          window.location.reload()
+          toast.success('Deletion success!', { autoClose: 3000})
         })
         .catch((err) => {
           toast.error(err.message)
         })
       setShow(false)
-      window.location.reload()
-      toast.success('Deletion successful!', { autoClose: 3000 })
     }
   }
 

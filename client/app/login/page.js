@@ -10,6 +10,7 @@ import React, { useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 
 import InputText from '../../components/element/InputText'
+import '../globals.css';
 
 export default function Page() {
   const router = useRouter()
@@ -45,8 +46,10 @@ export default function Page() {
       .catch((err) => {
 
         if (err.response && err.response.status === 404) {
+          console.log('Handling 404 error')
           toast.error('User not found. Please check your credentials.')
         } else {
+          console.error('Login error:', err)
           toast.error('An error occurred during login. Please try again later.')
         }
       })

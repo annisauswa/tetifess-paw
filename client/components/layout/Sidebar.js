@@ -89,7 +89,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
           {user.role === 'admin' && (
             <Link href="/dashboard">
               <button
-                className={`flex w-full items-center justify-start gap-[12px] rounded p-2 text-black hover:bg-tertiery/10 md:gap-4 ${
+                className={`rounded-[24px] flex w-full items-center justify-start gap-[12px] p-2 text-black hover:bg-tertiery/10 md:gap-4 ${
                   pathname == '/dashboard' ? 'font-bold' : 'font-normal'
                 }`}
               >
@@ -108,7 +108,20 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
               <div className="text-[12px] font-light md:text-[14px]">@{user.username}</div>
             </div>
           </div>
-          <button onClick={handleLogout}>
+          <button
+            onClick={handleLogout}
+            className="relative overflow-hidden"
+            style={{
+              transition: 'transform 0.3s', 
+              transformOrigin: 'center', 
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'scale(1.2)'; 
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'scale(1)'; 
+            }}
+          >
             <IoLogOutOutline className="h-[20px] w-[20px] text-black md:h-[24px] md:w-[24px]" />
           </button>
         </div>
