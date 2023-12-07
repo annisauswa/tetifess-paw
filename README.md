@@ -1,19 +1,76 @@
-# tetifess
+<br/>
 <div align="center">
   <img src="https://github.com/annisauswa/tetifess-paw/assets/24343313/4c16b078-27bd-4bfd-91ff-47d0e24d6e8e" alt="tetifess" width="40%">
-  <p>Documentation of tetifess, a platform designed for DTETI community to confess and share their thoughts anonymously</p>
+  <h1 align="center">TETIFESS</h1>
+  <h2>Documentation of tetifess, a platform designed for DTETI community to confess and share their thoughts anonymously</h2>
+
+  <p align="center">
+    <a href="bit.ly/video-ai-credit-default">View Demo</a>
+    ·
+    <a href="https://github.com/annisauswa/tetifess-paw/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/annisauswa/tetifess-paw/issues">Request Improvement</a>
+  </p>
 </div>
+<br />
 
-## Tugas Akhir
+## 📌 Table of Contents
+1. [Contributors](#contributors)
+2. [Important Links](#links)
+3. [About Tetifess](#about-tetifess)
+4. [Documentation - How to run in local](#setup-doc)
 
-- **Link Video Presentasi:** [Video Presentasi](https://drive.google.com/file/d/1GWRhIIey6zKgvl9mv93bylqTzbeoruOB/view?usp=sharing)
-
-- **Link Slide PPT:** [Slide PPT](https://docs.google.com/presentation/d/1OLaPbvqI3LGuKNzKPCj0tnMb0-dWucu9wVIEC3GLuSM/edit?usp=sharing)
-
-- **Link Webapp:** [Tetifess](https://tetifess-paw.vercel.app/)
+   a. [Setup Client](#client)
+       
+   b. [Setup Server](#server)
 
 
-## 📁 Folder Structure
+<a name="contributors"></a>
+
+## 👨‍💻 Contributor
+| Nama | NIM | GitHub Profile |
+| --- | --- | --- |
+| Annisa Uswa Sufia | 21/475357/TK/52474 | [annisauswa](https://github.com/annisauswa) |
+| Fransiscus Marselino Handoyo | 21/474984/TK/52444 | [ethankuning](https://github.com/ethankuning) |
+| Izzat Arroyyan | 21/477795/TK/52626 | [izzatarroyyan12](https://github.com/izzatarroyyan12) |
+| Raditya Christoaji Ballandean Prabowo | 21/481218/TK/53115 | [Rexiar](https://github.com/Rexiar) |
+| Rico Frijaya S. Pane | 21/480631/TK/53032 | [ricofrijayaspane](https://github.com/ricofrijayaspane) |
+
+<a name="links"></a>
+
+## 🔗 Important Links
+| Name | Link |
+| --- | --- |
+| Webapp Deployed | [tetifess-paw.vercel.app](https://tetifess-paw.vercel.app/) |
+| API Deployed | [tetifess-paw-api.vercel.app](https://tetifess-paw-api.vercel.app/) |
+| API Postman Documentation | [postman-documentation](https://documenter.getpostman.com/view/29987436/2s9YJZ44ud) |
+| Video Presentasi & Demo | [Video Presentasi](https://drive.google.com/file/d/1GWRhIIey6zKgvl9mv93bylqTzbeoruOB/view?usp=sharing) |
+| Slide PPT | [Slide PPT](https://docs.google.com/presentation/d/1OLaPbvqI3LGuKNzKPCj0tnMb0-dWucu9wVIEC3GLuSM/edit?usp=sharing) |
+
+<a name="about-tetifess"></a>
+
+## 💬 About Tetifess 
+
+### Quick Introduction
+> TETIFESS is a purpose-built platform for the community of DTETI (Department of Electrical Engineering and Information Technology) to express themselves freely, confess thoughts, and share experiences anonymously. This unique space provides an avenue for individuals within the DTETI community to connect, unburden their thoughts, and foster a sense of camaraderie.
+
+### Main Feature
+- Authentication
+- Homepage
+- Profile Page
+- Like Unlike a Post
+- Search Page
+- Dashboard (admin access only)
+
+### Tech Stack
+- Nodejs
+- Nextjs
+- Tailwind CSS
+- Expressjs
+- MongoDB Atlas
+- Vercel
+
+### Folder Structure 📁 
     .
     ├── server                   # for server-side containing backend APIs
     │    ├── controller           # define function logic
@@ -43,14 +100,17 @@
     ├── package-lock.json        
     └── README.md
 
-## 🖥 Setup Aplikasi
+<a name="setup-doc"></a>
 
+## 🖥 Documentation - How to run in local
 Clone Repository
   ```
-  git clone
+  git clone https://github.com/annisauswa/tetifess-paw.git
   ```
 
-Run Server
+<a name="client"></a>
+
+### Setup Client (Frontend) 🌐
   ```
   
   // access frontend directory
@@ -69,15 +129,9 @@ Server Running on
   localhost:3000
   ```
 
-## 📜 Dokumentasi API
-> Dokumentasi API dari tetifess tersedia pada laman postman berikut : https://documenter.getpostman.com/view/29987436/2s9YJZ44ud
+<a name="server"></a>
 
-## 🖥 Persiapan Server (Backend)
-
-Clone Repository
-  ```
-  git clone
-  ```
+### Setup Server (Backend) 💻
 
 Run Server
   ```
@@ -98,9 +152,4 @@ Server Running on
   localhost:5001
   ```
 
-## 👨‍💻 Contributor
-  1. Annisa Uswa Sufia &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;21/475357/TK/52474 <br>
-  2. Fransiscus Marselino Handoyo&emsp;&emsp;&emsp;&emsp;21/474984/TK/52444 <br>
-  3. Izzat Arroyyan &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 21/477795/TK/52626 <br>
-  5. Raditya Christoaji Ballandean Prabowo &nbsp; 21/481218/TK/53115 <br>
-  6. Rico Frijaya S. Pane &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 21/480631/TK/53032 <br>
+
