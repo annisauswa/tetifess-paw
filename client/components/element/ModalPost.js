@@ -6,7 +6,6 @@ import { toast } from 'react-toastify'
 
 export default function ModalPost({ show, setShow, user, postData, edit=false }) {
   const [text, setText] = useState(edit ? postData.text : '')
-  console.log(postData)
   if (show === false) return null
   const handleCreate = () => {
     axios

@@ -51,7 +51,6 @@ export default function Search() {
       })
 
       const { data } = response
-      console.log(data)
 
       if (searchPostValue) {
         setPost(response.data)
