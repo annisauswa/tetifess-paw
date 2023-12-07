@@ -17,7 +17,7 @@ const Post = ({ title, content, user, posts }) => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
     const [isAdmin, setIsAdmin] = useState(user.role==='admin'? true:false);
-
+    const [userPostClicked, setUserPostClicked] = useState(false);
     const toggleAdminStatus = async () => {
         try {
             let url
@@ -82,12 +82,12 @@ const Post = ({ title, content, user, posts }) => {
     };
 
     const togglePost = () => {
-        if (!isEditProfileModalOpen) { 
+        if (!isEditProfileModalOpen && !isSettingsOpen) {
             setIsOpen(!isOpen);
         }
     };
     
-
+    
     const iconsContainerStyle = {
         display: 'flex',
         alignItems: 'center',
@@ -163,7 +163,11 @@ const Post = ({ title, content, user, posts }) => {
             )}
             <div style={contentStyle}>
                 {posts.map((data, index) => (
-                    <UserPost key={index} data={data}/>
+                    <UserPost
+                        key={index}
+                        data={data}
+                        onClick={togglePost}
+                    />
                 ))}
             </div>
             {isEditProfileModalOpen && (
