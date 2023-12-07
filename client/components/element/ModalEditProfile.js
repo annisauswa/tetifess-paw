@@ -37,10 +37,6 @@ export default function ModalEditProfile({ show, setShow, data }) {
       })
   }
 
-  useEffect(() => {
-   
-  },[name, bio, username])
-
   if (show===false) return null
 
   return ReactDOM.createPortal(

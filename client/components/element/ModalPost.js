@@ -4,10 +4,10 @@ import ReactDOM from 'react-dom'
 import { RiCloseFill } from 'react-icons/ri'
 import { toast } from 'react-toastify'
 
-export default function ModalPost({ show, setShow, user, postId }) {
-  const [text, setText] = useState('')
+export default function ModalPost({ show, setShow, user, postData, edit=false }) {
+  const [text, setText] = useState(edit ? postData.text : '')
+  console.log(postData)
   if (show === false) return null
-
   const handleCreate = () => {
     axios
       .post(
@@ -24,12 +24,36 @@ export default function ModalPost({ show, setShow, user, postId }) {
       )
       .then(() => {
         setShow(false)
+        toast.success('Post created')
+        window.location.reload()
+      })
+      .catch((err) => {
+        setShow(false)
+        toast.error(err)
+      })
+  }
+
+  const handleEdit = () => {
+    axios
+      .patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/posting/${postData._id}`,
+        {
+          text,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          }
+        },
+      )
+      .then(() => {
+        setShow(false)
         toast.success('Post updated')
         window.location.reload()
       })
       .catch((err) => {
-        toast.error(err)
         setShow(false)
+        toast.error(err)
       })
   }
 
@@ -63,7 +87,10 @@ export default function ModalPost({ show, setShow, user, postId }) {
           <div className="line" />
           <div className="flex justify-end">
             <button
-              onClick={()=>handleCreate()}
+              onClick={()=>{
+                if(edit) handleEdit()
+                else handleCreate()
+              }}
               className="gap-2.5 rounded-[24px] bg-main px-[28px] py-[7px] text-[14px] font-bold text-white hover:bg-white hover:text-main hover:ring-[2px] hover:ring-main"
             >
               Post

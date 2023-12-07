@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import useRelativeTime from '../../utils/useRelativeTime'
 
 export function Post({
-    postId, nama, username, timestamp, content, like, likeUserId, liked
+    postId, nama, username, timestamp, content, like, likeUserId, liked, postData={}
 }) {
     const [localIsLiked, setLocalIsLiked] = useState(liked || false);
     const user = JSON.parse(localStorage.getItem('user'))
@@ -23,8 +23,6 @@ export function Post({
             setModalSetting(false);
         }
     }
-
-    console.log(postId, likeUserId, likeUserId.some(like => like._id === user._id))
 
     const handleLike = async () => {
       try {
@@ -41,13 +39,10 @@ export function Post({
         )    
         setIsLiked(!isLiked)
         if(isLiked){
-          // user.likedPosting = user.likedPosting.filter((id) => id !== postId)
           toast.success('Post Unliked')
         }else{
-          // user.likedPosting.push(postId)
           toast.success('Post Liked')
         }
-        // localStorage.setItem('user', JSON.stringify(user))
       } catch (error) {
         toast.error('Failed to like post')
       }
@@ -88,7 +83,7 @@ export function Post({
                 <button onClick={setModalSettingPost}>
                   <IoEllipsisHorizontal className='text-tertiery' size={18} />
                 </button>
-                <ModalSettingPost show={modalSetting} setShow={setModalSetting} item='Post'/>
+                <ModalSettingPost show={modalSetting} setShow={setModalSetting} item={postData}/>
               </div>
             </div>
           </div>
