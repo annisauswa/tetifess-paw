@@ -93,7 +93,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
           {role === 'admin' && (
             <Link href="/dashboard">
               <button
-                className={`hover:bg-tertiary/20 flex w-full items-center justify-start gap-[12px] rounded p-2 text-black md:gap-4 ${
+                className={`hover:bg-tertiery/10 flex w-full items-center justify-start gap-[12px] rounded p-2 text-black md:gap-4 ${
                   pathname == '/dashboard' ? 'font-bold' : 'font-normal'
                 }`}
               >

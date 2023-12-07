@@ -51,10 +51,10 @@ export default function Layout({ title, children }) {
           </div>
         </section>
         <section className="grid bg-white md:grid-cols-3 lg:grid-cols-4">
-          <section className="w-full ">
+          <section className="w-full z-30">
             <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
           </section>
-          <section className=" h-screen w-full overflow-auto bg-white pt-[40px] md:col-span-2 md:border-x-[1px] md:border-tertiery  md:pt-[62px] lg:pt-[74px]">
+          <section className=" h-screen w-full overflow-auto bg-white pt-[40px] md:col-span-2 md:border-x-[1px] md:border-tertiery  md:pt-[62px] lg:pt-[74px] z-10">
             {children}
           </section>
           <section className=" bg-white md:max-w-[360px] " />
