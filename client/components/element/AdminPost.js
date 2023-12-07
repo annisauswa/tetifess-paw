@@ -9,38 +9,34 @@ import ModalEditProfile from './ModalEditProfile'
 import UserPost from './UserPost'
 const avatarImage = require('../../public/assets/profilepicture.png')
 
-function Post({ title, content, user, posts }) {
-  const [name, setName] = useState(user.name)
-  const [bio, setBio] = useState(user.bio)
-  const [username, setUsername] = useState(user.username)
-  const [isOpen, setIsOpen] = useState(false)
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
-  const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false)
-  const [isAdmin, setIsAdmin] = useState(user.role === 'admin' ? false : true)
-
-  const toggleAdminStatus = async () => {
-    try {
-      let url
-      if (isAdmin) {
-        url = `${process.env.NEXT_PUBLIC_API_URL}/admin/take/${user._id}`
-      } else {
-        url = `${process.env.NEXT_PUBLIC_API_URL}/admin/give/${user._id}`
-      }
-
-      await axios.patch(
-        url,
-        {
-          name,
-          username,
-          bio,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          withCredentials: true,
-        },
-      )
+const Post = ({ title, content, user, posts }) => {
+    const role = localStorage.getItem('role')
+    const [name, setName] = useState(user.name)
+    const [bio, setBio] = useState(user.bio)
+    const [username, setUsername] = useState(user.username)
+    const [isOpen, setIsOpen] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(user.role==='admin'? true:false);
+    const [userPostClicked, setUserPostClicked] = useState(false);
+    const toggleAdminStatus = async () => {
+        try {
+            let url
+            if (isAdmin){
+                url = `${process.env.NEXT_PUBLIC_API_URL}/admin/take/${user._id}`
+            }
+            else {
+                url = `${process.env.NEXT_PUBLIC_API_URL}/admin/give/${user._id}`
+            }
+            
+            await axios.patch(url,{
+                name, username, bio},
+                {
+                  headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                  },
+                  withCredentials: true
+                })
 
       setIsAdmin(!isAdmin)
       toast.success('Successfully changed admin status')
@@ -85,17 +81,18 @@ function Post({ title, content, user, posts }) {
     setIsEditProfileModalOpen(true)
   }
 
-  const togglePost = () => {
-    if (!isEditProfileModalOpen) {
-      setIsOpen(!isOpen)
-    }
-  }
-
-  const iconsContainerStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    marginLeft: 'auto',
-  }
+    const togglePost = () => {
+        if (!isEditProfileModalOpen && !isSettingsOpen) {
+            setIsOpen(!isOpen);
+        }
+    };
+    
+    
+    const iconsContainerStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        marginLeft: 'auto',
+    };
 
   const iconStyle = {
     fontSize: '20px',
@@ -162,20 +159,24 @@ function Post({ title, content, user, posts }) {
                     {}
                 </div>
             )}
-      <div style={contentStyle}>
-        {posts.map((data, index) => (
-                  <UserPost key={index} data={data}/>
-        ))}
-      </div>
-      {isEditProfileModalOpen && (
-            <ModalEditProfile
-          show={isEditProfileModalOpen}
-          setShow={setIsEditProfileModalOpen}
-                  data={user}
-        />
-      )}
-    </div>
-  )
-}
+            <div style={contentStyle}>
+                {posts.map((data, index) => (
+                    <UserPost
+                        key={index}
+                        data={data}
+                        onClick={togglePost}
+                    />
+                ))}
+            </div>
+            {isEditProfileModalOpen && (
+                <ModalEditProfile
+                    show={isEditProfileModalOpen}
+                    setShow={setIsEditProfileModalOpen}
+                    data={user}
+                />
+            )}
+        </div>
+    );
+};
 
 export default Post
