@@ -1,19 +1,18 @@
-/* eslint-disable prettier/prettier */
-
-import { useState } from 'react';
+import { useState } from 'react'
 import { BiLike,BiSolidLike } from 'react-icons/bi'
-import { FcLike } from "react-icons/fc";
 import { IoEllipsisHorizontal } from 'react-icons/io5'
+import axios from 'axios'
 
-import ModalSettingPost from './SettingProfile';
+import ModalSettingPost from './SettingProfile'
+import { toast } from 'react-toastify'
 
 export function Post({
-    nama, username, timestamp, content, like
+    postId, nama, username, timestamp, content, like, likeUserId, liked
 }) {
-
-
-    const [modalSetting, setModalSetting] = useState(false);
-
+    const [localIsLiked, setLocalIsLiked] = useState(liked || false);
+    const user = JSON.parse(localStorage.getItem('user'))
+    const [isLiked, setIsLiked] = useState(likeUserId.some(like => like._id === user._id))
+    const [modalSetting, setModalSetting] = useState(false)
 
     const setModalSettingPost = () => {
         if (modalSetting === false) {
@@ -21,6 +20,35 @@ export function Post({
         } else {
             setModalSetting(false);
         }
+    }
+
+    console.log(postId, likeUserId, likeUserId.some(like => like._id === user._id))
+
+    const handleLike = async () => {
+      try {
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/posting/${postId}/like`,
+          {},
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+        )    
+        setIsLiked(!isLiked)
+        if(isLiked){
+          // user.likedPosting = user.likedPosting.filter((id) => id !== postId)
+          toast.success('Post Unliked')
+        }else{
+          // user.likedPosting.push(postId)
+          toast.success('Post Liked')
+        }
+        // localStorage.setItem('user', JSON.stringify(user))
+      } catch (error) {
+        toast.error('Failed to like post')
+      }
     }
 
 
@@ -36,9 +64,18 @@ export function Post({
                   <div className='text-[12px] font-light'>@{username}</div>
                   <div className='pt-[4px] pb-[10px] text-[14px] '>{content}</div>
                   <div className='flex gap-2 h-full items-center'>
-        
-                    <BiSolidLike className='text-tertiery' size={18} />
-                    <div className='text-[10px]'>{like}</div>
+                    <button onClick={()=>{
+                      handleLike()
+                      }}>
+                      {isLiked || localIsLiked ? (
+                        <BiSolidLike className='text-tertiery' size={18} />
+                        ):(
+                          <BiLike className='text-tertiery' size={18} />
+                      )}
+                    </button>
+                    <div className='text-[10px]'>
+                      {isLiked? like+1:like}
+                    </div>
                   </div>
 
                 </div>
