@@ -80,7 +80,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
             return (
               <Link href={item.href} key={idx}>
                 <button
-                  className={`hover:bg-tertiary/20 flex w-full items-center justify-start gap-[12px] rounded p-2 text-black md:gap-4 ${
+                  className={`hover:bg-tertiery/10 flex w-full items-center justify-start gap-[12px] rounded-[24px] p-2 text-black md:gap-4 ${
                     pathname == item.href ? 'font-bold' : 'font-normal'
                   }`}
                 >
