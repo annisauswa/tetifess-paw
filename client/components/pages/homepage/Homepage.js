@@ -1,29 +1,30 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Post } from '../../element/Post';
-import { toast } from 'react-toastify';
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+
+import { Post } from '../../element/Post'
 
 export default function Homepage() {
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useState([])
 
   const getPosts = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token')
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/posting`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-      });
-      setPost(response.data);
+      })
+      setPost(response.data)
     } catch (error) {
-      toast.error('Error loading posts', error);
+      toast.error('Error loading posts', error)
     }
-  };
+  }
 
   useEffect(() => {
-    getPosts();
-  }, []);
+    getPosts()
+  }, [])
 
   return (
     <div className="w-full">
@@ -41,5 +42,5 @@ export default function Homepage() {
         />
       ))}
     </div>
-  );
+  )
 }

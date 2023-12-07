@@ -11,8 +11,14 @@ import Layout from '../../components/layout/Layout'
 
 export default function Profile() {
   const router = useRouter()
-  const token = localStorage.getItem('token')
-  const user = JSON.parse(localStorage.getItem('user'))
+  let token = ''
+  let user = ''
+
+  useEffect(() => {
+    token = localStorage.getItem('token')
+    user = JSON.parse(localStorage.getItem('user'))
+  }, [])
+
   const [userData, setUserData] = useState({
     id: user._id,
     name: user.name,
@@ -79,7 +85,11 @@ export default function Profile() {
           nama={userData.name}
           username={userData.username}
           bio={userData.bio}
-          joinDate={`Joined ${new Date(user.dateCreated).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`}
+          joinDate={`Joined ${new Date(user.dateCreated).toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+          })}`}
         />
         <div className="md:text-md flex justify-evenly border-b-[1px] border-tertiery text-sm">
           <button
@@ -125,26 +135,27 @@ export default function Profile() {
               />
             ))
           )
-        ):null}
+        ) : null}
         {bar === 'liked' ? (
-        userData.likedPostings.length === undefined || 0 ? (
-          <div className="py-[20px] text-center">No post liked</div>
-        ) : (
-          userData.likedPostings.map((item) => (
-            <Post
-              liked={true}
-              key={item._id}
-              postId={item._id}
-              nama={item.userId.name}
-              username={item.userId.username}
-              timestamp={item.timestamp}
-              content={item.text}
-              like={item.likes_count}
-              likeUserId={item.likes}
-              postData={item}
-            />
-          ))
-        )):null}
+          userData.likedPostings.length === undefined || 0 ? (
+            <div className="py-[20px] text-center">No post liked</div>
+          ) : (
+            userData.likedPostings.map((item) => (
+              <Post
+                liked
+                key={item._id}
+                postId={item._id}
+                nama={item.userId.name}
+                username={item.userId.username}
+                timestamp={item.timestamp}
+                content={item.text}
+                like={item.likes_count}
+                likeUserId={item.likes}
+                postData={item}
+              />
+            ))
+          )
+        ) : null}
       </main>
     </Layout>
   )

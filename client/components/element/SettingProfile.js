@@ -1,17 +1,20 @@
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
 import { MdDelete } from 'react-icons/md'
+import { toast } from 'react-toastify'
 
 import ModalEditProfile from './ModalEditProfile'
 import ModalPost from './ModalPost'
-import { toast } from 'react-toastify'
-import { resolveTypeReferenceDirective } from 'typescript'
-import { useRouter } from 'next/navigation'
 
-export default function SettingProfile({ show, setShow, item={} }) {
+export default function SettingProfile({ show, setShow, item = {} }) {
   const [isShow, setIsShow] = useState(false)
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
+  let userLocal = ''
+  useEffect(() => {
+    userLocal = JSON.parse(localStorage.getItem('user'))
+  }, [])
+  const [user, setUser] = useState(userLocal)
   const router = useRouter()
 
   const handleDelete = () => {
@@ -24,6 +27,9 @@ export default function SettingProfile({ show, setShow, item={} }) {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         })
+        .then(() => {
+          toast.success('Deletion successful!', { autoClose: 1000 })
+        })
         .catch((err) => {
           toast.error(err.message)
         })
@@ -31,7 +37,6 @@ export default function SettingProfile({ show, setShow, item={} }) {
       localStorage.removeItem('user')
       localStorage.removeItem('role')
       localStorage.removeItem('token')
-      console.log('delete user')
       router.push('/')
     } else {
       axios
@@ -42,11 +47,13 @@ export default function SettingProfile({ show, setShow, item={} }) {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         })
+        .then(() => {
+          toast.success('Deletion successful!', { autoClose: 1000 })
+        })
         .catch((err) => {
           toast.error(err.message)
         })
       setShow(false)
-      console.log('delete post')
       window.location.reload()
       toast.success('Deletion successful!', { autoClose: 3000 })
     }
@@ -85,7 +92,7 @@ export default function SettingProfile({ show, setShow, item={} }) {
           onClick={() => {
             setIsShow(true)
           }}
-          className="flex w-full cursor-pointer items-center gap-3 px-7 py-2 hover:bg-main hover:text-white"
+          className="flex w-full cursor-pointer items-center gap-3 px-4 md:px-7 py-2 hover:bg-main hover:text-white"
         >
           <AiFillEdit />
           Edit {item === 'account' ? 'Account' : 'Post'}
@@ -93,7 +100,7 @@ export default function SettingProfile({ show, setShow, item={} }) {
         <button
           type="button"
           onClick={handleDelete}
-          className="flex w-full cursor-pointer items-center gap-3 px-7 py-2 hover:bg-main hover:text-white"
+          className="flex w-full cursor-pointer items-center gap-3 px-4 md:px-7 py-2 hover:bg-main hover:text-white"
         >
           <MdDelete />
           Delete {item === 'account' ? 'Account' : 'Post'}
@@ -102,13 +109,7 @@ export default function SettingProfile({ show, setShow, item={} }) {
       {item === 'account' ? (
         <ModalEditProfile show={isShow} setShow={setIsShow} data={user} />
       ) : (
-        <ModalPost
-          show={isShow}
-          setShow={setIsShow}
-          user={user}
-          postData={item}
-          edit={true}
-        />
+        <ModalPost show={isShow} setShow={setIsShow} user={user} postData={item} edit />
       )}
     </div>
   )
