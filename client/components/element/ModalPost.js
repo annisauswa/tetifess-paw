@@ -36,7 +36,7 @@ export default function ModalPost({ show, setShow, user, postId }) {
       id="wrapper"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 text-black backdrop-blur-sm"
     >
-      <div className="w-[600px]">
+      <div className="w-full sm:w-[600px] p-8 sm:p-0">
         <div className="space-y-3 rounded-xl bg-secondary p-2 px-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-5">
