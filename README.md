@@ -6,15 +6,12 @@
 
 ## Tugas Akhir
 
-- **Link Video Presentasi:** [Video Presentasi](https://www.youtube.com/watch?v=contoh)
+- **Link Video Presentasi:** [Video Presentasi]()
 
-- **Link Slide PPT:** [Slide PPT](https://link-slide-ppt-example.com)
+- **Link Slide PPT:** [Slide PPT](https://docs.google.com/presentation/d/1OLaPbvqI3LGuKNzKPCj0tnMb0-dWucu9wVIEC3GLuSM/edit?usp=sharing)
 
-- **Link Webapp:** [Tetifess](https://webapp-example.com)
+- **Link Webapp:** [Tetifess](https://tetifess-paw.vercel.app/)
 
-
-## 📜 Dokumentasi API
-> dapat dilakukan dari link Postman berikut: https://documenter.getpostman.com/view/29987436/2s9YJZ44ud
 
 ## 📁 Folder Structure
     .
@@ -26,13 +23,56 @@
     │    ├── server.js            
     │    ├── .env                 # define backend PORT, JWT SECRET, and MONGO_URI
     │    └── package.json
-    ├── frontend                 # for client side
+    ├── client                   # for application front end
+    |    ├── app                 # main application logic
+    |    ├── components          # reusable UI components
+    |    ├── public              # public assets
+    |    ├── utils               # utility functions
+    |    ├── .env                # define client-side environment variables
+    |    ├── .eslintrc.json      # ESLint configuration
+    |    ├── .gitignore          # ignore specific files in Git
+    |    ├── .prettierignore     # ignore files for Prettier
+    |    ├── .prettierrc         # Prettier configuration
+    |    ├── jsconfig.json       # JavaScript configuration for Visual Studio Code
+    |    ├── next.config.js      # Next.js configuration
+    |    ├── package.json        # front-end dependencies and scripts
+    |    ├── postcss.config.js   # PostCSS configuration
+    |    ├── tailwind.config.js  # Tailwind CSS configuration
     ├── .gitignore               # ignore some files (ex: node module, package-lock.json)
     ├── package.json             
     ├── package-lock.json        
     └── README.md
 
-## 🖥 Persiapan Server
+## 🖥 Setup Aplikasi
+
+Clone Repository
+  ```
+  git clone
+  ```
+
+Run Server
+  ```
+  
+  // access frontend directory
+  cd ./client
+  
+  // install dependencies
+  npm install
+  
+  // run aplikasi
+  npm run dev
+  
+  ```
+
+Server Running on
+  ```
+  localhost:3000
+  ```
+
+## 📜 Dokumentasi API
+> Dokumentasi API dari tetifess tersedia pada laman postman berikut : https://documenter.getpostman.com/view/29987436/2s9YJZ44ud
+
+## 🖥 Persiapan Server (Backend)
 
 Clone Repository
   ```
