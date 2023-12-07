@@ -82,7 +82,7 @@ export default function Profile() {
           nama={userData.name}
           username={userData.username}
           bio={userData.bio}
-          joinDate={`Joined ${user.dateCreated}`}
+          joinDate={`Joined ${new Date(user.dateCreated).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`}
         />
         <div className="md:text-md flex justify-evenly border-b-[1px] border-tertiery text-sm">
           <button
