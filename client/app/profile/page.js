@@ -14,9 +14,11 @@ export default function Profile() {
   const token = localStorage.getItem('token')
   const user = JSON.parse(localStorage.getItem('user'))
   const [userData, setUserData] = useState({
+    id: user._id,
     name: user.name,
     bio: user.bio,
     username: user.username,
+    likedPostings: user.likedPostings,
   })
   const [post, setPost] = useState([])
   const [bar, setBar] = useState('post')
@@ -49,24 +51,29 @@ export default function Profile() {
       })
       .then((res) => {
         setUserData({
+          id: res.data._id,
           name: res.data.name,
           bio: res.data.bio,
           username: res.data.username,
+          likedPostings: res.data.likedPostings,
         })
       })
       .catch((err) => {
-        console.log(err)
+        toast.error(err)
       })
   }
 
   useEffect(() => {
-    getUser()
     getPosts()
+    getUser()
     if (!localStorage.getItem('token')) {
       alert('You need to login first')
       router.push('/login')
     }
   }, [])
+
+  console.log('profile like', userData.likedPostings)
+  console.log(userData.likedPostings.some(like => like._id === user._id))
 
   return (
     <Layout title="tetifess - profile">
@@ -80,7 +87,10 @@ export default function Profile() {
         <div className="md:text-md flex justify-evenly border-b-[1px] border-tertiery text-sm">
           <button
             type="button"
-            onClick={() => setBar('post')}
+            onClick={() => {
+              setBar('post')
+              getPosts()
+            }}
             className={`w-full py-3 text-center hover:font-semibold ${
               bar === 'post' && 'border-b-[3px] border-tertiery font-semibold'
             }`}
@@ -89,7 +99,10 @@ export default function Profile() {
           </button>
           <button
             type="button"
-            onClick={() => setBar('liked')}
+            onClick={() => {
+              setBar('liked')
+              getUser()
+            }}
             className={`w-full py-3 text-center hover:font-semibold ${
               bar === 'liked' && 'border-b-[3px] border-tertiery font-semibold'
             }`}
@@ -98,46 +111,41 @@ export default function Profile() {
           </button>
         </div>
         {bar === 'post' ? (
-          post.length === undefined ? (
+          post.length === undefined || 0 ? (
             <div className="py-[20px] text-center">No post created</div>
           ) : (
             post.map((item) => (
               <Post
+                key={item._id}
                 postId={item._id}
                 nama={item.userId.name}
                 username={item.userId.username}
                 timestamp="1h"
                 content={item.text}
                 like={item.likes_count}
+                likeUserId={item.likes}
               />
             ))
           )
-        ) : user.likedPostings.length === 0 ? (
+        ):null}
+        {bar === 'liked' ? (
+        userData.likedPostings.length === undefined || 0 ? (
           <div className="py-[20px] text-center">No post liked</div>
         ) : (
-          user.likedPostings.map((item) => (
+          userData.likedPostings.map((item) => (
             <Post
+              liked={true}
+              key={item._id}
               postId={item._id}
               nama={item.userId.name}
               username={item.userId.username}
               timestamp="1h"
               content={item.text}
               like={item.likes_count}
+              likeUserId={item.likes}
             />
           ))
-        )}
-        {/* {post.length===undefined ? (<div className='text-center py-[20px]'>No post created</div>) :
-        post.map((item) => (
-                <Post
-                    postId={item._id}
-                    nama={item.userId.name}
-                    username={item.userId.username}
-                    timestamp='1h'
-                    content={item.text}
-                    like={item.likes_count}
-                />
-            
-            ))} */}
+        )):null}
       </main>
     </Layout>
   )
