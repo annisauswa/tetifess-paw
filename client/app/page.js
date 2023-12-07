@@ -10,7 +10,7 @@ export default function Page() {
         <div>
             <main className="custom-background min-h-screen flex flex-col justify-center items-center">
                 {/* First Row with height 96px */}
-                <div className="flex justify-end items-center h-[64px] bg-secondary border-b-2 border-b-main p-4 w-full">
+                <div className="flex justify-end items-center h-[64px] bg-secondary border-b-2 border-b-main p-2 md:p-4 w-full">
                   <div className='flex space-x-4'>
                       <Link href="/register">
                           <button className="bg-main hover:ring-2 hover:ring-main hover:bg-white text-white hover:text-main font-semibold rounded-full px-4 py-2 text-[14px] md:text-[16px]">
@@ -30,14 +30,12 @@ export default function Page() {
           {/* First Column */}
         <div className="flex flex-col justify-center flex-1 bg-secondary border-b-main">
             <p
-              className="ml-[60px] mr-[60px] text-xl font-semibold text-black"
-              style={{ fontSize: '24pt' }}
+              className="mx-[25px] md:ml-[60px] md:mr-[60px] text-3xl font-bold text-black"
             >
               Where every TETI voice matters
             </p>
             <p
-              className="ml-[60px] mr-[60px] mt-2 text-xl font-semibold text-main"
-              style={{ fontSize: '16pt' }}
+              className="mx-[25px] md:ml-[60px] md:mr-[60px] mt-2 text-lg md:text-xl font-semibold text-main"
             >
               Tetifess is a safe place for the DTETI community, a place where you can express your
               thoughts, share your concerns, and confess your feelings without judgment.{' '}
