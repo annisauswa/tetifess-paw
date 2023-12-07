@@ -66,7 +66,6 @@ export default function Page() {
                         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm items-center justify-center">
                                 <form autoComplete="off" className="flex flex-col gap-[32px]" onSubmit={handleRegister}>
-                  >
                     <div className="flex flex-col gap-[16px]">
                                     <InputText
                         isRequired="True"
