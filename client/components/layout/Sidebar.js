@@ -1,80 +1,123 @@
-import { useState } from 'react';
-import { IoHome, IoPersonSharp, IoLogOutOutline } from "react-icons/io5";
-import { MdOutlineSearch } from "react-icons/md";
-import Button from "../element/Button";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import Cookies from 'js-cookie';
-import ModalPost from '../element/ModalPost';
-// import { Disclosure } from '@headlessui/react';
-import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { BiSolidDashboard } from 'react-icons/bi'
+import { IoHome, IoLogOutOutline, IoPersonSharp } from 'react-icons/io5'
+import { MdOutlineSearch } from 'react-icons/md'
+import { toast } from 'react-toastify'
+
+import { Button } from '../element/Button'
+import ModalPost from '../element/ModalPost'
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
-    const router = useRouter();
-    const [isShow, setIsShow] = useState(false);
+  const role = localStorage.getItem('role')
+  const router = useRouter()
+  const [isShow, setIsShow] = useState(false)
 
-    const handleLogout = () => {
-      localStorage.removeItem('user');
-      localStorage.removeItem('role');
-      localStorage.removeItem('token');
-      Cookies.remove('token');
-      alert('Logout success');
-      router.push('/login');
-    };
+  const [user, setUser] = useState({ name: '', username: '' })
 
-    const pathname = usePathname();
-    const menu = [
-      {
-        name: 'Home',
-        href: '/',
-      },
-      {
-        name: 'Profile',
-        href: '/profile',
-      },
-      {
-        name: 'Search',
-        href: '/search',
-      },
-    ];
+  const getUser = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      setUser({
+        name: response.data.name,
+        username: response.data.username,
+      })
+    } catch (error) {
+      toast.error('Error fetching user:', error)
+    }
+  }
 
-    const icons = [IoHome, IoPersonSharp, MdOutlineSearch];
+  useEffect(() => {
+    getUser()
+  }, [])
 
-    return (
-      <div className={`fixed sm:relative h-screen w-64 transform transition-transform duration-200 ease-in-out bg-secondary ${sidebarOpen ? 'translate-x-0' : '-translate-x-64'} md:translate-x-0`}>
-        <div className="px-4 py-2 space-y-2">
+  const handleLogout = () => {
+    localStorage.removeItem('user')
+    localStorage.removeItem('role')
+    localStorage.removeItem('token')
+    Cookies.remove('token')
+    toast.success('Logout success')
+    router.push('/login')
+  }
+
+  const pathname = usePathname()
+  const menu = [
+    {
+      name: 'Home',
+      href: '/',
+    },
+    {
+      name: 'Profile',
+      href: '/profile',
+    },
+    {
+      name: 'Search',
+      href: '/search',
+    },
+  ]
+
+  const icons = [IoHome, IoPersonSharp, MdOutlineSearch]
+
+  return (
+    <div
+      className={`fixed top-0 h-screen w-64  transform bg-secondary text-[14px] drop-shadow-md transition-transform duration-200 ease-in-out md:relative md:w-full md:text-[16px] ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-64'
+      } md:translate-x-0`}
+    >
+      <div className="flex h-full flex-col justify-between    px-4 pb-2 pt-[48px] md:pt-2">
+        <div className="flex flex-col gap-[10px] md:pt-[62px]">
           {menu.map((item, idx) => {
-            const Icon = icons[idx];
+            const Icon = icons[idx]
             return (
               <Link href={item.href} key={idx}>
                 <button
-                  className={`w-full flex gap-4 hover:bg-tertiary/20 p-2 rounded text-black items-center justify-start ${
+                  className={`hover:bg-tertiary/20 flex w-full items-center justify-start gap-[12px] rounded p-2 text-black md:gap-4 ${
                     pathname == item.href ? 'font-bold' : 'font-normal'
                   }`}
                 >
-                  <Icon size={24} />
+                  <Icon className="h-[20px] w-[20px] text-black md:h-[24px] md:w-[24px]" />
                   {item.name}
                 </button>
               </Link>
-            );
+            )
           })}
-          <Button onClick={() => setIsShow(true)} text="Post" size="md" />
-          <div className="absolute bottom-20 w-full px-4">
-            <div className="flex justify-between items-center mb-4">
-              <div className="flex gap-4 justify-start items-start ">
-                <div className='bg-[#D9D9D9] w-9 h-9 rounded-full'/>
-                <div className='flex flex-col w-fit text-black'>
-                  <div className='text-lg font-semibold'>admin</div>
-                  <div className='text-md font-light'>@admin123</div>
-                </div>
-              </div>
-              <button onClick={handleLogout}>
-                <IoLogOutOutline size={24} className='text-black'/>
+          {role === 'admin' && (
+            <Link href="/dashboard">
+              <button
+                className={`hover:bg-tertiary/20 flex w-full items-center justify-start gap-[12px] rounded p-2 text-black md:gap-4 ${
+                  pathname == '/dashboard' ? 'font-bold' : 'font-normal'
+                }`}
+              >
+                <BiSolidDashboard className="h-[20px] w-[20px] text-black md:h-[24px] md:w-[24px]" />
+                Dashboard
               </button>
+            </Link>
+          )}
+          <Button onClick={() => setIsShow(true)} text="Post" size="md" />
+        </div>
+        <div className="mb-4 flex items-center justify-between p-2">
+          <div className="flex items-start justify-start gap-4 ">
+            <div className="h-9 w-9 rounded-full bg-[#D9D9D9]" />
+            <div className="flex w-fit flex-col text-black">
+              <div className="font-semibold">{user.name}</div>
+              <div className="text-[12px] font-light md:text-[14px]">@{user.username}</div>
             </div>
           </div>
+          <button onClick={handleLogout}>
+            <IoLogOutOutline className="h-[20px] w-[20px] text-black md:h-[24px] md:w-[24px]" />
+          </button>
         </div>
-        {isShow && <ModalPost isHide={!isShow} onClose={() => setIsShow(false)} />}
       </div>
-    )
+      {isShow && <ModalPost show={isShow} setShow={setIsShow} user={user} />}
+    </div>
+  )
 }

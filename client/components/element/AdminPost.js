@@ -2,24 +2,26 @@ import React, { useState } from 'react';
 import { RiArrowDropDownLine, RiArrowDropUpLine, RiSettings3Line } from 'react-icons/ri';
 import Image from 'next/image';
 import UserPost from './UserPost';
+import ModalEditProfile from './ModalEditProfile';
 
 const avatarImage = require('../../public/assets/profilepicture.png');
 
 const Post = ({ title, content, user, posts }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false); // State to manage the Edit Profile modal
 
     const postStyle = {
         border: '1px solid #04c700',
         borderRadius: 12,
         padding: '10px',
-        marginBottom: '10px',
+        marginBottom: '5px',
         backgroundColor: isOpen ? '#d9d9d9' : '#fff',
         cursor: 'pointer',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        position: 'relative',
+        //position: 'relative',
     };
 
     const userInfoStyle = {
@@ -41,9 +43,16 @@ const Post = ({ title, content, user, posts }) => {
         width: '100%',
     };
 
-    const togglePost = () => {
-        setIsOpen(!isOpen);
+    const openEditProfileModal = () => {
+        setIsEditProfileModalOpen(true);
     };
+
+    const togglePost = () => {
+        if (!isEditProfileModalOpen) { 
+            setIsOpen(!isOpen);
+        }
+    };
+    
 
     const iconsContainerStyle = {
         display: 'flex',
@@ -57,19 +66,14 @@ const Post = ({ title, content, user, posts }) => {
         cursor: 'pointer',
     };
 
-    const handleGearIconClick = (e) => {
-        e.stopPropagation();
-        setIsSettingsOpen(!isSettingsOpen);
-    };
-
     const greenLineStyle = {
         backgroundColor: '#04c700',
         height: '2px',
         width: '80%',
-        position: 'absolute',
+        //position: 'absolute',
         top: '100px',
         left: '50%',
-        transform: 'translateX(-50%)',
+        transform: 'flex',
         display: isOpen ? 'block' : 'none',
     };
 
@@ -86,17 +90,18 @@ const Post = ({ title, content, user, posts }) => {
                 />
                 <div>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <span>{user.name}</span>
-                        <span style={{ marginLeft: '10px', color: '#888' }}>{user.username}</span>
+                        <span style={{fontSize:'1.7vh' }}>{user.name}</span>
+                        <span style={{ marginLeft: '1.0vw', color: '#888', fontSize:'1.5vh' }}>{user.username}</span>
                     </div>
-                    <div>{user.bio}</div>
-                    <div style={{ color: '#888' }}>Joined: {user.joinDate}</div>
+                    <div style={{fontSize:'1.5vh' }}> {user.bio}</div>
+                    <div style={{ color: '#888', fontSize:'1.3vh' }}>Joined: {user.dateCreated}</div>
                 </div>
             </div>
             <div style={iconsContainerStyle}>
                 {isOpen ? <RiArrowDropUpLine /> : <RiArrowDropDownLine />}
-                <RiSettings3Line style={iconStyle} onClick={handleGearIconClick} />
+                <RiSettings3Line style={iconStyle} onClick={openEditProfileModal} />
             </div>
+            <div style={greenLineStyle}></div>
             {isSettingsOpen && (
                 <div>
                     {}
@@ -104,10 +109,16 @@ const Post = ({ title, content, user, posts }) => {
             )}
             <div style={contentStyle}>
                 {posts.map((data, index) => (
-                    <UserPost key={index} data={data} timestamp={'12:34 PM'} likes={20} />
+                    <UserPost key={index} data={data}/>
                 ))}
             </div>
-            <div style={greenLineStyle}></div>
+            {isEditProfileModalOpen && (
+                <ModalEditProfile
+                    show={isEditProfileModalOpen}
+                    setShow={setIsEditProfileModalOpen}
+                    data={user}
+                />
+            )}
         </div>
     );
 };

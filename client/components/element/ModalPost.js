@@ -1,49 +1,75 @@
-import React from 'react';
-import { RiCloseFill } from 'react-icons/ri';
-import ReactDOM from 'react-dom';
+import axios from 'axios'
+import { useState } from 'react'
+import ReactDOM from 'react-dom'
+import { RiCloseFill } from 'react-icons/ri'
 
-export default function ModalPost({ isHide, onClose }) {
-  if (isHide) return null;
+export default function ModalPost({ show, setShow, user, postId }) {
+  const [text, setText] = useState('')
+  if (show === false) return null
 
-  const handleClose = (e) => {
-    if (e.target.id === 'wrapper') onClose();
-  };
+  const handleEdit = () => {
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_API_URL}/posting/post`,
+        {
+          text,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        },
+      )
+      .then((res) => {
+        console.log(res)
+        setShow(false)
+      })
+      .catch((err) => {
+        console.log(err)
+        setShow(false)
+      })
+  }
 
   return ReactDOM.createPortal(
-    (
-      <div
-        id='wrapper'
-        onClick={handleClose}
-        className='fixed inset-0 bg-opacity-25 backdrop-blur-sm flex justify-center items-center'>
-        <div className='w-[600px]'>
-          <div className='bg-secondary p-2 rounded-xl space-y-3 px-5'>
-            <div className='flex justify-between items-center'>
-              <div className='flex space-x-5 items-center'>
-                <div className='w-14 h-14 rounded-full bg-gray-400'></div>
-                <div>
-                  <p className="font-bold">nama</p>
-                  <p className="">username</p>
-                </div>
+    <div
+      id="wrapper"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 text-black backdrop-blur-sm"
+    >
+      <div className="w-[600px]">
+        <div className="space-y-3 rounded-xl bg-secondary p-2 px-5">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-5">
+              <div className="h-14 w-14 rounded-full bg-gray-400" />
+              <div>
+                <p className="font-bold">{user.name}</p>
+                <p className="">@{user.username}</p>
               </div>
-              <button
-                onClick={() => onClose()}
-                className='text-4xl px-2'>
-                  <RiCloseFill />
-              </button>
             </div>
-            <div className=''>
-              <textarea className='py-1 px-10 bg-transparent border-none w-full' placeholder='Ready to spill the beans? Confess anything...'></textarea>
-            </div>
-            <div className='line'></div>
-            <div className='flex justify-end'>
-              <button className={`bg-main hover:ring-[2px] hover:ring-main hover:bg-white text-white hover:text-main font-bold rounded-[24px] text-[14px] px-[28px] py-[7px] gap-2.5`}>
-                Post
-              </button>
-            </div>
+            <button onClick={() => setShow(false)} className="px-2 text-4xl">
+              <RiCloseFill />
+            </button>
+          </div>
+          <div className="">
+            <textarea
+              className="w-full border-none bg-transparent py-1 focus:border-none focus:outline-none focus:ring-0"
+              placeholder="Ready to spill the beans? Confess anything..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+          </div>
+          <div className="line" />
+          <div className="flex justify-end">
+            <button
+              onClick={handleEdit()}
+              className="gap-2.5 rounded-[24px] bg-main px-[28px] py-[7px] text-[14px] font-bold text-white hover:bg-white hover:text-main hover:ring-[2px] hover:ring-main"
+            >
+              Post
+            </button>
           </div>
         </div>
       </div>
-    ),
-    document.body
-  );
+    </div>,
+    document.body,
+  )
 }
