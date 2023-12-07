@@ -9,6 +9,7 @@ const Homepage = () => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
+        document.title = 'tetifess - admin dashboard';
         if (!localStorage.getItem('token')) {
             alert('You need to login first')
             router.push('/login')

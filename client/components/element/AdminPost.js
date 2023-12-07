@@ -1,15 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RiArrowDropDownLine, RiArrowDropUpLine, RiSettings3Line } from 'react-icons/ri';
+import { BsFillShieldFill, BsShield } from "react-icons/bs";
 import Image from 'next/image';
 import UserPost from './UserPost';
 import ModalEditProfile from './ModalEditProfile';
-
+import axios from 'axios';
+import { toast } from 'react-toastify'
 const avatarImage = require('../../public/assets/profilepicture.png');
 
 const Post = ({ title, content, user, posts }) => {
+    const role = localStorage.getItem('role')
+    const [name, setName] = useState(user.name)
+    const [bio, setBio] = useState(user.bio)
+    const [username, setUsername] = useState(user.username)
     const [isOpen, setIsOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-    const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false); // State to manage the Edit Profile modal
+    const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(user.role==='admin'? false:true);
+    console.log(user)
+    const toggleAdminStatus = async () => {
+        try {
+            let url
+            if (isAdmin){
+                url = `${process.env.NEXT_PUBLIC_API_URL}/admin/take/${user._id}`
+            }
+            else {
+                url = `${process.env.NEXT_PUBLIC_API_URL}/admin/give/${user._id}`
+            }
+            
+            await axios.patch(url,{
+                name, username, bio},
+                {
+                  headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                  },
+                  withCredentials: true
+                })
+
+            setIsAdmin(!isAdmin);
+            toast.success('Successfully changed admin status');
+        } catch (error) {
+            console.error('Error toggling admin status:', error);
+            toast.error('Failed to changed admin status');
+        }
+    };
 
     const postStyle = {
         border: '1px solid #04c700',
@@ -21,8 +55,8 @@ const Post = ({ title, content, user, posts }) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        //position: 'relative',
-    };
+        transition: 'background-color 0.3s ease',
+    }
 
     const userInfoStyle = {
         display: 'flex',
@@ -76,6 +110,21 @@ const Post = ({ title, content, user, posts }) => {
         transform: 'flex',
         display: isOpen ? 'block' : 'none',
     };
+    const adminIcon = isAdmin ? (
+        <BsFillShieldFill
+            style={iconStyle}
+            onClick={toggleAdminStatus}
+            title="Toggle Admin status"
+        />
+    ) : (
+        <BsShield
+            style={iconStyle}
+            onClick={toggleAdminStatus}
+            title="Toggle Admin status"
+        />
+    );
+
+
 
     return (
         <div style={postStyle} onClick={togglePost}>
@@ -98,8 +147,13 @@ const Post = ({ title, content, user, posts }) => {
                 </div>
             </div>
             <div style={iconsContainerStyle}>
-                {isOpen ? <RiArrowDropUpLine /> : <RiArrowDropDownLine />}
-                <RiSettings3Line style={iconStyle} onClick={openEditProfileModal} />
+                {isOpen ? <RiArrowDropUpLine size={30}/> : <RiArrowDropDownLine size={30}/>}
+                {adminIcon}
+                <RiSettings3Line
+                style={iconStyle}
+                onClick={openEditProfileModal}
+                title="Edit Profile"
+                />
             </div>
             <div style={greenLineStyle}></div>
             {isSettingsOpen && (
