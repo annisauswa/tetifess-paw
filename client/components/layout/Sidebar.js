@@ -32,7 +32,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         username: response.data.username,
       })
     } catch (error) {
-      console.error('Error fetching user:', error)
+      toast.error('Error fetching user:', error)
     }
   }
 

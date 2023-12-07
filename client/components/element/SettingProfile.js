@@ -5,9 +5,9 @@ import { MdDelete } from 'react-icons/md'
 
 import ModalEditProfile from './ModalEditProfile'
 import ModalPost from './ModalPost'
+import { toast } from 'react-toastify'
 
 export default function SettingProfile({ show, setShow, item }) {
-  const loggedin = JSON.parse(localStorage.getItem('user'))
   const [isShow, setIsShow] = useState(false)
   const [user, setUser] = useState({ name: '', bio: '', username: '' })
 
@@ -33,15 +33,15 @@ export default function SettingProfile({ show, setShow, item }) {
         })
       })
       .catch((err) => {
-        console.log(err)
+        toast.error(err)
       })
   }
 
   useEffect(() => {
-    getProfile()
-  }, [])
-
-  console.log(user)
+    if (isShow) {
+      getProfile();
+    }
+  }, [isShow]);
 
   if (show === false) return ''
 
@@ -60,7 +60,7 @@ export default function SettingProfile({ show, setShow, item }) {
         </button>
         <button
           type="button"
-          onClick={() => handleDelete()}
+          onClick={handleDelete}
           className="flex w-full cursor-pointer items-center gap-3 px-7 py-2 hover:bg-main hover:text-white"
         >
           <MdDelete />
@@ -73,7 +73,7 @@ export default function SettingProfile({ show, setShow, item }) {
         <ModalPost
           show={isShow}
           setShow={setIsShow}
-          user={JSON.parse(localStorage.getItem('user'))}
+          user={user}
           postId={item}
         />
       )}

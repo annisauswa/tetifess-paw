@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { MdSearch } from 'react-icons/md'
 
 function SearchInput({ label, id, placeholder, setValue, value }) {

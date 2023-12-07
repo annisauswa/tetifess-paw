@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import React from 'react'
 import { useState } from 'react'
 import { toast,ToastContainer } from 'react-toastify';
 
