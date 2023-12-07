@@ -2,12 +2,13 @@ import axios from 'axios'
 import { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { RiCloseFill } from 'react-icons/ri'
+import { toast } from 'react-toastify'
 
 export default function ModalPost({ show, setShow, user, postId }) {
   const [text, setText] = useState('')
   if (show === false) return null
 
-  const handleEdit = () => {
+  const handleCreate = () => {
     axios
       .post(
         `${process.env.NEXT_PUBLIC_API_URL}/posting/post`,
@@ -21,12 +22,13 @@ export default function ModalPost({ show, setShow, user, postId }) {
           withCredentials: true,
         },
       )
-      .then((res) => {
-        console.log(res)
+      .then(() => {
         setShow(false)
+        toast.success('Post updated')
+        window.location.reload()
       })
       .catch((err) => {
-        console.log(err)
+        toast.error(err)
         setShow(false)
       })
   }
@@ -61,7 +63,7 @@ export default function ModalPost({ show, setShow, user, postId }) {
           <div className="line" />
           <div className="flex justify-end">
             <button
-              onClick={handleEdit()}
+              onClick={()=>handleEdit()}
               className="gap-2.5 rounded-[24px] bg-main px-[28px] py-[7px] text-[14px] font-bold text-white hover:bg-white hover:text-main hover:ring-[2px] hover:ring-main"
             >
               Post
