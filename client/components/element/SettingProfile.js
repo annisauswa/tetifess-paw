@@ -15,24 +15,41 @@ export default function SettingProfile({ show, setShow, item={} }) {
   const router = useRouter()
 
   const handleDelete = () => {
-    axios
-      .delete(`${process.env.NEXT_PUBLIC_API_URL}/user/delete`, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
-      .catch((err) => {
-        toast.error(err.message)
-      })
-    setShow(false)
-    localStorage.removeItem('user')
-    localStorage.removeItem('role')
-    localStorage.removeItem('token')
-    console.log('delete')
-    router.push('/')
-    toast.success('Deletion successful!', { autoClose: 3000 })
+    if (item === 'account') {
+      axios
+        .delete(`${process.env.NEXT_PUBLIC_API_URL}/user/delete`, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+        .catch((err) => {
+          toast.error(err.message)
+        })
+      setShow(false)
+      localStorage.removeItem('user')
+      localStorage.removeItem('role')
+      localStorage.removeItem('token')
+      console.log('delete user')
+      router.push('/')
+    } else {
+      axios
+        .delete(`${process.env.NEXT_PUBLIC_API_URL}/posting/${item._id}`, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+        .catch((err) => {
+          toast.error(err.message)
+        })
+      setShow(false)
+      console.log('delete post')
+      window.location.reload()
+      toast.success('Deletion successful!', { autoClose: 3000 })
+    }
   }
 
   const getProfile = async () => {
