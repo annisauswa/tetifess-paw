@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 
 export default function SettingProfile({ show, setShow, item={} }) {
   const [isShow, setIsShow] = useState(false)
-  const [user, setUser] = useState({ name: '', bio: '', username: '' })
+  const [user, setUser] = useState()
 
   const handleDelete = () => {
     console.log('delete')
@@ -26,23 +26,17 @@ export default function SettingProfile({ show, setShow, item={} }) {
         },
       })
       .then((res) => {
-        setUser({
-          name: res.data.name,
-          bio: res.data.bio,
-          username: res.data.username,
-        })
+        setUser(res.data)
       })
       .catch((err) => {
-        toast.error(err)
+        toast.error(err.message)
       })
   }
   console.log(item)
-
+  console.log(user)
   useEffect(() => {
-    if (isShow) {
-      getProfile();
-    }
-  }, [isShow]);
+    getProfile();
+  }, [])
 
   if (show === false) return ''
 
