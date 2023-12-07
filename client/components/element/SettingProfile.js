@@ -6,14 +6,33 @@ import { MdDelete } from 'react-icons/md'
 import ModalEditProfile from './ModalEditProfile'
 import ModalPost from './ModalPost'
 import { toast } from 'react-toastify'
+import { resolveTypeReferenceDirective } from 'typescript'
+import { useRouter } from 'next/navigation'
 
 export default function SettingProfile({ show, setShow, item={} }) {
   const [isShow, setIsShow] = useState(false)
   const [user, setUser] = useState()
+  const router = useRouter()
 
   const handleDelete = () => {
-    console.log('delete')
+    axios
+      .delete(`${process.env.NEXT_PUBLIC_API_URL}/user/delete`, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .catch((err) => {
+        toast.error(err.message)
+      })
     setShow(false)
+    localStorage.removeItem('user')
+    localStorage.removeItem('role')
+    localStorage.removeItem('token')
+    console.log('delete')
+    router.push('/')
+    toast.success('Deletion successful!', { autoClose: 3000 })
   }
 
   const getProfile = async () => {
@@ -32,8 +51,11 @@ export default function SettingProfile({ show, setShow, item={} }) {
         toast.error(err.message)
       })
   }
+  console.log('item:')
   console.log(item)
+  console.log('user:')
   console.log(user)
+
   useEffect(() => {
     getProfile();
   }, [])
