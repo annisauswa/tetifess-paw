@@ -41,7 +41,7 @@ export default function Page() {
               ? 'localhost'
               : process.env.NEXT_PUBLIC_API_URL,
         })
-        router.push('/')
+        router.push('/home')
         toast.success('Login successful!', { autoClose: 3000 })
       })
       .catch((err) => {
