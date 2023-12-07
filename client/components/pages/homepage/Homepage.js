@@ -36,6 +36,7 @@ export default function Homepage() {
           timestamp="1h"
           content={item.text}
           like={item.likes_count}
+          likeUserId={item.likes}
         />
       ))}
     </div>

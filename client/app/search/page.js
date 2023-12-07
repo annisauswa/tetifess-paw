@@ -9,7 +9,6 @@ import Post from '../../components/element/Post'
 import Profile from '../../components/element/Profile'
 import SearchInput from '../../components/element/SearchInput'
 import Layout from '../../components/layout/Layout'
-import Homepage from '../../components/pages/homepage/Homepage'
 
 export default function Search() {
   const router = useRouter()
@@ -99,11 +98,14 @@ export default function Search() {
           <div>
             {post.map((item) => (
               <Post
+                key={item._id}
+                postId={item._id}
                 nama={item.userId.name}
                 username={item.userId.username}
                 timestamp="1h"
                 content={item.text}
                 like={item.likes_count}
+                likeUserId={item.likes}
               />
             ))}
           </div>
