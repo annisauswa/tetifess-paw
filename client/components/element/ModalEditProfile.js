@@ -5,12 +5,20 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 
 export default function ModalEditProfile({ show, setShow, data }) {
+  const role = localStorage.getItem('role')
   const [name, setName] = useState(data.name)
   const [bio, setBio] = useState(data.bio)
   const [username, setUsername] = useState(data.username)
 
   const handleEdit = () => {
-    axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/user/edit`,{
+    let url
+    if (role === 'admin'){
+      url = `${process.env.NEXT_PUBLIC_API_URL}/admin/${data._id}`
+    }
+    else{
+      url = `${process.env.NEXT_PUBLIC_API_URL}/user/edit`
+    }
+    axios.patch(url,{
       name, username, bio},
       {
         headers: {
