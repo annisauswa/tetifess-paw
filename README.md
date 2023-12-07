@@ -5,8 +5,6 @@
   <h2>Documentation of tetifess, a platform designed for DTETI community to confess and share their thoughts anonymously</h2>
 
   <p align="center">
-    <a href="bit.ly/video-ai-credit-default">View Demo</a>
-    ·
     <a href="https://github.com/annisauswa/tetifess-paw/issues">Report Bug</a>
     ·
     <a href="https://github.com/annisauswa/tetifess-paw/issues">Request Improvement</a>
@@ -55,6 +53,7 @@
 > TETIFESS is a purpose-built platform for the community of DTETI (Department of Electrical Engineering and Information Technology) to express themselves freely, confess thoughts, and share experiences anonymously. This unique space provides an avenue for individuals within the DTETI community to connect, unburden their thoughts, and foster a sense of camaraderie.
 
 ### Main Feature
+![image](https://github.com/annisauswa/tetifess-paw/assets/91132619/1ee6787d-7077-4699-bd09-be5f191c607a)
 - Authentication
 - Homepage
 - Profile Page
@@ -132,8 +131,6 @@ Server Running on
 <a name="server"></a>
 
 ### Setup Server (Backend) 💻
-
-Run Server
   ```
   
   // access server directory
