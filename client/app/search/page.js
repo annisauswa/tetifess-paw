@@ -102,7 +102,7 @@ export default function Search() {
                 postId={item._id}
                 nama={item.userId.name}
                 username={item.userId.username}
-                timestamp="1h"
+                timestamp={item.timestamp}
                 content={item.text}
                 like={item.likes_count}
                 likeUserId={item.likes}

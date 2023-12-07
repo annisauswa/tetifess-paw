@@ -110,7 +110,6 @@ export default function Page() {
                   <p className="mt-7 text-center text-sm text-emerald-700">
                                       Already have an account?{' '}
                                       <a href="/login" className="text-tertiery hover:underline hover:text-main">Login Here!</a>
-                      Login Here!
                   </p>
                 </div>
               </div>
