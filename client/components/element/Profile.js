@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
+import { IoEllipsisHorizontalSharp } from "react-icons/io5";
 
 import ModalSettingProfile from './SettingProfile';
-
-import { IoEllipsisHorizontalSharp } from "react-icons/io5";
 
 
 export function Profile({
