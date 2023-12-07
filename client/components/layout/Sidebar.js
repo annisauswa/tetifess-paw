@@ -112,7 +112,20 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
               <div className="text-[12px] font-light md:text-[14px]">@{user.username}</div>
             </div>
           </div>
-          <button onClick={handleLogout}>
+          <button
+            onClick={handleLogout}
+            className="relative overflow-hidden"
+            style={{
+              transition: 'transform 0.3s', 
+              transformOrigin: 'center', 
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'scale(1.2)'; 
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'scale(1)'; 
+            }}
+          >
             <IoLogOutOutline className="h-[20px] w-[20px] text-black md:h-[24px] md:w-[24px]" />
           </button>
         </div>
