@@ -1,16 +1,18 @@
 'use client'
-import Homepage from '../../components/pages/homepage/Homepage'
-import Layout from '../../components/layout/Layout'
+
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
+import Button from '../../components/element/Button'
 import Post from '../../components/element/Post'
 import Profile from '../../components/element/Profile'
 import SearchInput from '../../components/element/SearchInput'
-import Button from '../../components/element/Button'
-import { useRouter } from 'next/navigation'
-import { useEffect , useState } from 'react'
-import axios from 'axios'
+import Layout from '../../components/layout/Layout'
+import Homepage from '../../components/pages/homepage/Homepage'
 
 export default function Search() {
-  const router = useRouter();
+  const router = useRouter()
   useEffect(() => {
     if (!localStorage.getItem('token')) {
       alert('You need to login first')
@@ -18,27 +20,27 @@ export default function Search() {
     }
   }, [])
 
-  const [searchPostValue, setSearchPostValue] = useState('');
-  const [searchUserValue, setSearchUserValue] = useState('');
-  const [notFound, setNotFound] = useState(false);
+  const [searchPostValue, setSearchPostValue] = useState('')
+  const [searchUserValue, setSearchUserValue] = useState('')
+  const [notFound, setNotFound] = useState(false)
   const [post, setPost] = useState([])
   const [user, setUser] = useState([])
 
   const handleSearch = async () => {
-    setNotFound(false);
-    setPost([]);
-    setUser([]);
+    setNotFound(false)
+    setPost([])
+    setUser([])
 
     try {
-      const token = localStorage.getItem('token');
-      let apiEndpoint;
+      const token = localStorage.getItem('token')
+      let apiEndpoint
 
       if (searchPostValue) {
-        apiEndpoint = `${process.env.NEXT_PUBLIC_API_URL}/posting/search?param=${searchPostValue}&username=${searchUserValue}`;
+        apiEndpoint = `${process.env.NEXT_PUBLIC_API_URL}/posting/search?param=${searchPostValue}&username=${searchUserValue}`
       } else if (searchUserValue) {
-        apiEndpoint = `${process.env.NEXT_PUBLIC_API_URL}/user/search?param=${searchUserValue}`;
+        apiEndpoint = `${process.env.NEXT_PUBLIC_API_URL}/user/search?param=${searchUserValue}`
       } else {
-        return;
+        return
       }
 
       const response = await axios.get(apiEndpoint, {
@@ -47,26 +49,26 @@ export default function Search() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-      });
+      })
 
-      const data = response.data;
-      console.log(data);
+      const { data } = response
+      console.log(data)
 
       if (searchPostValue) {
-        setPost(response.data);
+        setPost(response.data)
       } else if (searchUserValue) {
-        setUser(response.data);
+        setUser(response.data)
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
-      setNotFound(true);
+      console.error('Error fetching data:', error)
+      setNotFound(true)
     }
-  };
+  }
 
   return (
-    <Layout title='tetifess'>
-      <main className='w-full h-screen text-black'>
-        <div className="mt-5 flex md:flex-row flex-col justify-center px-[14px]">
+    <Layout title="tetifess - search">
+      <main className="h-screen w-full text-black">
+        <div className="mt-5 flex flex-col justify-center px-[14px] md:flex-row">
           <SearchInput
             label="Search post"
             id="searchPostInput"
@@ -84,22 +86,24 @@ export default function Search() {
           />
         </div>
         <div className="flex justify-end pr-[14px]">
-          <Button size="sm" text="Search" onClick={handleSearch} width='px-[10px] flex md:hidden'/>
-          <Button size="md" text="Search" onClick={handleSearch} width='px-[16px] hidden md:flex'/>
+          <Button size="sm" text="Search" onClick={handleSearch} width="px-[10px] flex md:hidden" />
+          <Button size="md" text="Search" onClick={handleSearch} width="px-[16px] hidden md:flex" />
         </div>
         <hr className="mt-5 border-t border-tertiery" />
         {notFound && (
-          <p className="font-roboto text-gray-700 text-center mt-5">Your keyword doesn't bring any result. Try changing your keyword.</p>
+          <p className="mt-5 text-center font-roboto text-gray-700">
+            Your keyword doesn't bring any result. Try changing your keyword.
+          </p>
         )}
         {post && (
           <div>
             {post.map((item) => (
               <Post
-                  nama={item.userId.name}
-                  username={item.userId.username}
-                  timestamp='1h'
-                  content={item.text}
-                  like={item.likes_count}
+                nama={item.userId.name}
+                username={item.userId.username}
+                timestamp="1h"
+                content={item.text}
+                like={item.likes_count}
               />
             ))}
           </div>
@@ -107,15 +111,11 @@ export default function Search() {
         {user && (
           <div>
             {user.map((item) => (
-              <Profile
-                  nama={item.name}
-                  username={item.username}
-                  bio={item.bio}
-              />
+              <Profile nama={item.name} username={item.username} bio={item.bio} />
             ))}
           </div>
         )}
       </main>
     </Layout>
-  );
+  )
 }
