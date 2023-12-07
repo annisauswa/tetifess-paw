@@ -16,7 +16,7 @@ const Post = ({ title, content, user, posts }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(user.role==='admin'? false:true);
+    const [isAdmin, setIsAdmin] = useState(user.role==='admin'? true:false);
 
     const toggleAdminStatus = async () => {
         try {
