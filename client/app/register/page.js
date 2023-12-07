@@ -35,7 +35,7 @@ export default function Page() {
         }, 3000)
       })
       .catch((err) => {
-        console.log(err)
+        toast.err(err)
       })
   }
   return (

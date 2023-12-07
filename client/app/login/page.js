@@ -48,10 +48,8 @@ export default function Page() {
         console.error('Login error:', err)
 
         if (err.response && err.response.status === 404) {
-          console.log('Handling 404 error')
           toast.error('User not found. Please check your credentials.')
         } else {
-          console.error('Login error:', err)
           toast.error('An error occurred during login. Please try again later.')
         }
       })

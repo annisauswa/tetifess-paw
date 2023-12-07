@@ -72,9 +72,6 @@ export default function Profile() {
     }
   }, [])
 
-  console.log('profile like', userData.likedPostings)
-  console.log(userData.likedPostings.some(like => like._id === user._id))
-
   return (
     <Layout title="tetifess - profile">
       <main className="text-black">
@@ -144,6 +141,7 @@ export default function Profile() {
               content={item.text}
               like={item.likes_count}
               likeUserId={item.likes}
+              postData={item}
             />
           ))
         )):null}

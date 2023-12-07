@@ -39,7 +39,7 @@ export default function Layout({ title, children }) {
             <div className="flex h-[28px] w-[28px] items-center  justify-center rounded-full bg-secondary md:h-[44px] md:w-[44px]">
               <Image
                 alt="logo"
-                src="/assets/tetifessIcon.png"
+                src="https://i.ibb.co/NxxsYNn/tetifess-Icon.png"
                 width={0}
                 height={0}
                 sizes="50vw"
