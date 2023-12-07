@@ -7,7 +7,7 @@ import ModalEditProfile from './ModalEditProfile'
 import ModalPost from './ModalPost'
 import { toast } from 'react-toastify'
 
-export default function SettingProfile({ show, setShow, item }) {
+export default function SettingProfile({ show, setShow, item={} }) {
   const [isShow, setIsShow] = useState(false)
   const [user, setUser] = useState({ name: '', bio: '', username: '' })
 
@@ -36,6 +36,7 @@ export default function SettingProfile({ show, setShow, item }) {
         toast.error(err)
       })
   }
+  console.log(item)
 
   useEffect(() => {
     if (isShow) {
@@ -74,7 +75,8 @@ export default function SettingProfile({ show, setShow, item }) {
           show={isShow}
           setShow={setIsShow}
           user={user}
-          postId={item}
+          postData={item}
+          edit={true}
         />
       )}
     </div>

@@ -124,6 +124,7 @@ export default function Profile() {
                 content={item.text}
                 like={item.likes_count}
                 likeUserId={item.likes}
+                postData={item}
               />
             ))
           )

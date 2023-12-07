@@ -30,6 +30,7 @@ export default function Homepage() {
       {post.map((item) => (
         <Post
           key={item._id}
+          postData={item}
           postId={item._id}
           nama={item.userId.name}
           username={item.userId.username}
