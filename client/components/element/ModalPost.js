@@ -63,7 +63,7 @@ export default function ModalPost({ show, setShow, user, postId }) {
           <div className="line" />
           <div className="flex justify-end">
             <button
-              onClick={()=>handleEdit()}
+              onClick={()=>handleCreate()}
               className="gap-2.5 rounded-[24px] bg-main px-[28px] py-[7px] text-[14px] font-bold text-white hover:bg-white hover:text-main hover:ring-[2px] hover:ring-main"
             >
               Post
