@@ -11,11 +11,10 @@ import { toast } from 'react-toastify'
 import { Button } from '../element/Button'
 import ModalPost from '../element/ModalPost'
 
-export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
-  const role = localStorage.getItem('role')
+export default function Sidebar({ sidebarOpen, setSidebarOpen }) {  
   const router = useRouter()
   const [isShow, setIsShow] = useState(false)
-
+  
   const [user, setUser] = useState({ name: '', username: '' })
 
   const getUser = async () => {
@@ -27,19 +26,16 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       })
-      setUser({
-        name: response.data.name,
-        username: response.data.username,
-      })
+      setUser(response.data)
     } catch (error) {
       toast.error('Error fetching user:', error)
     }
   }
-
+  
   useEffect(() => {
     getUser()
   }, [])
-
+  
   const handleLogout = () => {
     localStorage.removeItem('user')
     localStorage.removeItem('role')
@@ -80,7 +76,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
             return (
               <Link href={item.href} key={idx}>
                 <button
-                  className={`hover:bg-tertiery/10 flex w-full items-center justify-start gap-[12px] rounded-[24px] p-2 text-black md:gap-4 ${
+                  className={`flex w-full items-center justify-start gap-[12px] rounded-[24px] p-2 text-black hover:bg-tertiery/10 md:gap-4 ${
                     pathname == item.href ? 'font-bold' : 'font-normal'
                   }`}
                 >
@@ -90,10 +86,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
               </Link>
             )
           })}
-          {role === 'admin' && (
+          {user.role === 'admin' && (
             <Link href="/dashboard">
               <button
-                className={`hover:bg-tertiary/20 flex w-full items-center justify-start gap-[12px] rounded p-2 text-black md:gap-4 ${
+                className={`rounded-[24px] flex w-full items-center justify-start gap-[12px] p-2 text-black hover:bg-tertiery/10 md:gap-4 ${
                   pathname == '/dashboard' ? 'font-bold' : 'font-normal'
                 }`}
               >
@@ -112,7 +108,20 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
               <div className="text-[12px] font-light md:text-[14px]">@{user.username}</div>
             </div>
           </div>
-          <button onClick={handleLogout}>
+          <button
+            onClick={handleLogout}
+            className="relative overflow-hidden"
+            style={{
+              transition: 'transform 0.3s', 
+              transformOrigin: 'center', 
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'scale(1.2)'; 
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'scale(1)'; 
+            }}
+          >
             <IoLogOutOutline className="h-[20px] w-[20px] text-black md:h-[24px] md:w-[24px]" />
           </button>
         </div>
