@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 
 export default function SettingProfile({ show, setShow, item={} }) {
   const [isShow, setIsShow] = useState(false)
-  const [user, setUser] = useState()
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
   const router = useRouter()
 
   const handleDelete = () => {
@@ -68,19 +68,17 @@ export default function SettingProfile({ show, setShow, item={} }) {
         toast.error(err.message)
       })
   }
-  console.log('item:')
-  console.log(item)
-  console.log('user:')
-  console.log(user)
 
   useEffect(() => {
-    getProfile();
-  }, [])
+    if (isShow) {
+      getProfile()
+    }
+  }, [isShow])
 
   if (show === false) return ''
 
   return (
-    <div className="absolute -translate-x-20  md:-translate-x-36 ">
+    <div className="-translate-x-20  md:-translate-x-36 ">
       <div className="w-full gap-2  rounded-xl bg-secondary py-2 text-[12px] shadow-lg md:text-sm ">
         <button
           type="button"
