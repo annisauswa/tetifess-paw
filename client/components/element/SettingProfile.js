@@ -18,43 +18,46 @@ export default function SettingProfile({ show, setShow, item = {} }) {
   const router = useRouter()
 
   const handleDelete = () => {
-    if (item === 'account') {
-      axios
-        .delete(`${process.env.NEXT_PUBLIC_API_URL}/user/delete`, {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
-        .then(() => {
-          toast.success('Deletion successful!', { autoClose: 1000 })
-        })
-        .catch((err) => {
-          toast.error(err.message)
-        })
-      setShow(false)
-      localStorage.removeItem('user')
-      localStorage.removeItem('role')
-      localStorage.removeItem('token')
-      router.push('/')
-    } else {
-      axios
-        .delete(`${process.env.NEXT_PUBLIC_API_URL}/posting/${item._id}`, {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
-        .then((res) => {
-          window.location.reload()
-          toast.success('Deletion success!', { autoClose: 3000})
-        })
-        .catch((err) => {
-          toast.error(err.message)
-        })
-      setShow(false)
+    const shouldDelete = window.confirm("Are you sure you want to delete?")
+    if (shouldDelete) {
+      if (item === 'account') {
+        axios
+          .delete(`${process.env.NEXT_PUBLIC_API_URL}/user/delete`, {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          })
+          .then(() => {
+            toast.success('Deletion successful!', { autoClose: 1000 })
+          })
+          .catch((err) => {
+            toast.error(err.message)
+          })
+        setShow(false)
+        localStorage.removeItem('user')
+        localStorage.removeItem('role')
+        localStorage.removeItem('token')
+        router.push('/')
+      } else {
+        axios
+          .delete(`${process.env.NEXT_PUBLIC_API_URL}/posting/${item._id}`, {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          })
+          .then((res) => {
+            window.location.reload()
+            toast.success('Deletion success!', { autoClose: 3000})
+          })
+          .catch((err) => {
+            toast.error(err.message)
+          })
+        setShow(false)
+      }
     }
   }
 

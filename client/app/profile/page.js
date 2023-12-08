@@ -8,8 +8,10 @@ import { toast } from 'react-toastify'
 import Post from '../../components/element/Post'
 import Profiles from '../../components/element/Profile'
 import Layout from '../../components/layout/Layout'
+import LoadingPage from '../../components/element/LoadingPage'
 
 export default function Profile() {
+  const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
   let token = ''
   let user = ''
@@ -57,13 +59,16 @@ export default function Profile() {
       })
       .then((res) => {
         setUserData(res.data)
+        setIsLoading(false)
       })
       .catch((err) => {
         toast.error(err)
+        setIsLoading(false)
       })
   }
 
   useEffect(() => {
+    setIsLoading(true)
     getPosts()
     getUser()
     if (!localStorage.getItem('token')) {
@@ -74,83 +79,87 @@ export default function Profile() {
 
   return (
     <Layout title="tetifess - profile">
-      <main className="text-black">
-        <Profiles
-          nama={userData.name}
-          username={userData.username}
-          bio={userData.bio}
-          joinDate={`Joined ${new Date(userData.dateCreated).toLocaleDateString('en-GB', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-          })}`}
-        />
-        <div className="md:text-md flex justify-evenly border-b-[1px] border-tertiery text-sm">
-          <button
-            type="button"
-            onClick={() => {
-              setBar('post')
-              getPosts()
-            }}
-            className={`w-full py-3 text-center hover:font-semibold ${
-              bar === 'post' && 'border-b-[3px] border-tertiery font-semibold'
-            }`}
-          >
-            Post
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setBar('liked')
-              getUser()
-            }}
-            className={`w-full py-3 text-center hover:font-semibold ${
-              bar === 'liked' && 'border-b-[3px] border-tertiery font-semibold'
-            }`}
-          >
-            Liked
-          </button>
-        </div>
-        {bar === 'post' ? (
-          post.length === undefined || 0 ? (
-            <div className="py-[20px] text-center">No post created</div>
-          ) : (
-            post.map((item) => (
-              <Post
-                key={item._id}
-                postId={item._id}
-                nama={item.userId.name}
-                username={item.userId.username}
-                timestamp={item.timestamp}
-                content={item.text}
-                like={item.likes_count}
-                likeUserId={item.likes}
-                postData={item}
-              />
-            ))
-          )
-        ) : null}
-        {bar === 'liked' ? (
-          userData.likedPostings.length === undefined || 0 ? (
-            <div className="py-[20px] text-center">No post liked</div>
-          ) : (
-            userData.likedPostings.map((item) => (
-              <Post
-                liked
-                key={item._id}
-                postId={item._id}
-                nama={item.userId.name}
-                username={item.userId.username}
-                timestamp={item.timestamp}
-                content={item.text}
-                like={item.likes_count}
-                likeUserId={item.likes}
-                postData={item}
-              />
-            ))
-          )
-        ) : null}
-      </main>
+      {isLoading? 
+        <LoadingPage/>
+        :
+        <main className="text-black">
+          <Profiles
+            nama={userData.name}
+            username={userData.username}
+            bio={userData.bio}
+            joinDate={`Joined ${new Date(userData.dateCreated).toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })}`}
+          />
+          <div className="md:text-md flex justify-evenly border-b-[1px] border-tertiery text-sm">
+            <button
+              type="button"
+              onClick={() => {
+                setBar('post')
+                getPosts()
+              }}
+              className={`w-full py-3 text-center hover:font-semibold ${
+                bar === 'post' && 'border-b-[3px] border-tertiery font-semibold'
+              }`}
+            >
+              Post
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setBar('liked')
+                getUser()
+              }}
+              className={`w-full py-3 text-center hover:font-semibold ${
+                bar === 'liked' && 'border-b-[3px] border-tertiery font-semibold'
+              }`}
+            >
+              Liked
+            </button>
+          </div>
+          {bar === 'post' ? (
+            post.length === undefined || 0 ? (
+              <div className="py-[20px] text-center">No post created</div>
+            ) : (
+              post.map((item) => (
+                <Post
+                  key={item._id}
+                  postId={item._id}
+                  nama={item.userId.name}
+                  username={item.userId.username}
+                  timestamp={item.timestamp}
+                  content={item.text}
+                  like={item.likes_count}
+                  likeUserId={item.likes}
+                  postData={item}
+                />
+              ))
+            )
+          ) : null}
+          {bar === 'liked' ? (
+            userData.likedPostings.length === undefined || 0 ? (
+              <div className="py-[20px] text-center">No post liked</div>
+            ) : (
+              userData.likedPostings.map((item) => (
+                <Post
+                  liked
+                  key={item._id}
+                  postId={item._id}
+                  nama={item.userId.name}
+                  username={item.userId.username}
+                  timestamp={item.timestamp}
+                  content={item.text}
+                  like={item.likes_count}
+                  likeUserId={item.likes}
+                  postData={item}
+                />
+              ))
+            )
+          ) : null}
+        </main>
+      }
     </Layout>
   )
 }

@@ -28,14 +28,14 @@ export default function Page() {
         password,
         role: 'user',
       })
-      .then((res) => {
-        toast.success('Account succesfully registered!', { autoClose: 3000 })
+      .then(() => {
+        toast.success('Account succesfully registered!', { autoClose: 1000 })
         setTimeout(() => {
           router.push('/login')
         }, 3000)
       })
-      .catch((err) => {
-        toast.err(err)
+      .catch(() => {
+        toast.error('Password must be 6-12 characters long', { autoClose: 1000 })
       })
   }
   return (
